@@ -1,0 +1,178 @@
+// Telfera.kz Database Schema
+// Industrial Hoists Catalog + CRM System
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================
+// ENUMS
+// ============================================
+
+enum UserRole {
+  ADMIN    // Full system access
+  MANAGER  // Leads management, product updates
+  DIRECTOR // Read-only dashboard + reports
+}
+
+enum ProductCategory {
+  BULGARIAN // Balkansko Echo hoists
+  SHA8      // SHA8 series hoists
+}
+
+enum LeadStatus {
+  NEW         // Fresh lead from website
+  IN_PROGRESS // Manager working on it
+  OFFER_SENT  // Commercial offer sent
+  PAID        // Payment received
+  CLOSED      // Successfully completed
+  REJECTED    // Client declined
+}
+
+// ============================================
+// USER MODEL
+// ============================================
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String
+  role         UserRole @default(MANAGER)
+  isActive     Boolean  @default(true)
+  
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  
+  // Relations
+  assignedLeads Lead[]     @relation("AssignedTo")
+  auditLogs     AuditLog[] @relation("AuditUser")
+  
+  @@index([email])
+  @@index([role])
+  @@map("users")
+}
+
+// ============================================
+// PRODUCT MODEL
+// ============================================
+
+model Product {
+  id          String          @id @default(cuid())
+  slug        String          @unique
+  name        String
+  nameRu      String          // Russian name
+  category    ProductCategory
+  description String          @db.Text
+  descriptionRu String        @db.Text // Russian description
+  
+  // Flexible specs stored as JSON
+  // Example: { "lift_height": "6-36m", "capacity": "0.5-10t", "speed": "8m/min" }
+  specs       Json
+  
+  // Array of image URLs
+  images      String[]
+  
+  // Optional document links (manuals, certificates)
+  documents   Json?           // { "manual": "url", "certificate": "url" }
+  
+  // SEO fields
+  metaTitle       String?
+  metaDescription String?
+  
+  isPublished Boolean  @default(false)
+  isFeatured  Boolean  @default(false)
+  sortOrder   Int      @default(0)
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@index([category])
+  @@index([slug])
+  @@index([isPublished])
+  @@index([isFeatured])
+  @@map("products")
+}
+
+// ============================================
+// LEAD MODEL (CRM)
+// ============================================
+
+model Lead {
+  id          String     @id @default(cuid())
+  status      LeadStatus @default(NEW)
+  
+  // Client info
+  clientName  String
+  clientPhone String
+  clientEmail String?
+  company     String?    // Company name if provided
+  
+  // Lead details
+  source      String     // e.g., "Footer Form", "Catalog CTA", "WhatsApp"
+  productInterest String? // Product they're interested in
+  notes       String?    @db.Text
+  
+  // Assignment
+  assignedTo   User?   @relation("AssignedTo", fields: [assignedToId], references: [id])
+  assignedToId String?
+  
+  // Timestamps
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  contactedAt DateTime? // When first contacted
+  closedAt    DateTime? // When closed/rejected
+  
+  @@index([status])
+  @@index([assignedToId])
+  @@index([createdAt])
+  @@map("leads")
+}
+
+// ============================================
+// AUDIT LOG MODEL
+// ============================================
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  
+  action    String   // e.g., "CREATE", "UPDATE", "DELETE", "LOGIN", "STATUS_CHANGE"
+  entity    String   // e.g., "Lead", "Product", "User"
+  entityId  String?  // ID of the affected entity
+  
+  // Who performed the action
+  user      User?    @relation("AuditUser", fields: [userId], references: [id])
+  userId    String?
+  
+  // Additional context stored as JSON
+  // Example: { "oldStatus": "NEW", "newStatus": "IN_PROGRESS", "ip": "192.168.1.1" }
+  details   Json?
+  
+  timestamp DateTime @default(now())
+  
+  @@index([entity, entityId])
+  @@index([userId])
+  @@index([timestamp])
+  @@index([action])
+  @@map("audit_logs")
+}
+
+// ============================================
+// SETTINGS MODEL (Key-Value store)
+// ============================================
+
+model Setting {
+  id    String @id @default(cuid())
+  key   String @unique
+  value Json
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("settings")
+}
