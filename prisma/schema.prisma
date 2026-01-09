@@ -8,27 +8,27 @@ datasource db {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String    @unique
-  password      String
-  role          Role      @default(MANAGER)
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  id        String   @id @default(cuid())
+  name      String?
+  email     String   @unique
+  password  String
+  role      Role     @default(MANAGER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Lead {
-  id          String    @id @default(cuid())
-  name        String
-  phone       String
-  email       String?
-  company     String?
-  message     String?
-  product     String?   // SHA8 or Balkans
-  status      LeadStatus @default(NEW)
-  source      String?    // Where the lead came from
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  id        String     @id @default(cuid())
+  name      String
+  phone     String
+  email     String?
+  company   String?
+  message   String?
+  product   String?
+  status    LeadStatus @default(NEW)
+  source    String?
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
 }
 
 enum Role {

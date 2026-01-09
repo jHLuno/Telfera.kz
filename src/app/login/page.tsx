@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -11,7 +10,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Loader2 } from "lucide-react";
 
 export default function LoginPage() {
-  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -34,8 +32,9 @@ export default function LoginPage() {
       if (result?.error) {
         setError("Неверный email или пароль");
       } else {
-        router.push("/manager");
-        router.refresh();
+        // Force a hard reload to /login which will trigger middleware redirect
+        // This ensures the session is properly loaded and user is redirected to correct dashboard
+        window.location.href = "/login";
       }
     } catch {
       setError("Произошла ошибка. Попробуйте снова.");
