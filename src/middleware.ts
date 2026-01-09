@@ -1,32 +1,45 @@
-import { auth } from '@/lib/auth';
-import { NextResponse } from 'next/server';
+import { auth } from "@/lib/auth";
+import { NextResponse } from "next/server";
 
 export default auth((req) => {
   const { nextUrl } = req;
   const isLoggedIn = !!req.auth;
+  const isAdmin = req.auth?.user?.role === "ADMIN";
+  const isManager = req.auth?.user?.role === "MANAGER";
 
-  // Protected admin routes
-  const isAdminRoute = nextUrl.pathname.startsWith('/admin');
-  
-  // Login page
-  const isLoginPage = nextUrl.pathname === '/login';
+  // Protected routes
+  const isAdminRoute = nextUrl.pathname.startsWith("/admin");
+  const isManagerRoute = nextUrl.pathname.startsWith("/manager");
+  const isLoginRoute = nextUrl.pathname === "/login";
 
-  // If trying to access admin without being logged in, redirect to login
-  if (isAdminRoute && !isLoggedIn) {
-    return NextResponse.redirect(new URL('/login', nextUrl));
+  // Redirect logged-in users from login page to their dashboard
+  if (isLoginRoute && isLoggedIn) {
+    if (isAdmin) {
+      return NextResponse.redirect(new URL("/admin", nextUrl));
+    }
+    return NextResponse.redirect(new URL("/manager", nextUrl));
   }
 
-  // If logged in and trying to access login page, redirect to dashboard
-  if (isLoginPage && isLoggedIn) {
-    return NextResponse.redirect(new URL('/admin/dashboard', nextUrl));
+  // Protect admin routes
+  if (isAdminRoute) {
+    if (!isLoggedIn) {
+      return NextResponse.redirect(new URL("/login", nextUrl));
+    }
+    if (!isAdmin) {
+      return NextResponse.redirect(new URL("/manager", nextUrl));
+    }
+  }
+
+  // Protect manager routes
+  if (isManagerRoute) {
+    if (!isLoggedIn) {
+      return NextResponse.redirect(new URL("/login", nextUrl));
+    }
   }
 
   return NextResponse.next();
 });
 
 export const config = {
-  matcher: [
-    '/admin/:path*',
-    '/login',
-  ],
+  matcher: ["/admin/:path*", "/manager/:path*", "/login"],
 };

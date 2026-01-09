@@ -1,217 +1,99 @@
-# Telfera.kz — Industrial Hoists Catalog + CRM
+# Telfera.kz
 
-A production-ready Next.js 14 application for selling industrial hoists (тельферы) in Kazakhstan, with an integrated CRM system.
+Современный веб-сайт для продажи телферов SHA8 и Balkans с системой управления лидами.
 
-## 🚀 Features
+## 🚀 Возможности
 
-### Public Website
-- **Landing Page**: Hero section, features, product preview, FAQ (optimized for AI search)
-- **Product Catalog**: Category filtering (Bulgarian/SHA8), detailed product pages
-- **Contacts**: Contact form, map, delivery info
-- **SEO Optimized**: Dynamic metadata, Schema.org JSON-LD, sitemap, robots.txt
-- **GEO Ready**: Structured content for AI/LLM parsing
+- **Лендинг страница** — Современный дизайн с Bento-сеткой и анимациями
+- **Форма захвата лидов** — Сбор заявок с сайта
+- **Панель менеджера** — Просмотр и управление статусами лидов
+- **Панель администратора** — Полное управление лидами и пользователями
 
-### Admin CRM
-- **Dashboard**: Key metrics, lead statistics, conversion rates
-- **Lead Management**: Status tracking, assignment, notes
-- **Inventory**: Product catalog management
-- **Audit Logs**: Complete action history
+## 🛠 Технологии
 
-## 🛠️ Tech Stack
+- **Next.js 15** — React фреймворк
+- **TypeScript** — Типизация
+- **Tailwind CSS** — Стилизация
+- **Prisma** — ORM для базы данных
+- **NextAuth.js** — Аутентификация
+- **Framer Motion** — Анимации
+- **Radix UI** — UI компоненты
 
-- **Framework**: Next.js 14+ (App Router)
-- **Language**: TypeScript (Strict mode)
-- **Styling**: Tailwind CSS + Shadcn/ui
-- **Database**: PostgreSQL + Prisma ORM
-- **Auth**: NextAuth.js v5
-- **Logging**: Winston
+## 📦 Установка
 
-## 📦 Installation
+1. **Клонируйте репозиторий:**
 
-### Prerequisites
-- Node.js 18+
-- PostgreSQL 14+
-- pnpm (recommended) or npm
-
-### Setup
-
-1. **Clone and install dependencies**
 ```bash
-git clone https://github.com/your-repo/telfera.kz.git
-cd telfera.kz
-pnpm install
+git clone https://github.com/your-username/Telfera.kz.git
+cd Telfera.kz
 ```
 
-2. **Configure environment**
+2. **Установите зависимости:**
+
 ```bash
-cp env.example.txt .env
+npm install
 ```
 
-Edit `.env` with your values:
+3. **Создайте файл `.env`:**
+
 ```env
-DATABASE_URL="postgresql://user:password@localhost:5432/telfera"
-AUTH_SECRET="your-super-secret-key-min-32-chars"
-AUTH_URL="http://localhost:3000"
-SITE_URL="https://telfera.kz"
+DATABASE_URL="file:./dev.db"
+AUTH_SECRET="your-secret-key-generate-with-openssl-rand-base64-32"
 ```
 
-3. **Initialize database**
+4. **Инициализируйте базу данных:**
+
 ```bash
-pnpm db:push    # Create tables
-pnpm db:seed    # Seed demo data
+npx prisma db push
+npx tsx prisma/seed.ts
 ```
 
-4. **Start development server**
+5. **Запустите сервер разработки:**
+
 ```bash
-pnpm dev
+npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000)
+Откройте [http://localhost:3000](http://localhost:3000) в браузере.
 
-## 🔐 Demo Credentials
+## 👤 Учетные данные
 
-| Role | Email | Password |
-|------|-------|----------|
-| Admin | admin@telfera.kz | admin123 |
-| Manager | manager@telfera.kz | manager123 |
-| Director | director@telfera.kz | director123 |
+После запуска seed скрипта, будут созданы следующие пользователи:
 
-## 📁 Project Structure
+| Роль | Email | Пароль |
+|------|-------|--------|
+| Администратор | admin@telfera.kz | admin123 |
+| Менеджер | manager@telfera.kz | manager123 |
+
+## 📁 Структура проекта
 
 ```
 src/
-├── app/
-│   ├── (public)/          # Public website
-│   │   ├── page.tsx       # Landing page
-│   │   ├── catalog/       # Product catalog
-│   │   └── contacts/      # Contact page
-│   ├── (admin)/           # Protected CRM
-│   │   └── admin/
-│   │       ├── dashboard/ # Analytics
-│   │       ├── leads/     # Lead management
-│   │       ├── inventory/ # Products
-│   │       └── logs/      # Audit logs
-│   ├── login/             # Auth page
-│   └── api/auth/          # NextAuth routes
-├── components/
-│   ├── ui/                # Shadcn components
-│   ├── public/            # Public site components
-│   ├── admin/             # CRM components
-│   └── forms/             # Form components
-├── lib/
-│   ├── prisma.ts          # DB client
-│   ├── auth.ts            # Auth config
-│   ├── logger.ts          # Winston logger
-│   └── utils.ts           # Helpers
-├── server/
-│   └── actions/           # Server Actions
-├── hooks/                 # React hooks
-└── types/                 # TypeScript types
+├── app/                    # Next.js App Router
+│   ├── admin/              # Панель администратора
+│   ├── manager/            # Панель менеджера
+│   ├── login/              # Страница входа
+│   └── page.tsx            # Главная страница
+├── components/             # React компоненты
+│   └── ui/                 # UI компоненты
+├── actions/                # Server Actions
+├── lib/                    # Утилиты и конфиги
+└── types/                  # TypeScript типы
 ```
 
-## 🗃️ Database Schema
+## 🔐 Роли пользователей
 
-```prisma
-model User {
-  id, email, passwordHash, role (ADMIN/MANAGER/DIRECTOR), name
-}
+- **ADMIN** — Полный доступ: управление лидами, пользователями, настройками
+- **MANAGER** — Просмотр лидов и изменение их статусов
 
-model Product {
-  id, slug, name, category (BULGARIAN/SHA8), description, specs (JSON), images
-}
+## 📝 Скрипты
 
-model Lead {
-  id, status (NEW/IN_PROGRESS/OFFER_SENT/PAID/CLOSED/REJECTED), 
-  clientName, clientPhone, clientEmail, source, assignedTo
-}
+- `npm run dev` — Запуск сервера разработки
+- `npm run build` — Сборка для продакшена
+- `npm run start` — Запуск продакшен сервера
+- `npm run db:push` — Применение схемы к БД
+- `npm run db:studio` — Открыть Prisma Studio
 
-model AuditLog {
-  id, action, entity, entityId, userId, details (JSON), timestamp
-}
-```
+## 📄 Лицензия
 
-## 🚢 Deployment
-
-### VPS Deployment (Recommended)
-
-1. **Server Setup**
-```bash
-# Install Node.js 18+
-curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
-sudo apt install -y nodejs
-
-# Install PostgreSQL
-sudo apt install postgresql postgresql-contrib
-
-# Install PM2
-sudo npm install -g pm2
-```
-
-2. **Deploy Application**
-```bash
-# Clone repository
-git clone https://github.com/your-repo/telfera.kz.git
-cd telfera.kz
-
-# Install dependencies
-npm install
-
-# Build
-npm run build
-
-# Start with PM2
-pm2 start npm --name "telfera" -- start
-pm2 save
-pm2 startup
-```
-
-3. **Nginx Configuration**
-```nginx
-server {
-    listen 80;
-    server_name telfera.kz www.telfera.kz;
-    
-    location / {
-        proxy_pass http://localhost:3000;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection 'upgrade';
-        proxy_set_header Host $host;
-        proxy_cache_bypass $http_upgrade;
-    }
-}
-```
-
-4. **SSL with Certbot**
-```bash
-sudo certbot --nginx -d telfera.kz -d www.telfera.kz
-```
-
-## 📊 SEO & GEO Features
-
-- **Dynamic Metadata**: Every page generates title, description, OG tags
-- **Schema.org**: Product, Organization, FAQPage structured data
-- **Sitemap**: Auto-generated from database
-- **AI Crawlers**: Explicit allow rules for GPTBot, ChatGPT, Anthropic
-- **Hidden Context**: SR-only content for AI parsing
-
-## 🔧 Scripts
-
-```bash
-pnpm dev          # Development server
-pnpm build        # Production build
-pnpm start        # Start production server
-pnpm lint         # Run ESLint
-pnpm db:push      # Push schema to DB
-pnpm db:migrate   # Create migration
-pnpm db:seed      # Seed demo data
-pnpm db:studio    # Open Prisma Studio
-```
-
-## 📄 License
-
-MIT License - see [LICENSE](LICENSE) file.
-
----
-
-Built with ❤️ for the Kazakhstan market
+MIT
