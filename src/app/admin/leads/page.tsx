@@ -2,6 +2,9 @@ import { getLeads } from "@/actions/leads";
 import { LeadsTable } from "@/components/leads-table";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export default async function AdminLeadsPage() {
   const leads = await getLeads();
 
