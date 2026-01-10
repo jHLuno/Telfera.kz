@@ -2,7 +2,7 @@ import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { headers } from "next/headers";
 import { DashboardSidebar } from "@/components/dashboard-sidebar";
-import { SessionProvider } from "next-auth/react";
+import { Providers } from "@/components/providers";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -17,7 +17,7 @@ export default async function AdminLayout({
   
   const session = await auth();
 
-  if (!session) {
+  if (!session || !session.user) {
     redirect("/login");
   }
 
@@ -26,11 +26,11 @@ export default async function AdminLayout({
   }
 
   return (
-    <SessionProvider session={session}>
+    <Providers session={session}>
       <div className="flex min-h-screen bg-muted/20">
         <DashboardSidebar role="ADMIN" />
         <main className="flex-1 overflow-auto">{children}</main>
       </div>
-    </SessionProvider>
+    </Providers>
   );
 }

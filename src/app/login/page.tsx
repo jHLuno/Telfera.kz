@@ -19,8 +19,21 @@ export default function LoginPage() {
     setError(null);
 
     const formData = new FormData(e.currentTarget);
-    const email = formData.get("email") as string;
+    const email = (formData.get("email") as string)?.trim().toLowerCase();
     const password = formData.get("password") as string;
+
+    // Client-side validation (basic checks, server does strict validation)
+    if (!email || email.trim().length === 0) {
+      setError("Пожалуйста, введите email");
+      setIsLoading(false);
+      return;
+    }
+
+    if (!password || password.length === 0) {
+      setError("Пожалуйста, введите пароль");
+      setIsLoading(false);
+      return;
+    }
 
     try {
       const result = await signIn("credentials", {
@@ -30,13 +43,21 @@ export default function LoginPage() {
       });
 
       if (result?.error) {
-        setError("Неверный email или пароль");
+        // Handle specific error types without exposing details
+        if (result.error === "CredentialsSignin") {
+          setError("Неверный email или пароль");
+        } else {
+          setError("Произошла ошибка при входе. Попробуйте снова.");
+        }
+      } else if (result?.ok) {
+        // Successful login - redirect will be handled by middleware
+        window.location.href = result.url || "/";
       } else {
-        // Force a hard reload to /login which will trigger middleware redirect
-        // This ensures the session is properly loaded and user is redirected to correct dashboard
-        window.location.href = "/login";
+        setError("Не удалось войти. Попробуйте снова.");
       }
-    } catch {
+    } catch (err) {
+      // Silently handle errors to prevent information leakage
+      console.error("Login error:", err);
       setError("Произошла ошибка. Попробуйте снова.");
     } finally {
       setIsLoading(false);
