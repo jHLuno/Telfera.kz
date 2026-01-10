@@ -26,7 +26,7 @@ export default async function ManagerDashboard() {
     <div className="p-6 md:p-8">
       <div className="mb-8">
         <h1 className="text-2xl font-bold">
-          Добро пожаловать, {session?.user?.name || "Менеджер"}!
+          Добро пожаловать, {session?.user?.role === "MANAGER" ? (session?.user?.name || "Менеджер") : "Менеджер"}!
         </h1>
         <p className="text-muted-foreground">
           Панель управления лидами Telfera.kz

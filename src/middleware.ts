@@ -113,12 +113,16 @@ export default async function middleware(request: NextRequest) {
     }
   }
 
-  // Protect manager routes - MUST be logged in
+  // Protect manager routes - MUST be logged in AND be manager (admins redirected to admin dashboard)
   if (isManagerRoute) {
     if (!isLoggedIn) {
       const loginUrl = new URL("/login", request.url);
       loginUrl.searchParams.set("callbackUrl", pathname);
       return NextResponse.redirect(loginUrl);
+    }
+    // If admin tries to access manager routes, redirect to admin dashboard
+    if (isAdmin) {
+      return NextResponse.redirect(new URL("/admin", request.url));
     }
   }
 
