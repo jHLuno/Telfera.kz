@@ -12,7 +12,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { formatDate } from "@/lib/utils";
+import { formatDate, getRoleName } from "@/lib/utils";
 import { AddUserDialog } from "@/components/add-user-dialog";
 
 export default async function AdminUsersPage() {
@@ -69,7 +69,7 @@ export default async function AdminUsersPage() {
                           user.role === "ADMIN" ? "default" : "secondary"
                         }
                       >
-                        {user.role === "ADMIN" ? "Администратор" : "Менеджер"}
+                        {getRoleName(user.role)}
                       </Badge>
                     </TableCell>
                     <TableCell className="text-muted-foreground">

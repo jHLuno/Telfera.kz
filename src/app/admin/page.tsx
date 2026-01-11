@@ -18,6 +18,14 @@ import { LeadNotifications } from "@/components/lead-notifications";
 export default async function AdminDashboard() {
   const session = await auth();
 
+  // Get user data from database to ensure we have the latest name
+  const user = session?.user?.id
+    ? await prisma.user.findUnique({
+        where: { id: session.user.id },
+        select: { name: true },
+      })
+    : null;
+
   const [
     totalLeads,
     newLeads,
@@ -56,7 +64,7 @@ export default async function AdminDashboard() {
           Панель администратора
         </h1>
         <p className="text-muted-foreground">
-          Добро пожаловать, {session?.user?.name || "Администратор"}!
+          Добро пожаловать{user?.name ? `, ${user.name}` : ""}!
         </p>
       </div>
 

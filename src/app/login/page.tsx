@@ -97,7 +97,7 @@ export default function LoginPage() {
                   id="email"
                   name="email"
                   type="email"
-                  placeholder="admin@telfera.kz"
+                  placeholder="email@example.com"
                   required
                 />
               </div>

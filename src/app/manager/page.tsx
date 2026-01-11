@@ -11,6 +11,14 @@ import { LeadNotifications } from "@/components/lead-notifications";
 export default async function ManagerDashboard() {
   const session = await auth();
 
+  // Get user data from database to ensure we have the latest name
+  const user = session?.user?.id
+    ? await prisma.user.findUnique({
+        where: { id: session.user.id },
+        select: { name: true },
+      })
+    : null;
+
   const [totalLeads, newLeads, wonLeads, lostLeads] = await Promise.all([
     prisma.lead.count(),
     prisma.lead.count({ where: { status: "NEW" } }),
@@ -28,7 +36,7 @@ export default async function ManagerDashboard() {
       <LeadNotifications />
       <div className="mb-8">
         <h1 className="text-2xl font-bold">
-          Добро пожаловать, {session?.user?.role === "MANAGER" ? (session?.user?.name || "Менеджер") : "Менеджер"}!
+          Добро пожаловать{user?.name ? `, ${user.name}` : ""}!
         </h1>
         <p className="text-muted-foreground">
           Панель управления лидами Telfera.kz

@@ -24,6 +24,7 @@ import {
 } from "@/components/ui/select";
 import { createUser } from "@/actions/users";
 import { Loader2, Plus } from "lucide-react";
+import { getRoleName } from "@/lib/utils";
 
 const userSchema = z.object({
   name: z.string().min(2, "Введите имя"),
@@ -149,8 +150,8 @@ export function AddUserDialog() {
                 <SelectValue placeholder="Выберите роль" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="MANAGER">Менеджер</SelectItem>
-                <SelectItem value="ADMIN">Администратор</SelectItem>
+                <SelectItem value="MANAGER">{getRoleName("MANAGER")}</SelectItem>
+                <SelectItem value="ADMIN">{getRoleName("ADMIN")}</SelectItem>
               </SelectContent>
             </Select>
           </div>
