@@ -170,8 +170,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       if (user && user.id) {
         token.role = user.role as string;
         token.id = user.id;
-        token.name = user.name;
-        token.email = user.email;
+        token.name = user.name ?? undefined;
+        token.email = user.email ?? undefined;
       }
       
       // If profile was updated, refresh user data from database
