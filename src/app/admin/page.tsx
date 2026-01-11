@@ -13,6 +13,7 @@ import {
   TrendingUp,
 } from "lucide-react";
 import Link from "next/link";
+import { LeadNotifications } from "@/components/lead-notifications";
 
 export default async function AdminDashboard() {
   const session = await auth();
@@ -49,6 +50,7 @@ export default async function AdminDashboard() {
 
   return (
     <div className="p-6 md:p-8">
+      <LeadNotifications />
       <div className="mb-8">
         <h1 className="text-2xl font-bold">
           Панель администратора

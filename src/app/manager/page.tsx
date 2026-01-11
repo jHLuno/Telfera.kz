@@ -6,6 +6,7 @@ export const revalidate = 0;
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ClipboardList, Clock, CheckCircle, XCircle } from "lucide-react";
 import Link from "next/link";
+import { LeadNotifications } from "@/components/lead-notifications";
 
 export default async function ManagerDashboard() {
   const session = await auth();
@@ -24,6 +25,7 @@ export default async function ManagerDashboard() {
 
   return (
     <div className="p-6 md:p-8">
+      <LeadNotifications />
       <div className="mb-8">
         <h1 className="text-2xl font-bold">
           Добро пожаловать, {session?.user?.role === "MANAGER" ? (session?.user?.name || "Менеджер") : "Менеджер"}!

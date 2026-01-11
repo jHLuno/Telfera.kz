@@ -32,17 +32,17 @@ export function DashboardSidebar({ role }: SidebarProps) {
       href: `${basePath}/leads`,
       icon: ClipboardList,
     },
+    {
+      name: "Настройки",
+      href: `${basePath}/settings`,
+      icon: Settings,
+    },
     ...(role === "ADMIN"
       ? [
           {
             name: "Пользователи",
             href: `${basePath}/users`,
             icon: Users,
-          },
-          {
-            name: "Настройки",
-            href: `${basePath}/settings`,
-            icon: Settings,
           },
         ]
       : []),

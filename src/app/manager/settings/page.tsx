@@ -10,7 +10,7 @@ import { updateUserProfile } from "@/actions/users";
 import { useToast } from "@/components/ui/use-toast";
 import { Loader2 } from "lucide-react";
 
-export default function AdminSettingsPage() {
+export default function ManagerSettingsPage() {
   const { data: session, update } = useSession();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
