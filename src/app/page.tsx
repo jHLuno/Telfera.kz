@@ -173,7 +173,7 @@ export default function Home() {
                   size="lg" 
                   variant="outline" 
                   asChild
-                  className="border-2 hover:bg-primary/5 hover:border-primary/50 transition-all"
+                  className="border-2 hover:bg-primary/5 hover:border-primary/50 transition-all hover:text-primary"
                 >
                   <Link href="#products">Смотреть каталог</Link>
                 </Button>
@@ -211,7 +211,7 @@ export default function Home() {
                   <CardContent className="p-4">
                     <p className="text-3xl font-bold">500+</p>
                     <p className="text-sm text-muted-foreground">
-                      Установленных телферов
+                      Установленных тельферов
                     </p>
                   </CardContent>
                 </Card>
