@@ -25,12 +25,12 @@ export function Footer() {
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li>
                 <Link href="#" className="hover:text-foreground transition-colors">
-                  Телфер SHA8
+                  Тельфер SHA8
                 </Link>
               </li>
               <li>
                 <Link href="#" className="hover:text-foreground transition-colors">
-                  Телфер Balkans
+                  Тельфер Balkans
                 </Link>
               </li>
               <li>

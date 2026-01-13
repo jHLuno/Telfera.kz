@@ -104,8 +104,8 @@ export function LeadForm() {
             <SelectValue placeholder="Выберите продукт" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="SHA8">Телфер SHA8</SelectItem>
-            <SelectItem value="Balkans">Телфер Balkans</SelectItem>
+            <SelectItem value="SHA8">Тельфер SHA8</SelectItem>
+            <SelectItem value="Balkans">Тельфер Balkans</SelectItem>
             <SelectItem value="Other">Другое</SelectItem>
           </SelectContent>
         </Select>

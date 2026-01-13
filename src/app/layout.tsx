@@ -13,7 +13,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Telfera.kz | Телферы SHA8 и Balkans",
+  title: "Telfera.kz | Тельферы SHA8 и Balkans",
   description:
     "Профессиональные телферы SHA8 и Balkans в Казахстане. Надежное подъемное оборудование для вашего производства.",
   keywords: ["телфер", "SHA8", "Balkans", "подъемное оборудование", "Казахстан"],

@@ -112,10 +112,10 @@ export function LeadsTable({ leads, isAdmin = false }: LeadsTableProps) {
             {leads.map((lead) => (
               <TableRow key={lead.id}>
                 <TableCell>
-                  <p className="font-medium">{lead.name}</p>
+                    <p className="font-medium">{lead.name}</p>
                 </TableCell>
                 <TableCell>
-                  <p className="text-sm">{formatPhone(lead.phone)}</p>
+                    <p className="text-sm">{formatPhone(lead.phone)}</p>
                 </TableCell>
                 <TableCell>
                   {lead.product && (

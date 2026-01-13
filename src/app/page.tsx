@@ -138,7 +138,7 @@ export default function Home() {
                 transition={{ duration: 0.5, delay: 0.1 }}
                 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6"
               >
-                Телферы для
+                Тельферы для
                 <br />
                 <span className="text-muted-foreground">вашего производства</span>
               </motion.h1>
@@ -282,7 +282,7 @@ export default function Home() {
                       </span>
                     </div>
                     <h3 className="text-2xl md:text-3xl font-bold mb-2">
-                      Телфер SHA8
+                      Тельфер SHA8
                     </h3>
                     <p className="text-muted-foreground mb-6 flex-grow">
                       Профессиональная электрическая таль китайского
@@ -329,7 +329,7 @@ export default function Home() {
                         Премиум
                       </span>
                     </div>
-                    <h3 className="text-xl font-bold mb-2">Телфер Balkans</h3>
+                    <h3 className="text-xl font-bold mb-2">Тельфер Balkans</h3>
                     <p className="text-muted-foreground text-sm mb-4 flex-grow">
                       Болгарское качество для требовательных задач.
                       Европейские стандарты.
