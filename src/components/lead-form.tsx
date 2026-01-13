@@ -7,7 +7,6 @@ import { z } from "zod";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
-import { Textarea } from "./ui/textarea";
 import {
   Select,
   SelectContent,
@@ -21,10 +20,7 @@ import { CheckCircle, Loader2 } from "lucide-react";
 const leadSchema = z.object({
   name: z.string().min(2, "Введите ваше имя"),
   phone: z.string().min(10, "Введите корректный номер телефона"),
-  email: z.string().email("Введите корректный email").optional().or(z.literal("")),
-  company: z.string().optional(),
-  product: z.string().optional(),
-  message: z.string().optional(),
+  product: z.string().min(1, "Выберите интересующий продукт"),
 });
 
 type LeadFormData = z.infer<typeof leadSchema>;
@@ -101,35 +97,10 @@ export function LeadForm() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="space-y-2">
-          <Label htmlFor="email">Email</Label>
-          <Input
-            id="email"
-            type="email"
-            placeholder="email@example.com"
-            {...register("email")}
-            className={errors.email ? "border-destructive" : ""}
-          />
-          {errors.email && (
-            <p className="text-xs text-destructive">{errors.email.message}</p>
-          )}
-        </div>
-
-        <div className="space-y-2">
-          <Label htmlFor="company">Компания</Label>
-          <Input
-            id="company"
-            placeholder="Название компании"
-            {...register("company")}
-          />
-        </div>
-      </div>
-
       <div className="space-y-2">
-        <Label htmlFor="product">Интересующий продукт</Label>
+        <Label htmlFor="product">Интересующий продукт *</Label>
         <Select onValueChange={(value) => setValue("product", value)}>
-          <SelectTrigger>
+          <SelectTrigger className={errors.product ? "border-destructive" : ""}>
             <SelectValue placeholder="Выберите продукт" />
           </SelectTrigger>
           <SelectContent>
@@ -138,15 +109,9 @@ export function LeadForm() {
             <SelectItem value="Other">Другое</SelectItem>
           </SelectContent>
         </Select>
-      </div>
-
-      <div className="space-y-2">
-        <Label htmlFor="message">Сообщение</Label>
-        <Textarea
-          id="message"
-          placeholder="Опишите ваш запрос..."
-          {...register("message")}
-        />
+        {errors.product && (
+          <p className="text-xs text-destructive">{errors.product.message}</p>
+        )}
       </div>
 
       <Button type="submit" className="w-full" size="lg" disabled={isLoading}>

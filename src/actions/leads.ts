@@ -7,10 +7,7 @@ import { revalidatePath } from "next/cache";
 const leadSchema = z.object({
   name: z.string().min(2),
   phone: z.string().min(10),
-  email: z.string().email().optional().or(z.literal("")),
-  company: z.string().optional(),
-  product: z.string().optional(),
-  message: z.string().optional(),
+  product: z.string().min(1, "Выберите интересующий продукт"),
 });
 
 export async function submitLead(data: z.infer<typeof leadSchema>) {
@@ -20,11 +17,7 @@ export async function submitLead(data: z.infer<typeof leadSchema>) {
     data: {
       name: validated.name,
       phone: validated.phone,
-      email: validated.email || null,
-      company: validated.company || null,
-      product: validated.product || null,
-      message: validated.message || null,
-      source: "website",
+      product: validated.product,
     },
   });
 

@@ -28,7 +28,7 @@ import {
 } from "@/components/ui/dialog";
 import { updateLeadStatus, deleteLead } from "@/actions/leads";
 import { formatDate, formatPhone } from "@/lib/utils";
-import { Eye, Trash2, Phone, Mail, Building, MessageSquare } from "lucide-react";
+import { Eye, Trash2, Phone } from "lucide-react";
 
 const statusLabels: Record<string, string> = {
   NEW: "Новый",
@@ -112,24 +112,10 @@ export function LeadsTable({ leads, isAdmin = false }: LeadsTableProps) {
             {leads.map((lead) => (
               <TableRow key={lead.id}>
                 <TableCell>
-                  <div>
-                    <p className="font-medium">{lead.name}</p>
-                    {lead.company && (
-                      <p className="text-sm text-muted-foreground">
-                        {lead.company}
-                      </p>
-                    )}
-                  </div>
+                  <p className="font-medium">{lead.name}</p>
                 </TableCell>
                 <TableCell>
-                  <div className="space-y-1">
-                    <p className="text-sm">{formatPhone(lead.phone)}</p>
-                    {lead.email && (
-                      <p className="text-sm text-muted-foreground">
-                        {lead.email}
-                      </p>
-                    )}
-                  </div>
+                  <p className="text-sm">{formatPhone(lead.phone)}</p>
                 </TableCell>
                 <TableCell>
                   {lead.product && (
@@ -224,32 +210,6 @@ export function LeadsTable({ leads, isAdmin = false }: LeadsTableProps) {
                     {formatPhone(selectedLead.phone)}
                   </a>
                 </div>
-
-                {selectedLead.email && (
-                  <div className="flex items-center gap-3">
-                    <Mail className="w-4 h-4 text-muted-foreground" />
-                    <a
-                      href={`mailto:${selectedLead.email}`}
-                      className="text-sm hover:underline"
-                    >
-                      {selectedLead.email}
-                    </a>
-                  </div>
-                )}
-
-                {selectedLead.company && (
-                  <div className="flex items-center gap-3">
-                    <Building className="w-4 h-4 text-muted-foreground" />
-                    <span className="text-sm">{selectedLead.company}</span>
-                  </div>
-                )}
-
-                {selectedLead.message && (
-                  <div className="flex items-start gap-3">
-                    <MessageSquare className="w-4 h-4 text-muted-foreground mt-0.5" />
-                    <p className="text-sm">{selectedLead.message}</p>
-                  </div>
-                )}
               </div>
 
               <div className="pt-4 border-t">
@@ -259,11 +219,6 @@ export function LeadsTable({ leads, isAdmin = false }: LeadsTableProps) {
                 {selectedLead.product && (
                   <p className="text-sm text-muted-foreground">
                     Продукт: {selectedLead.product}
-                  </p>
-                )}
-                {selectedLead.source && (
-                  <p className="text-sm text-muted-foreground">
-                    Источник: {selectedLead.source}
                   </p>
                 )}
               </div>
