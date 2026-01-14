@@ -1,4 +1,4 @@
-import { getLeads } from "@/actions/leads";
+import { getAllLeads } from "@/actions/leads";
 import { LeadsTable } from "@/components/leads-table";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
@@ -6,7 +6,7 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 export default async function ManagerLeadsPage() {
-  const leads = await getLeads();
+  const leads = await getAllLeads();
 
   return (
     <div className="p-6 md:p-8">

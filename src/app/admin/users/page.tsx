@@ -1,8 +1,9 @@
-import { prisma } from "@/lib/prisma";
+import { getUsers } from "@/actions/users";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
+
 import {
   Table,
   TableBody,
@@ -16,9 +17,7 @@ import { formatDate, getRoleName } from "@/lib/utils";
 import { AddUserDialog } from "@/components/add-user-dialog";
 
 export default async function AdminUsersPage() {
-  const users = await prisma.user.findMany({
-    orderBy: { createdAt: "desc" },
-  });
+  const users = await getUsers();
 
   return (
     <div className="p-6 md:p-8">

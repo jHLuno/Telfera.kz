@@ -1,11 +1,12 @@
 import { auth } from "@/lib/auth";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import type { Session } from "next-auth";
 
 export default async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   
-  let session: any = null;
+  let session: Session | null = null;
   let hasInvalidSession = false;
   
   // Try to get session, handling errors gracefully

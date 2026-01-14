@@ -4,23 +4,53 @@ import { prisma } from "@/lib/prisma";
 import { z } from "zod";
 import { revalidatePath } from "next/cache";
 import bcrypt from "bcryptjs";
-import { auth } from "@/lib/auth";
+import { requireAdmin, requireAuth } from "@/lib/auth-helpers";
+
+// Password: 8+ chars, at least 1 uppercase, 1 lowercase, 1 number
+const passwordSchema = z
+  .string()
+  .min(8, "Минимум 8 символов")
+  .max(100, "Максимум 100 символов")
+  .regex(/[A-Z]/, "Должна быть хотя бы одна заглавная буква")
+  .regex(/[a-z]/, "Должна быть хотя бы одна строчная буква")
+  .regex(/[0-9]/, "Должна быть хотя бы одна цифра");
 
 const userSchema = z.object({
-  name: z.string().min(2),
-  email: z.string().email(),
-  password: z.string().min(6),
+  name: z
+    .string()
+    .min(2, "Минимум 2 символа")
+    .max(100, "Максимум 100 символов")
+    .transform((val) => val.trim()),
+  email: z
+    .string()
+    .email("Некорректный email")
+    .max(255, "Максимум 255 символов")
+    .transform((val) => val.toLowerCase().trim()),
+  password: passwordSchema,
   role: z.enum(["ADMIN", "MANAGER"]),
 });
 
 const updateProfileSchema = z.object({
-  name: z.string().min(2).optional(),
-  email: z.string().email().optional(),
+  name: z
+    .string()
+    .min(2, "Минимум 2 символа")
+    .max(100, "Максимум 100 символов")
+    .transform((val) => val.trim())
+    .optional(),
+  email: z
+    .string()
+    .email("Некорректный email")
+    .max(255, "Максимум 255 символов")
+    .transform((val) => val.toLowerCase().trim())
+    .optional(),
   currentPassword: z.string().optional(),
-  newPassword: z.string().min(6).optional(),
+  newPassword: passwordSchema.optional(),
 });
 
+// Protected action - requires admin role
 export async function createUser(data: z.infer<typeof userSchema>) {
+  await requireAdmin();
+
   const validated = userSchema.parse(data);
 
   // Check if user already exists
@@ -32,8 +62,8 @@ export async function createUser(data: z.infer<typeof userSchema>) {
     throw new Error("Пользователь с таким email уже существует");
   }
 
-  // Hash the password
-  const hashedPassword = await bcrypt.hash(validated.password, 10);
+  // Hash the password with cost factor 12 (more secure than 10)
+  const hashedPassword = await bcrypt.hash(validated.password, 12);
 
   const user = await prisma.user.create({
     data: {
@@ -49,7 +79,10 @@ export async function createUser(data: z.infer<typeof userSchema>) {
   return { id: user.id, email: user.email, name: user.name, role: user.role };
 }
 
+// Protected action - requires admin role
 export async function getUsers() {
+  await requireAdmin();
+
   return prisma.user.findMany({
     select: {
       id: true,
@@ -62,17 +95,14 @@ export async function getUsers() {
   });
 }
 
+// Protected action - requires authentication (any role can update own profile)
 export async function updateUserProfile(
   data: z.infer<typeof updateProfileSchema>
 ) {
-  const session = await auth();
-  
-  if (!session?.user?.id) {
-    throw new Error("Не авторизован");
-  }
+  const session = await requireAuth();
+  const userId = session.user.id;
 
   const validated = updateProfileSchema.parse(data);
-  const userId = session.user.id;
 
   // Get current user from database
   const currentUser = await prisma.user.findUnique({
@@ -127,7 +157,7 @@ export async function updateUserProfile(
   }
 
   if (validated.newPassword) {
-    updateData.password = await bcrypt.hash(validated.newPassword, 10);
+    updateData.password = await bcrypt.hash(validated.newPassword, 12);
   }
 
   // Update user

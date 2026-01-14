@@ -3,6 +3,7 @@ import Credentials from "next-auth/providers/credentials";
 import { prisma } from "./prisma";
 import bcrypt from "bcryptjs";
 import { z } from "zod";
+import { checkRateLimit, rateLimits } from "./rate-limit";
 
 const loginSchema = z.object({
   email: z.string().email("Invalid email format").transform((val) => val.toLowerCase().trim()),
@@ -78,6 +79,15 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
           const { email, password } = parsed.data;
           // Email is already normalized by zod transform
+
+          // Rate limiting by email (protects against brute force on specific accounts)
+          // NOTE: For IP-based rate limiting, use edge middleware (Vercel/Cloudflare)
+          const rateLimit = checkRateLimit(`login:${email}`, rateLimits.login);
+          if (!rateLimit.success) {
+            // Don't reveal that account exists - just return null
+            // The rate limit resets after 15 minutes
+            return null;
+          }
 
           // Fetch user from database with error handling
           let user;
