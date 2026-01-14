@@ -114,7 +114,7 @@ export function DeliverySection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.3 }}
-          className="mt-8 text-center"
+          className="mt-8 text-center max-w-6xl mx-auto"
         >
           <Card className="bg-gradient-to-r from-primary/15 via-primary/10 to-primary/15 border-2 border-primary/30 shadow-xl backdrop-blur-sm">
             <CardContent className="p-6 md:p-8">
