@@ -19,8 +19,7 @@ async function getLatestLead(): Promise<Lead | null> {
     if (!response.ok) return null;
     const data = await response.json();
     return data;
-  } catch (error) {
-    console.error("Error fetching latest lead:", error);
+  } catch {
     return null;
   }
 }

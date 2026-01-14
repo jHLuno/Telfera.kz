@@ -12,33 +12,11 @@ export default async function middleware(request: NextRequest) {
   // Try to get session, handling errors gracefully
   try {
     session = await auth();
-  } catch (error) {
+  } catch {
     // Handle JWT decryption errors gracefully
     // These are expected when tokens are invalid/expired or AUTH_SECRET changed
-    const errorMessage = error instanceof Error ? error.message : String(error);
-    const errorStack = error instanceof Error ? error.stack : "";
-    const fullError = `${errorMessage} ${errorStack}`;
-    
-    const isExpectedError = 
-      fullError.includes("decryption") || 
-      fullError.includes("JWT") ||
-      fullError.includes("JWTSessionError") ||
-      fullError.includes("session") ||
-      fullError.includes("no matching decryption secret");
-    
-    if (isExpectedError) {
-      // This is expected - invalid/old tokens, we'll clear them below
-      // Don't log these expected errors to reduce noise
-      session = null;
-      hasInvalidSession = true;
-    } else {
-      // Unexpected error - log in development only
-      if (process.env.NODE_ENV === "development") {
-        console.warn("[MIDDLEWARE] Unexpected auth error:", errorMessage);
-      }
-      session = null;
-      hasInvalidSession = true;
-    }
+    session = null;
+    hasInvalidSession = true;
   }
 
   // Protected routes

@@ -50,9 +50,6 @@ export function Header() {
           </div>
 
           <div className="hidden md:flex items-center gap-4">
-            <Button variant="ghost" size="sm" asChild>
-              <Link href="/login">Войти</Link>
-            </Button>
             <Button size="sm" asChild>
               <Link href="#contact">Заказать звонок</Link>
             </Button>
@@ -99,9 +96,6 @@ export function Header() {
                 Контакты
               </Link>
               <div className="flex gap-2 pt-2">
-                <Button variant="ghost" size="sm" asChild>
-                  <Link href="/login">Войти</Link>
-                </Button>
                 <Button size="sm" asChild>
                   <Link href="#contact">Заказать звонок</Link>
                 </Button>

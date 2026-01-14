@@ -30,8 +30,8 @@ export async function GET() {
     }
 
     return NextResponse.json(latestLead);
-  } catch (error) {
-    console.error("Error fetching latest lead:", error);
+  } catch {
+    // Error logged server-side via Prisma
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 }

@@ -4,61 +4,62 @@ import { prisma } from "./prisma";
 import bcrypt from "bcryptjs";
 import { z } from "zod";
 import { checkRateLimit, rateLimits } from "./rate-limit";
+import { logger } from "./logger";
 
 const loginSchema = z.object({
-  email: z.string().email("Invalid email format").transform((val) => val.toLowerCase().trim()),
+  email: z
+    .string()
+    .email("Invalid email format")
+    .transform((val) => val.toLowerCase().trim()),
   password: z.string().min(1, "Password is required"),
 });
 
 // Ensure AUTH_SECRET is set
 if (!process.env.AUTH_SECRET) {
-  throw new Error("AUTH_SECRET environment variable is not set. Please set it in your .env file.");
+  throw new Error(
+    "AUTH_SECRET environment variable is not set. Please set it in your .env file."
+  );
 }
 
-// Generate a dummy bcrypt hash for timing attack protection
-// This is a valid bcrypt hash of a dummy password that will never match real passwords
-// Pre-computed to avoid async operations at module load time
-// Hash of: "dummy-password-for-timing-attack-protection"
-const DUMMY_HASH = "$2a$10$ff9jh2zzN.xTZUmnsakKE.WVbb648VH/iVixRq/I/IZ5c84Bbf6KO";
+// Dummy bcrypt hash for timing attack protection
+const DUMMY_HASH =
+  "$2a$10$ff9jh2zzN.xTZUmnsakKE.WVbb648VH/iVixRq/I/IZ5c84Bbf6KO";
 
 // Custom logger to filter out expected JWT decryption errors
-const customLogger = {
+const authLogger = {
   error: (error: Error) => {
-    // Suppress expected JWT/session errors that are harmless
     const errorMessage = error.message || String(error);
     const suppressedMessages = [
       "JWTSessionError",
       "decryption",
       "no matching decryption secret",
     ];
-    
-    const shouldSuppress = suppressedMessages.some(msg => 
+
+    const shouldSuppress = suppressedMessages.some((msg) =>
       errorMessage.toLowerCase().includes(msg.toLowerCase())
     );
-    
+
     if (!shouldSuppress) {
-      console.error(`[AUTH]`, error);
-    } else if (process.env.NODE_ENV === "development" && process.env.AUTH_DEBUG === "true") {
-      // Only log in debug mode
-      console.debug(`[AUTH] Suppressed expected error:`, errorMessage);
+      logger.error("AUTH", errorMessage);
+    } else {
+      logger.debug("AUTH", "Suppressed expected error", errorMessage);
     }
   },
   warn: (message: string) => {
-    console.warn(`[AUTH]`, message);
+    logger.warn("AUTH", message);
   },
   debug: (message: string) => {
-    if (process.env.NODE_ENV === "development" && process.env.AUTH_DEBUG === "true") {
-      console.debug(`[AUTH]`, message);
-    }
+    logger.debug("AUTH", message);
   },
 };
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   trustHost: true,
   secret: process.env.AUTH_SECRET,
-  // Suppress verbose error logging for expected scenarios
-  debug: process.env.NODE_ENV === "development" && process.env.AUTH_DEBUG === "true",
-  logger: customLogger,
+  debug:
+    process.env.NODE_ENV === "development" &&
+    process.env.AUTH_DEBUG === "true",
+  logger: authLogger,
   providers: [
     Credentials({
       credentials: {
@@ -67,29 +68,21 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
       async authorize(credentials) {
         try {
-          // Validate input format
           const parsed = loginSchema.safeParse(credentials);
           if (!parsed.success) {
-            // Log validation errors in development only
-            if (process.env.NODE_ENV === "development") {
-              console.error("[AUTH] Validation error:", parsed.error.format());
-            }
+            logger.debug("AUTH", "Validation error", parsed.error.format());
             return null;
           }
 
           const { email, password } = parsed.data;
-          // Email is already normalized by zod transform
 
-          // Rate limiting by email (protects against brute force on specific accounts)
-          // NOTE: For IP-based rate limiting, use edge middleware (Vercel/Cloudflare)
+          // Rate limiting by email
           const rateLimit = checkRateLimit(`login:${email}`, rateLimits.login);
           if (!rateLimit.success) {
-            // Don't reveal that account exists - just return null
-            // The rate limit resets after 15 minutes
             return null;
           }
 
-          // Fetch user from database with error handling
+          // Fetch user
           let user;
           try {
             user = await prisma.user.findUnique({
@@ -103,64 +96,46 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
               },
             });
           } catch (dbError) {
-            // Handle database errors gracefully
-            const errorMessage = dbError instanceof Error ? dbError.message : "Unknown database error";
-            
-            // Check if it's a Railway internal URL issue
+            const errorMessage =
+              dbError instanceof Error
+                ? dbError.message
+                : "Unknown database error";
+
             const dbUrl = process.env.DATABASE_URL || "";
-            const isRailwayInternal = dbUrl.includes("postgres.railway.internal");
-            const isConnectionError = errorMessage.includes("Can't reach database") || 
-                                     errorMessage.includes("connection") ||
-                                     errorMessage.includes("ENOTFOUND") ||
-                                     errorMessage.includes("getaddrinfo");
-            
-            // Only log detailed errors in development
-            if (process.env.NODE_ENV === "development") {
-              if (isConnectionError) {
-                if (isRailwayInternal) {
-                  console.error("[AUTH] ❌ Database Connection Error:");
-                  console.error("   You're using Railway's INTERNAL URL (postgres.railway.internal)");
-                  console.error("   This only works inside Railway's network, not locally.");
-                  console.error("   Solution: Use Railway's PUBLIC connection string instead.");
-                  console.error("   1. Go to your Railway project dashboard");
-                  console.error("   2. Click on your PostgreSQL database");
-                  console.error("   3. Go to 'Connect' or 'Variables' tab");
-                  console.error("   4. Copy the PUBLIC DATABASE_URL (not the internal one)");
-                  console.error("   5. Update your .env.local file with the public URL");
-                } else {
-                  console.warn("[AUTH] Database connection issue - check your DATABASE_URL in .env.local");
-                  console.warn(`   Error: ${errorMessage.split('\n')[0]}`);
-                }
-              } else {
-                console.error("[AUTH] Database error:", errorMessage);
-              }
+            const isRailwayInternal = dbUrl.includes(
+              "postgres.railway.internal"
+            );
+            const isConnectionError =
+              errorMessage.includes("Can't reach database") ||
+              errorMessage.includes("connection") ||
+              errorMessage.includes("ENOTFOUND");
+
+            if (isConnectionError && isRailwayInternal) {
+              logger.error(
+                "AUTH",
+                "Database Connection Error: Using Railway internal URL locally"
+              );
+            } else {
+              logger.error("AUTH", "Database error", errorMessage);
             }
-            // Always return null to prevent information leakage
             return null;
           }
 
-          // Prevent timing attacks by always performing bcrypt comparison
-          // If user doesn't exist, compare against a dummy hash to maintain consistent timing
+          // Timing-safe password comparison
           const hashedPassword = user?.password || DUMMY_HASH;
-          
+
           let passwordMatch = false;
           try {
             passwordMatch = await bcrypt.compare(password, hashedPassword);
-          } catch (bcryptError) {
-            // Handle bcrypt errors (e.g., invalid hash format in database)
-            if (process.env.NODE_ENV === "development") {
-              console.error("[AUTH] Password comparison error:", bcryptError instanceof Error ? bcryptError.message : "Unknown error");
-            }
+          } catch {
+            logger.error("AUTH", "Password comparison error");
             return null;
           }
 
-          // Verify user exists and password matches
           if (!user || !passwordMatch) {
-            // Return null for invalid credentials (consistent response time)
             return null;
           }
 
-          // Return user object without password
           return {
             id: user.id,
             email: user.email,
@@ -168,8 +143,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             role: user.role,
           };
         } catch (error) {
-          // Catch any unexpected errors
-          console.error("[AUTH] Unexpected error during authorization:", error instanceof Error ? error.message : "Unknown error");
+          logger.error(
+            "AUTH",
+            "Unexpected error",
+            error instanceof Error ? error.message : "Unknown error"
+          );
           return null;
         }
       },
@@ -183,8 +161,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         token.name = user.name ?? undefined;
         token.email = user.email ?? undefined;
       }
-      
-      // If profile was updated, refresh user data from database
+
       if (trigger === "update") {
         try {
           const updatedUser = await prisma.user.findUnique({
@@ -196,17 +173,17 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
               role: true,
             },
           });
-          
+
           if (updatedUser) {
             token.name = updatedUser.name;
             token.email = updatedUser.email;
             token.role = updatedUser.role;
           }
-        } catch (error) {
-          console.error("[AUTH] Error updating token:", error);
+        } catch {
+          logger.error("AUTH", "Error updating token");
         }
       }
-      
+
       return token;
     },
     async session({ session, token }) {
@@ -224,7 +201,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   },
   session: {
     strategy: "jwt",
-    maxAge: 30 * 60, // 30 minutes - session expires after 30 minutes of inactivity
-    updateAge: 24 * 60 * 60, // Update session token every 24 hours if still active
+    // Extended session: 8 hours (better UX for workday)
+    maxAge: 8 * 60 * 60,
+    // Refresh session every 1 hour if active
+    updateAge: 60 * 60,
   },
 });

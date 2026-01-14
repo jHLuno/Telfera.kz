@@ -55,9 +55,8 @@ export default function LoginPage() {
       } else {
         setError("Не удалось войти. Попробуйте снова.");
       }
-    } catch (err) {
+    } catch {
       // Silently handle errors to prevent information leakage
-      console.error("Login error:", err);
       setError("Произошла ошибка. Попробуйте снова.");
     } finally {
       setIsLoading(false);

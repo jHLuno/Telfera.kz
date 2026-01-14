@@ -39,15 +39,22 @@ export function LeadForm() {
     resolver: zodResolver(leadSchema),
   });
 
+  const [error, setError] = useState<string | null>(null);
+
   const onSubmit = async (data: LeadFormData) => {
     setIsLoading(true);
+    setError(null);
     try {
       await submitLead(data);
       setIsSubmitted(true);
       reset();
       setTimeout(() => setIsSubmitted(false), 5000);
-    } catch (error) {
-      console.error("Error submitting lead:", error);
+    } catch (err) {
+      setError(
+        err instanceof Error
+          ? err.message
+          : "Ошибка при отправке заявки. Попробуйте позже."
+      );
     } finally {
       setIsLoading(false);
     }
@@ -69,6 +76,11 @@ export function LeadForm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+      {error && (
+        <div className="bg-destructive/10 text-destructive text-sm p-3 rounded-lg">
+          {error}
+        </div>
+      )}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="space-y-2">
           <Label htmlFor="name">Имя *</Label>
