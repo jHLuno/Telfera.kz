@@ -1,10 +1,11 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { ArrowRight, Package } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import Link from "next/link";
+import { useRef } from "react";
 
 export function HeroSection() {
   return (
@@ -76,51 +77,104 @@ export function HeroSection() {
           transition={{ duration: 0.7, delay: 0.4 }}
           className="mt-12 relative"
         >
-          <div className="aspect-[16/9] max-w-5xl mx-auto bg-gradient-to-br from-muted to-muted/50 rounded-2xl border overflow-hidden grid-pattern">
+          <div className="aspect-[4/3] max-w-sm mx-auto bg-gradient-to-br from-muted to-muted/50 rounded-2xl border overflow-hidden grid-pattern">
             <div className="absolute inset-0 flex items-center justify-center">
-              <div className="text-center">
-                <div className="w-32 h-32 bg-foreground/5 rounded-3xl flex items-center justify-center mx-auto mb-6 border">
-                  <Package className="w-16 h-16 text-muted-foreground" />
-                </div>
-                <p className="text-muted-foreground text-sm">
-                  Визуализация телферов SHA8 и Balkans
-                </p>
-              </div>
+              <video
+                className="w-full h-full object-cover rounded-xl"
+                autoPlay
+                loop
+                muted
+                playsInline
+              >
+                <source src="/videos/video.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
             </div>
           </div>
 
           {/* Floating stats */}
-          <motion.div
+          <TiltCard
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.6 }}
-            className="absolute left-4 top-1/4 hidden lg:block"
+            className="absolute left-[5%] top-[15%] hidden lg:block"
           >
-            <Card className="shadow-lg">
+            <Card className="shadow-xl backdrop-blur-md bg-white/90 border border-white/60">
               <CardContent className="p-4">
-                <p className="text-3xl font-bold">500+</p>
+                <p className="text-3xl font-bold text-primary">500+</p>
                 <p className="text-sm text-muted-foreground">
                   Установленных тельферов
                 </p>
               </CardContent>
             </Card>
-          </motion.div>
+          </TiltCard>
 
-          <motion.div
+          <TiltCard
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.7 }}
-            className="absolute right-4 bottom-1/4 hidden lg:block"
+            className="absolute right-[5%] bottom-[15%] hidden lg:block"
           >
-            <Card className="shadow-lg">
+            <Card className="shadow-xl backdrop-blur-md bg-white/90 border border-white/60 min-w-[200px]">
               <CardContent className="p-4">
-                <p className="text-3xl font-bold">3 года</p>
+                <p className="text-3xl font-bold text-emerald-500">3 года</p>
                 <p className="text-sm text-muted-foreground">Гарантии</p>
               </CardContent>
             </Card>
-          </motion.div>
+          </TiltCard>
         </motion.div>
       </div>
     </section>
+  );
+}
+
+// 3D Tilt Card Component
+function TiltCard({ children, className, ...props }: { children: React.ReactNode; className?: string; [key: string]: any }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+
+  const mouseXSpring = useSpring(x, { stiffness: 500, damping: 100 });
+  const mouseYSpring = useSpring(y, { stiffness: 500, damping: 100 });
+
+  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["17.5deg", "-17.5deg"]);
+  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-17.5deg", "17.5deg"]);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!ref.current) return;
+
+    const rect = ref.current.getBoundingClientRect();
+    const width = rect.width;
+    const height = rect.height;
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+    const xPct = mouseX / width - 0.5;
+    const yPct = mouseY / height - 0.5;
+    x.set(xPct);
+    y.set(yPct);
+  };
+
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+  };
+
+  return (
+    <motion.div
+      ref={ref}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{
+        rotateX,
+        rotateY,
+        transformStyle: "preserve-3d",
+      }}
+      className={className}
+      {...props}
+    >
+      <div style={{ transform: "translateZ(75px)" }}>
+        {children}
+      </div>
+    </motion.div>
   );
 }

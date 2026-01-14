@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight, Wrench, Clock, CheckCircle2, Settings, Hammer } from "lucide-react";
+import { ArrowRight, Clock, CheckCircle2, Settings, Hammer, MousePointerClick } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { fadeInUp, staggerContainer } from "./motion-variants";
@@ -10,7 +10,7 @@ export function ServicesSection() {
   return (
     <section
       id="services"
-      className="py-12 md:py-16 bg-gradient-to-b from-background via-primary/5 to-background relative overflow-hidden"
+      className="pt-6 md:pt-8 pb-12 md:pb-16 bg-gradient-to-b from-background via-primary/5 to-background relative overflow-hidden"
     >
       {/* Decorative elements */}
       <div className="absolute inset-0 pointer-events-none">
@@ -27,13 +27,6 @@ export function ServicesSection() {
         >
           {/* Section Header */}
           <motion.div variants={fadeInUp} className="text-center mb-12">
-            <motion.div
-              variants={fadeInUp}
-              className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium mb-4"
-            >
-              <Wrench className="w-4 h-4" />
-              <span>НАШИ УСЛУГИ</span>
-            </motion.div>
             <motion.h2
               variants={fadeInUp}
               className="text-3xl md:text-5xl font-bold mb-6"
@@ -56,7 +49,7 @@ export function ServicesSection() {
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
             variants={staggerContainer}
-            className="flex flex-col lg:flex-row gap-4 md:gap-6 max-w-7xl mx-auto min-h-[450px] sm:min-h-[500px] md:min-h-[550px] lg:h-[580px] group"
+            className="flex flex-col lg:flex-row gap-4 md:gap-6 max-w-7xl mx-auto min-h-[400px] sm:min-h-[440px] md:min-h-[480px] lg:h-[500px] group"
           >
             {/* Installation Service Panel */}
             <motion.div
@@ -80,23 +73,43 @@ export function ServicesSection() {
                         <Settings className="w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 text-background" />
                       </div>
                     </motion.div>
-                    <div className="flex items-center gap-1 sm:gap-1.5 bg-background/10 backdrop-blur-sm text-background px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-full text-[9px] sm:text-[10px] font-semibold border border-background/20">
-                      <Clock className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
+                    <div className="flex items-center gap-1 sm:gap-1.5 bg-background/10 backdrop-blur-sm text-background rounded-full text-[9px] sm:text-[10px] font-semibold border border-background/20 transition-all duration-500 px-2.5 py-1 sm:px-3 sm:py-1.5 group-hover/install:px-4 group-hover/install:py-2 group-hover/install:text-xs sm:group-hover/install:text-sm">
+                      <Clock className="w-2.5 h-2.5 sm:w-3 sm:h-3 transition-all duration-500 group-hover/install:w-4 group-hover/install:h-4" />
                       <span>3-5 дней</span>
                     </div>
+                  </div>
+
+                  {/* Hover indicator - centered */}
+                  <div className="absolute inset-0 hidden sm:flex items-center justify-center z-20 opacity-100 group-hover/install:opacity-0 transition-opacity duration-500 pointer-events-none">
+                    <motion.div
+                      animate={{
+                        x: [0, 8, -5, 12, -3, 0],
+                        y: [0, -6, 10, -8, 5, 0],
+                      }}
+                      transition={{
+                        duration: 4,
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                      }}
+                      className="flex items-center gap-2 text-background/60 text-xs sm:text-sm mt-12 sm:mt-16"
+                    >
+                      <MousePointerClick className="w-4 h-4" />
+                      <span>Наведи для деталей</span>
+                    </motion.div>
                   </div>
 
                   <div className="flex-grow flex flex-col overflow-hidden">
                     <h3 className="text-xl sm:text-2xl md:text-3xl font-bold mb-3 sm:mb-4 text-background">
                       Монтаж тельферов
                     </h3>
-                    <p className="text-background/80 mb-4 sm:mb-5 md:mb-6 text-sm sm:text-base leading-relaxed line-clamp-3">
+
+                    <p className="text-background/80 mb-4 sm:mb-5 md:mb-6 text-sm sm:text-base leading-relaxed line-clamp-3 opacity-0 max-h-0 group-hover/install:opacity-100 group-hover/install:max-h-40 transition-all duration-700 overflow-hidden">
                       Профессиональная установка электрических талей любой
                       сложности. Наши специалисты обеспечат правильный монтаж с
                       соблюдением всех требований безопасности.
                     </p>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 mb-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 mb-4 opacity-0 max-h-0 group-hover/install:opacity-100 group-hover/install:max-h-[500px] transition-all duration-700 overflow-hidden">
                       {[
                         "Установка на монорельсы",
                         "Подключение электрооборудования",
@@ -114,9 +127,9 @@ export function ServicesSection() {
                     </div>
                   </div>
 
-                  <Button className="w-full bg-background text-foreground hover:bg-background/95 shadow-lg mt-auto font-semibold py-4 sm:py-5">
-                    Заказать монтаж
-                    <ArrowRight className="ml-2 h-4 w-4" />
+                  <Button className="w-full bg-background text-foreground hover:bg-background/95 shadow-lg mt-auto font-semibold py-4 sm:py-5 transition-all duration-300 flex items-center justify-center gap-0.5">
+                    <span>Заказать монтаж</span>
+                    <ArrowRight className="h-4 w-4 shrink-0" />
                   </Button>
                 </CardContent>
               </Card>
@@ -140,23 +153,43 @@ export function ServicesSection() {
                         <Hammer className="w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 text-foreground" />
                       </div>
                     </motion.div>
-                    <div className="flex items-center gap-1 sm:gap-1.5 bg-foreground/5 backdrop-blur-sm text-foreground px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-full text-[9px] sm:text-[10px] font-semibold border border-foreground/10">
-                      <Clock className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
+                    <div className="flex items-center gap-1 sm:gap-1.5 bg-foreground/5 backdrop-blur-sm text-foreground rounded-full text-[9px] sm:text-[10px] font-semibold border border-foreground/10 transition-all duration-500 px-2.5 py-1 sm:px-3 sm:py-1.5 group-hover/demount:px-4 group-hover/demount:py-2 group-hover/demount:text-xs sm:group-hover/demount:text-sm">
+                      <Clock className="w-2.5 h-2.5 sm:w-3 sm:h-3 transition-all duration-500 group-hover/demount:w-4 group-hover/demount:h-4" />
                       <span>1-3 дня</span>
                     </div>
+                  </div>
+
+                  {/* Hover indicator - centered */}
+                  <div className="absolute inset-0 hidden sm:flex items-center justify-center z-20 opacity-100 group-hover/demount:opacity-0 transition-opacity duration-500 pointer-events-none">
+                    <motion.div
+                      animate={{
+                        x: [0, -10, 6, -8, 12, 0],
+                        y: [0, 7, -9, 4, -6, 0],
+                      }}
+                      transition={{
+                        duration: 4.2,
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                      }}
+                      className="flex items-center gap-2 text-foreground/50 text-xs sm:text-sm mt-12 sm:mt-16"
+                    >
+                      <MousePointerClick className="w-4 h-4" />
+                      <span>Наведи для деталей</span>
+                    </motion.div>
                   </div>
 
                   <div className="flex-grow flex flex-col overflow-hidden">
                     <h3 className="text-xl sm:text-2xl md:text-3xl font-bold mb-3 sm:mb-4 text-foreground">
                       Демонтаж тельферов
                     </h3>
-                    <p className="text-muted-foreground mb-4 sm:mb-5 md:mb-6 text-sm sm:text-base leading-relaxed line-clamp-3">
+
+                    <p className="text-muted-foreground mb-4 sm:mb-5 md:mb-6 text-sm sm:text-base leading-relaxed line-clamp-3 opacity-0 max-h-0 group-hover/demount:opacity-100 group-hover/demount:max-h-40 transition-all duration-700 overflow-hidden">
                       Аккуратный демонтаж оборудования с сохранением всех
                       элементов. Профессиональная работа с минимальным временем
                       простоя.
                     </p>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 mb-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 mb-4 opacity-0 max-h-0 group-hover/demount:opacity-100 group-hover/demount:max-h-[500px] transition-all duration-700 overflow-hidden">
                       {[
                         "Отключение и снятие",
                         "Демонтаж монорельсов",
@@ -174,9 +207,9 @@ export function ServicesSection() {
                     </div>
                   </div>
 
-                  <Button className="w-full bg-foreground text-background hover:bg-foreground/90 shadow-lg mt-auto font-semibold py-4 sm:py-5">
-                    Заказать демонтаж
-                    <ArrowRight className="ml-2 h-4 w-4" />
+                  <Button className="w-full bg-foreground text-background hover:bg-foreground/90 shadow-lg mt-auto font-semibold py-4 sm:py-5 transition-all duration-300 flex items-center justify-center gap-0.5">
+                    <span>Заказать демонтаж</span>
+                    <ArrowRight className="h-4 w-4 shrink-0" />
                   </Button>
                 </CardContent>
               </Card>

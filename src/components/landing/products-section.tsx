@@ -8,7 +8,7 @@ import { fadeInUp, staggerContainer } from "./motion-variants";
 
 export function ProductsSection() {
   return (
-    <section id="products" className="py-12 md:py-16">
+    <section id="products" className="pt-12 md:pt-16 pb-6 md:pb-8">
       <div className="container mx-auto px-4">
         <motion.div
           initial="hidden"
