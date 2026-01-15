@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Logo } from "./logo";
 
 export function Footer() {
   return (
@@ -6,13 +7,8 @@ export function Footer() {
       <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="space-y-4">
-            <Link href="/" className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-foreground rounded-lg flex items-center justify-center">
-                <span className="text-background font-bold text-sm">T</span>
-              </div>
-              <span className="font-semibold text-lg tracking-tight">
-                Telfera<span className="text-muted-foreground">.kz</span>
-              </span>
+            <Link href="/">
+              <Logo width={120} height={120} showText={false} />
             </Link>
             <p className="text-sm text-muted-foreground">
               Профессиональные телферы для вашего производства. Качество и

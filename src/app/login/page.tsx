@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Loader2 } from "lucide-react";
+import { Logo } from "@/components/logo";
 
 export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
@@ -67,10 +68,8 @@ export default function LoginPage() {
     <div className="min-h-screen flex items-center justify-center px-4 bg-muted/30 grid-pattern">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <Link href="/" className="inline-flex items-center gap-2 mb-4">
-            <div className="w-10 h-10 bg-foreground rounded-xl flex items-center justify-center">
-              <span className="text-background font-bold">T</span>
-            </div>
+          <Link href="/" className="inline-flex justify-center mb-4">
+            <Logo width={120} height={120} showText={false} />
           </Link>
           <h1 className="text-2xl font-bold">Войти в систему</h1>
           <p className="text-muted-foreground mt-2">

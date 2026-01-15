@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "./ui/button";
+import { Logo } from "./logo";
 
 interface SidebarProps {
   role: "ADMIN" | "MANAGER";
@@ -51,13 +52,8 @@ export function DashboardSidebar({ role }: SidebarProps) {
   return (
     <aside className="w-64 bg-card border-r min-h-screen flex flex-col">
       <div className="p-4 border-b">
-        <Link href="/" className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-foreground rounded-lg flex items-center justify-center">
-            <span className="text-background font-bold text-sm">T</span>
-          </div>
-          <span className="font-semibold tracking-tight">
-            Telfera<span className="text-muted-foreground">.kz</span>
-          </span>
+        <Link href="/">
+          <Logo width={80} height={80} showText={false} />
         </Link>
       </div>
 
