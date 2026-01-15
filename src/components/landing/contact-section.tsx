@@ -50,10 +50,10 @@ export function ContactSection() {
                 <div>
                   <p className="font-medium">Телефон</p>
                   <a
-                    href="tel:+77001234567"
+                    href="tel:+77015320626"
                     className="text-muted-foreground hover:text-foreground transition-colors"
                   >
-                    +7 (700) 123-45-67
+                    +7 (701) 532-06-26
                   </a>
                 </div>
               </div>

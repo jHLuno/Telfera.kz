@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
+import { ContactSection } from "@/components/landing";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -232,7 +233,7 @@ export default function BalkansCatalogPage() {
                               id="name"
                               placeholder="Ваше имя"
                               {...register("name")}
-                              className={errors.name ? "border-destructive" : ""}
+                              className={errors.name ? "border-destructive" : "focus-visible:ring-emerald-500"}
                             />
                             {errors.name && (
                               <p className="text-xs text-destructive">{errors.name.message}</p>
@@ -245,7 +246,7 @@ export default function BalkansCatalogPage() {
                               placeholder="+7 (___) ___-__-__"
                               value={phoneValue || ""}
                               onChange={handlePhoneChange}
-                              className={errors.phone ? "border-destructive" : ""}
+                              className={errors.phone ? "border-destructive" : "focus-visible:ring-emerald-500"}
                             />
                             {errors.phone && (
                               <p className="text-xs text-destructive">{errors.phone.message}</p>
@@ -257,7 +258,7 @@ export default function BalkansCatalogPage() {
                               onValueChange={(value) => setValue("capacity", value)}
                             >
                               <SelectTrigger
-                                className={errors.capacity ? "border-destructive" : ""}
+                                className={errors.capacity ? "border-destructive" : "focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500 focus:ring-offset-0 data-[state=open]:border-emerald-500 data-[state=open]:ring-emerald-500"}
                               >
                                 <SelectValue placeholder="Выберите диапазон грузоподъемности" />
                               </SelectTrigger>
@@ -275,7 +276,7 @@ export default function BalkansCatalogPage() {
                           <DialogFooter>
                             <Button
                               type="submit"
-                              className="w-full bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 shimmer relative overflow-hidden"
+                              className="w-full bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white border border-emerald-500/20 shadow-lg hover:shadow-xl transition-all shimmer relative overflow-hidden"
                               disabled={isLoading}
                             >
                               {isLoading ? (
@@ -529,6 +530,7 @@ export default function BalkansCatalogPage() {
             </div>
           </div>
         </div>
+        <ContactSection />
       </main>
       <Footer />
     </>

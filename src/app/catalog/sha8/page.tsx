@@ -1,5 +1,6 @@
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
+import { ContactSection } from "@/components/landing";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -85,6 +86,7 @@ export default function SHA8CatalogPage() {
             </div>
           </div>
         </div>
+        <ContactSection />
       </main>
       <Footer />
     </>
