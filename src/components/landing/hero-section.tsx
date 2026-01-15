@@ -5,9 +5,64 @@ import { ArrowRight, Package } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import Link from "next/link";
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 
 export function HeroSection() {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (video) {
+      // Убеждаемся, что видео загружается и проигрывается полностью
+      const handleCanPlay = () => {
+        video.play().catch(() => {});
+      };
+      
+      const handleTimeUpdate = () => {
+        // Если видео останавливается, продолжаем воспроизведение
+        if (video.paused && !video.ended) {
+          video.play().catch(() => {});
+        }
+      };
+
+      const handlePause = () => {
+        // Если видео паузится не по окончанию, продолжаем воспроизведение
+        if (!video.ended) {
+          video.play().catch(() => {});
+        }
+      };
+
+      const handleEnded = () => {
+        // Видео закончилось - это нормально
+        console.log("Video ended");
+      };
+
+      // Принудительно загружаем видео
+      video.load();
+
+      video.addEventListener("canplay", handleCanPlay);
+      video.addEventListener("canplaythrough", handleCanPlay);
+      video.addEventListener("loadeddata", handleCanPlay);
+      video.addEventListener("timeupdate", handleTimeUpdate);
+      video.addEventListener("pause", handlePause);
+      video.addEventListener("ended", handleEnded);
+
+      // Пытаемся начать воспроизведение после небольшой задержки
+      const playTimeout = setTimeout(() => {
+        video.play().catch(() => {});
+      }, 100);
+
+      return () => {
+        clearTimeout(playTimeout);
+        video.removeEventListener("canplay", handleCanPlay);
+        video.removeEventListener("canplaythrough", handleCanPlay);
+        video.removeEventListener("loadeddata", handleCanPlay);
+        video.removeEventListener("timeupdate", handleTimeUpdate);
+        video.removeEventListener("pause", handlePause);
+        video.removeEventListener("ended", handleEnded);
+      };
+    }
+  }, []);
   return (
     <section className="pt-20 pb-12 md:pt-24 md:pb-16 overflow-hidden">
       <div className="container mx-auto px-4">
@@ -40,7 +95,7 @@ export function HeroSection() {
             className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto"
           >
             Профессиональные электрические тали SHA8 и Balkans. Надежность,
-            проверенная временем. Гарантия до 3 лет.
+            проверенная временем. Гарантия 12 месяцев.
           </motion.p>
 
           <motion.div
@@ -80,11 +135,13 @@ export function HeroSection() {
           <div className="aspect-[4/3] max-w-sm mx-auto bg-gradient-to-br from-muted to-muted/50 rounded-2xl border overflow-hidden grid-pattern">
             <div className="absolute inset-0 flex items-center justify-center">
               <video
+                ref={videoRef}
                 className="w-full h-full object-cover rounded-xl"
                 autoPlay
                 loop
                 muted
                 playsInline
+                preload="auto"
               >
                 <source src="/videos/video.mp4" type="video/mp4" />
                 Your browser does not support the video tag.
@@ -117,8 +174,8 @@ export function HeroSection() {
           >
             <Card className="shadow-xl backdrop-blur-md bg-white/90 border border-white/60 min-w-[200px]">
               <CardContent className="p-4">
-                <p className="text-3xl font-bold text-emerald-500">3 года</p>
-                <p className="text-sm text-muted-foreground">Гарантии</p>
+                <p className="text-3xl font-bold text-emerald-500">12 месяцев</p>
+                <p className="text-sm text-muted-foreground">Гарантия</p>
               </CardContent>
             </Card>
           </TiltCard>
