@@ -126,7 +126,12 @@ export function LeadForm() {
         )}
       </div>
 
-      <Button type="submit" className="w-full" size="lg" disabled={isLoading}>
+      <Button 
+        type="submit" 
+        className="w-full bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 shimmer relative overflow-hidden" 
+        size="lg" 
+        disabled={isLoading}
+      >
         {isLoading ? (
           <>
             <Loader2 className="w-4 h-4 animate-spin" />

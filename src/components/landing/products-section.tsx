@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { fadeInUp, staggerContainer } from "./motion-variants";
 import Image from "next/image";
+import Link from "next/link";
 
 export function ProductsSection() {
   return (
@@ -58,12 +59,12 @@ export function ProductsSection() {
                 <p className="text-muted-foreground mb-4">
                   Профессиональная электрическая таль китайского производства.
                   Идеально подходит для средних и тяжелых промышленных задач.
-                  Грузоподъемность от 3.2 до 16 тонн.
+                  Грузоподъемность от 1 до 12.5 тонн.
                 </p>
 
                 <div className="grid grid-cols-2 gap-4 mb-4">
                   <div className="bg-muted rounded-xl p-4">
-                    <p className="text-2xl font-bold">3.2-16т</p>
+                    <p className="text-2xl font-bold">1-12.5т</p>
                     <p className="text-sm text-muted-foreground">
                       Грузоподъемность
                     </p>
@@ -87,11 +88,14 @@ export function ProductsSection() {
                 </div>
 
                 <Button
-                  className="w-full bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 shadow-md hover:shadow-lg transition-all"
+                  className="w-full bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 shadow-md hover:shadow-lg transition-all shimmer relative overflow-hidden"
                   size="lg"
+                  asChild
                 >
-                  Подробнее о SHA8
-                  <ChevronRight className="ml-2 h-4 w-4" />
+                  <Link href="/catalog/sha8">
+                    Подробнее о SHA8
+                    <ChevronRight className="ml-2 h-4 w-4" />
+                  </Link>
                 </Button>
               </CardContent>
             </Card>
@@ -137,9 +141,14 @@ export function ProductsSection() {
                   />
                 </div>
 
-                <Button className="w-full bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white border border-emerald-500/20 shadow-md hover:shadow-lg transition-all">
-                  Подробнее
-                  <ChevronRight className="ml-2 h-4 w-4" />
+                <Button 
+                  className="w-full bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white border border-emerald-500/20 shadow-md hover:shadow-lg transition-all shimmer relative overflow-hidden"
+                  asChild
+                >
+                  <Link href="/catalog/balkans">
+                    Подробнее
+                    <ChevronRight className="ml-2 h-4 w-4" />
+                  </Link>
                 </Button>
               </CardContent>
             </Card>

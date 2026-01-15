@@ -47,7 +47,7 @@ export function Header() {
 
           <div className="hidden md:flex items-center gap-4">
             <Button size="sm" asChild>
-              <Link href="#contact">Заказать звонок</Link>
+              <a href="tel:+77015320626">Позвонить нам</a>
             </Button>
           </div>
 
@@ -93,7 +93,7 @@ export function Header() {
               </Link>
               <div className="flex gap-2 pt-2">
                 <Button size="sm" asChild>
-                  <Link href="#contact">Заказать звонок</Link>
+                  <a href="tel:+77015320626">Позвонить нам</a>
                 </Button>
               </div>
             </div>

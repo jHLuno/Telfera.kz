@@ -107,7 +107,7 @@ export function HeroSection() {
             <Button
               size="lg"
               asChild
-              className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 shadow-lg hover:shadow-xl transition-all"
+              className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 shadow-lg hover:shadow-xl transition-all shimmer relative overflow-hidden"
             >
               <Link href="#contact">
                 Получить консультацию
@@ -118,7 +118,7 @@ export function HeroSection() {
               size="lg"
               variant="outline"
               asChild
-              className="border-2 hover:bg-primary/5 hover:border-primary/50 transition-all hover:text-primary"
+              className="border-2 hover:bg-emerald-500/5 hover:border-emerald-500/50 transition-all hover:text-emerald-500"
             >
               <Link href="#products">Смотреть каталог</Link>
             </Button>

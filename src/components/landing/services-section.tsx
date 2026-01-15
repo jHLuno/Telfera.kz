@@ -5,6 +5,7 @@ import { ArrowRight, Clock, CheckCircle2, Settings, Hammer, MousePointerClick } 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { fadeInUp, staggerContainer } from "./motion-variants";
+import Link from "next/link";
 
 export function ServicesSection() {
   return (
@@ -127,9 +128,14 @@ export function ServicesSection() {
                     </div>
                   </div>
 
-                  <Button className="w-full bg-background text-foreground hover:bg-background/95 shadow-lg mt-auto font-semibold py-4 sm:py-5 transition-all duration-300 flex items-center justify-center gap-0.5">
-                    <span>Заказать монтаж</span>
-                    <ArrowRight className="h-4 w-4 shrink-0" />
+                  <Button 
+                    className="w-full bg-background text-foreground hover:bg-background/95 shadow-lg mt-auto font-semibold py-4 sm:py-5 transition-all duration-300 flex items-center justify-center gap-0.5"
+                    asChild
+                  >
+                    <Link href="#contact">
+                      <span>Заказать монтаж</span>
+                      <ArrowRight className="h-4 w-4 shrink-0" />
+                    </Link>
                   </Button>
                 </CardContent>
               </Card>
@@ -207,9 +213,14 @@ export function ServicesSection() {
                     </div>
                   </div>
 
-                  <Button className="w-full bg-foreground text-background hover:bg-foreground/90 shadow-lg mt-auto font-semibold py-4 sm:py-5 transition-all duration-300 flex items-center justify-center gap-0.5">
-                    <span>Заказать демонтаж</span>
-                    <ArrowRight className="h-4 w-4 shrink-0" />
+                  <Button 
+                    className="w-full bg-foreground text-background hover:bg-foreground/90 shadow-lg mt-auto font-semibold py-4 sm:py-5 transition-all duration-300 flex items-center justify-center gap-0.5"
+                    asChild
+                  >
+                    <Link href="#contact">
+                      <span>Заказать демонтаж</span>
+                      <ArrowRight className="h-4 w-4 shrink-0" />
+                    </Link>
                   </Button>
                 </CardContent>
               </Card>
