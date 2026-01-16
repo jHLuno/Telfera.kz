@@ -24,7 +24,7 @@ import {
 } from "@/components/ui/select";
 import { createUser } from "@/actions/users";
 import { Loader2, Plus } from "lucide-react";
-import { getRoleName } from "@/lib/utils";
+import { USER_ROLES, USER_ROLE_LABELS, type UserRole } from "@/lib/constants";
 
 const userSchema = z.object({
   name: z.string().min(2, "Введите имя"),
@@ -35,7 +35,7 @@ const userSchema = z.object({
     .regex(/[A-Z]/, "Должна быть хотя бы одна заглавная буква")
     .regex(/[a-z]/, "Должна быть хотя бы одна строчная буква")
     .regex(/[0-9]/, "Должна быть хотя бы одна цифра"),
-  role: z.enum(["ADMIN", "MANAGER"]),
+  role: z.enum([USER_ROLES.ADMIN, USER_ROLES.MANAGER]),
 });
 
 type UserFormData = z.infer<typeof userSchema>;
@@ -146,17 +146,21 @@ export function AddUserDialog() {
           <div className="space-y-2">
             <Label htmlFor="role">Роль</Label>
             <Select
-              defaultValue="MANAGER"
+              defaultValue={USER_ROLES.MANAGER}
               onValueChange={(value) =>
-                setValue("role", value as "ADMIN" | "MANAGER")
+                setValue("role", value as UserRole)
               }
             >
               <SelectTrigger>
                 <SelectValue placeholder="Выберите роль" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="MANAGER">{getRoleName("MANAGER")}</SelectItem>
-                <SelectItem value="ADMIN">{getRoleName("ADMIN")}</SelectItem>
+                <SelectItem value={USER_ROLES.MANAGER}>
+                  {USER_ROLE_LABELS.MANAGER}
+                </SelectItem>
+                <SelectItem value={USER_ROLES.ADMIN}>
+                  {USER_ROLE_LABELS.ADMIN}
+                </SelectItem>
               </SelectContent>
             </Select>
           </div>

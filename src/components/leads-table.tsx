@@ -28,31 +28,13 @@ import {
 } from "@/components/ui/dialog";
 import { updateLeadStatus, deleteLead } from "@/actions/leads";
 import { formatDate, formatPhone } from "@/lib/utils";
+import { 
+  LEAD_STATUS_LABELS, 
+  LEAD_STATUS_VARIANTS,
+  type LeadStatus 
+} from "@/lib/constants";
 import { Eye, Trash2, Phone, Loader2 } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
-
-const statusLabels: Record<string, string> = {
-  NEW: "Новый",
-  CONTACTED: "Связались",
-  QUALIFIED: "Квалифицирован",
-  PROPOSAL: "Предложение",
-  NEGOTIATION: "Переговоры",
-  WON: "Выиграно",
-  LOST: "Потеряно",
-};
-
-const statusVariants: Record<
-  string,
-  "default" | "secondary" | "success" | "warning" | "destructive" | "info"
-> = {
-  NEW: "info",
-  CONTACTED: "secondary",
-  QUALIFIED: "warning",
-  PROPOSAL: "warning",
-  NEGOTIATION: "warning",
-  WON: "success",
-  LOST: "destructive",
-};
 
 interface LeadsTableProps {
   leads: Lead[];
@@ -82,7 +64,7 @@ export function LeadsTable({ leads, isAdmin = false }: LeadsTableProps) {
       toast({
         variant: "success",
         title: "Статус обновлён",
-        description: `Статус изменён на "${statusLabels[status]}"`,
+        description: `Статус изменён на "${LEAD_STATUS_LABELS[status as LeadStatus]}"`,
       });
     } catch (error) {
       toast({
@@ -152,14 +134,14 @@ export function LeadsTable({ leads, isAdmin = false }: LeadsTableProps) {
                         <Loader2 className="w-4 h-4 animate-spin" />
                       ) : (
                         <SelectValue>
-                          <Badge variant={statusVariants[lead.status]}>
-                            {statusLabels[lead.status]}
+                          <Badge variant={LEAD_STATUS_VARIANTS[lead.status as LeadStatus]}>
+                            {LEAD_STATUS_LABELS[lead.status as LeadStatus]}
                           </Badge>
                         </SelectValue>
                       )}
                     </SelectTrigger>
                     <SelectContent>
-                      {Object.entries(statusLabels).map(([value, label]) => (
+                      {Object.entries(LEAD_STATUS_LABELS).map(([value, label]) => (
                         <SelectItem key={value} value={value}>
                           {label}
                         </SelectItem>
@@ -218,8 +200,8 @@ export function LeadsTable({ leads, isAdmin = false }: LeadsTableProps) {
                 </div>
                 <div>
                   <p className="font-semibold">{selectedLead.name}</p>
-                  <Badge variant={statusVariants[selectedLead.status]}>
-                    {statusLabels[selectedLead.status]}
+                  <Badge variant={LEAD_STATUS_VARIANTS[selectedLead.status as LeadStatus]}>
+                    {LEAD_STATUS_LABELS[selectedLead.status as LeadStatus]}
                   </Badge>
                 </div>
               </div>

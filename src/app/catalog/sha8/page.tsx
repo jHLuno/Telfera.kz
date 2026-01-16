@@ -20,7 +20,7 @@ export default function SHA8CatalogPage() {
   return (
     <>
       <Header />
-      <main className="min-h-screen pt-20">
+      <main className="min-h-screen pt-10">
         <div className="container mx-auto px-4 py-12">
           <Link 
             href="/#products" 
@@ -32,7 +32,7 @@ export default function SHA8CatalogPage() {
 
           <div className="max-w-6xl mx-auto">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-              {/* Image Section */}
+              {/* Image */}
               <div className="relative">
                 <div className="aspect-square bg-gradient-to-br from-muted to-muted/50 rounded-2xl border overflow-hidden relative">
                   <Image
@@ -41,6 +41,7 @@ export default function SHA8CatalogPage() {
                     fill
                     className="object-contain p-8"
                     sizes="(max-width: 1024px) 100vw, 50vw"
+                    priority
                   />
                 </div>
               </div>

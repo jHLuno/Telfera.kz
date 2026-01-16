@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import { m } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
 import { Phone, Mail, MapPin } from "lucide-react";
+import { CONTACT_INFO } from "@/lib/constants";
 
 // Dynamic import for LeadForm (heavy component with form logic)
 const LeadForm = dynamic(
@@ -50,10 +51,10 @@ export function ContactSection() {
                 <div>
                   <p className="font-medium">Телефон</p>
                   <a
-                    href="tel:+77015320626"
+                    href={`tel:${CONTACT_INFO.phone}`}
                     className="text-muted-foreground hover:text-foreground transition-colors"
                   >
-                    +7 (701) 532-06-26
+                    {CONTACT_INFO.phoneFormatted}
                   </a>
                 </div>
               </div>
@@ -65,10 +66,10 @@ export function ContactSection() {
                 <div>
                   <p className="font-medium">Email</p>
                   <a
-                    href="mailto:info@telfera.kz"
+                    href={`mailto:${CONTACT_INFO.email}`}
                     className="text-muted-foreground hover:text-foreground transition-colors"
                   >
-                    info@telfera.kz
+                    {CONTACT_INFO.email}
                   </a>
                 </div>
               </div>
@@ -79,7 +80,7 @@ export function ContactSection() {
                 </div>
                 <div>
                   <p className="font-medium">Адрес</p>
-                  <p className="text-muted-foreground">г. Алматы, Казахстан</p>
+                  <p className="text-muted-foreground">{CONTACT_INFO.city}</p>
                 </div>
               </div>
             </div>

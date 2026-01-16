@@ -4,8 +4,9 @@ import Link from "next/link";
 import { m } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
-import { Button } from "./ui/button";
-import { Logo } from "./logo";
+import { Button } from "@/components/ui/button";
+import { Logo } from "@/components/logo";
+import { CONTACT_INFO } from "@/lib/constants";
 
 export function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -43,7 +44,7 @@ export function Header() {
 
           <div className="hidden md:flex items-center gap-4">
             <Button size="sm" asChild>
-              <a href="tel:+77015320626">Позвонить нам</a>
+              <a href={`tel:${CONTACT_INFO.phone}`}>Позвонить нам</a>
             </Button>
           </div>
 
@@ -89,7 +90,7 @@ export function Header() {
               </Link>
               <div className="flex gap-2 pt-2">
                 <Button size="sm" asChild>
-                  <a href="tel:+77015320626">Позвонить нам</a>
+                  <a href={`tel:${CONTACT_INFO.phone}`}>Позвонить нам</a>
                 </Button>
               </div>
             </div>

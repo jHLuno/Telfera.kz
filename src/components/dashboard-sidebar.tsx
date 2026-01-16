@@ -11,16 +11,17 @@ import {
   ClipboardList,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Button } from "./ui/button";
-import { Logo } from "./logo";
+import { Button } from "@/components/ui/button";
+import { Logo } from "@/components/logo";
+import { USER_ROLES, type UserRole } from "@/lib/constants";
 
 interface SidebarProps {
-  role: "ADMIN" | "MANAGER";
+  role: UserRole;
 }
 
 export function DashboardSidebar({ role }: SidebarProps) {
   const pathname = usePathname();
-  const basePath = role === "ADMIN" ? "/admin" : "/manager";
+  const basePath = role === USER_ROLES.ADMIN ? "/admin" : "/manager";
 
   const navigation = [
     {
@@ -38,7 +39,7 @@ export function DashboardSidebar({ role }: SidebarProps) {
       href: `${basePath}/settings`,
       icon: Settings,
     },
-    ...(role === "ADMIN"
+    ...(role === USER_ROLES.ADMIN
       ? [
           {
             name: "Пользователи",

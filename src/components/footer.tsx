@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { Logo } from "./logo";
+import { Logo } from "@/components/logo";
+import { CONTACT_INFO } from "@/lib/constants";
 
 export function Footer() {
   return (
@@ -62,16 +63,16 @@ export function Footer() {
             <h4 className="font-semibold mb-4">Контакты</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li>
-                <a href="tel:+77015320626" className="hover:text-foreground transition-colors">
-                  +7 (701) 532-06-26
+                <a href={`tel:${CONTACT_INFO.phone}`} className="hover:text-foreground transition-colors">
+                  {CONTACT_INFO.phoneFormatted}
                 </a>
               </li>
               <li>
-                <a href="mailto:info@telfera.kz" className="hover:text-foreground transition-colors">
-                  info@telfera.kz
+                <a href={`mailto:${CONTACT_INFO.email}`} className="hover:text-foreground transition-colors">
+                  {CONTACT_INFO.email}
                 </a>
               </li>
-              <li>г. Алматы, Казахстан</li>
+              <li>{CONTACT_INFO.city}</li>
             </ul>
           </div>
         </div>

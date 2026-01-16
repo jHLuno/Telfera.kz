@@ -5,6 +5,7 @@ import { z } from "zod";
 import { revalidatePath } from "next/cache";
 import bcrypt from "bcryptjs";
 import { requireAdmin, requireAuth } from "@/lib/auth-helpers";
+import { USER_ROLES } from "@/lib/constants";
 
 // Password: 8+ chars, at least 1 uppercase, 1 lowercase, 1 number
 const passwordSchema = z
@@ -27,7 +28,7 @@ const userSchema = z.object({
     .max(255, "Максимум 255 символов")
     .transform((val) => val.toLowerCase().trim()),
   password: passwordSchema,
-  role: z.enum(["ADMIN", "MANAGER"]),
+  role: z.enum([USER_ROLES.ADMIN, USER_ROLES.MANAGER]),
 });
 
 const updateProfileSchema = z.object({

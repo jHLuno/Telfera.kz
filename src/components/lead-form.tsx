@@ -4,22 +4,30 @@ import { useState, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Button } from "./ui/button";
-import { Input } from "./ui/input";
-import { Label } from "./ui/label";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "./ui/select";
+} from "@/components/ui/select";
 import { submitLead } from "@/actions/leads";
 import { CheckCircle, Loader2 } from "lucide-react";
+import { formatPhoneMask, cleanPhoneForDb } from "@/lib/utils";
+import { PRODUCT_LABELS } from "@/lib/constants";
 
 const leadSchema = z.object({
   name: z.string().min(2, "Введите ваше имя"),
-  phone: z.string().min(10, "Введите корректный номер телефона"),
+  phone: z.string().min(1, "Введите номер телефона").refine(
+    (val) => {
+      const cleaned = val.replace(/\D/g, "");
+      return cleaned.length === 11 && cleaned.startsWith("7");
+    },
+    "Введите полный номер телефона"
+  ),
   product: z.string().min(1, "Выберите интересующий продукт"),
 });
 
@@ -29,6 +37,7 @@ export function LeadForm() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<string>("");
+  const [phoneValue, setPhoneValue] = useState("+7");
   const selectKey = useRef(0);
 
   const {
@@ -39,6 +48,9 @@ export function LeadForm() {
     reset,
   } = useForm<LeadFormData>({
     resolver: zodResolver(leadSchema),
+    defaultValues: {
+      phone: "+7",
+    },
   });
 
   const [error, setError] = useState<string | null>(null);
@@ -48,15 +60,26 @@ export function LeadForm() {
     setValue("product", value);
   };
 
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const formatted = formatPhoneMask(e.target.value);
+    setPhoneValue(formatted);
+    setValue("phone", formatted, { shouldValidate: true });
+  };
+
   const onSubmit = async (data: LeadFormData) => {
     setIsLoading(true);
     setError(null);
     try {
-      await submitLead(data);
+      const phoneForDb = cleanPhoneForDb(data.phone);
+      await submitLead({
+        ...data,
+        phone: phoneForDb,
+      });
       setIsSubmitted(true);
-      reset();
+      reset({ phone: "+7" });
+      setPhoneValue("+7");
       setSelectedProduct("");
-      selectKey.current += 1; // Force Select to re-render with empty state
+      selectKey.current += 1;
       setTimeout(() => setIsSubmitted(false), 5000);
     } catch (err) {
       setError(
@@ -109,7 +132,8 @@ export function LeadForm() {
           <Input
             id="phone"
             placeholder="+7 (___) ___-__-__"
-            {...register("phone")}
+            value={phoneValue}
+            onChange={handlePhoneChange}
             className={errors.phone ? "border-destructive" : ""}
           />
           {errors.phone && (
@@ -129,9 +153,11 @@ export function LeadForm() {
             <SelectValue placeholder="Выберите продукт" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="SHA8">Тельфер SHA8</SelectItem>
-            <SelectItem value="Balkans">Тельфер Balkans</SelectItem>
-            <SelectItem value="Other">Другое</SelectItem>
+            {Object.entries(PRODUCT_LABELS).map(([value, label]) => (
+              <SelectItem key={value} value={value}>
+                {label}
+              </SelectItem>
+            ))}
           </SelectContent>
         </Select>
         {errors.product && (
