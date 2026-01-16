@@ -3,7 +3,7 @@ import Credentials from "next-auth/providers/credentials";
 import { prisma } from "./prisma";
 import bcrypt from "bcryptjs";
 import { z } from "zod";
-import { checkRateLimit, rateLimits } from "./rate-limit";
+import { checkRateLimit, rateLimits, getClientIp } from "./rate-limit";
 import { logger } from "./logger";
 import { SECURITY_CONFIG } from "./constants";
 
@@ -67,7 +67,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
       },
-      async authorize(credentials) {
+      async authorize(credentials, request) {
         try {
           const parsed = loginSchema.safeParse(credentials);
           if (!parsed.success) {
@@ -77,9 +77,20 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
           const { email, password } = parsed.data;
 
-          // Rate limiting by email
-          const rateLimit = checkRateLimit(`login:${email}`, rateLimits.login);
-          if (!rateLimit.success) {
+          // Get client IP for rate limiting
+          const ip = getClientIp(request.headers);
+
+          // Rate limiting by IP (prevents distributed attacks across emails)
+          const ipRateLimit = checkRateLimit(`login:ip:${ip}`, rateLimits.login);
+          if (!ipRateLimit.success) {
+            logger.debug("AUTH", `IP rate limit exceeded: ${ip}`);
+            return null;
+          }
+
+          // Rate limiting by email (prevents targeted attacks on specific account)
+          const emailRateLimit = checkRateLimit(`login:email:${email}`, rateLimits.login);
+          if (!emailRateLimit.success) {
+            logger.debug("AUTH", `Email rate limit exceeded: ${email}`);
             return null;
           }
 

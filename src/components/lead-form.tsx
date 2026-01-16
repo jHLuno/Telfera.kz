@@ -17,7 +17,7 @@ import {
 import { submitLead } from "@/actions/leads";
 import { CheckCircle, Loader2 } from "lucide-react";
 import { formatPhoneMask, cleanPhoneForDb } from "@/lib/utils";
-import { PRODUCT_LABELS } from "@/lib/constants";
+import { PRODUCT_LABELS, PRODUCTS } from "@/lib/constants";
 
 const leadSchema = z.object({
   name: z.string().min(2, "Введите ваше имя"),
@@ -28,7 +28,9 @@ const leadSchema = z.object({
     },
     "Введите полный номер телефона"
   ),
-  product: z.string().min(1, "Выберите интересующий продукт"),
+  product: z.enum([PRODUCTS.SHA8, PRODUCTS.BALKANS, PRODUCTS.OTHER], {
+    errorMap: () => ({ message: "Выберите интересующий продукт" }),
+  }),
 });
 
 type LeadFormData = z.infer<typeof leadSchema>;

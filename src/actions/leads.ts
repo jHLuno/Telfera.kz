@@ -6,7 +6,7 @@ import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 import { requireManager, requireAdmin } from "@/lib/auth-helpers";
 import { checkRateLimit, rateLimits, getClientIp } from "@/lib/rate-limit";
-import { LEAD_STATUSES } from "@/lib/constants";
+import { LEAD_STATUSES, PRODUCTS } from "@/lib/constants";
 
 // Phone validation: allows +7, 8, or raw digits, 10-15 chars
 const phoneRegex = /^\+?[0-9]{10,15}$/;
@@ -23,10 +23,9 @@ const leadSchema = z.object({
     .max(20, "Максимум 20 символов")
     .transform((val) => val.replace(/[\s\-\(\)]/g, "")) // Remove spaces, dashes, parentheses
     .refine((val) => phoneRegex.test(val), "Некорректный формат телефона"),
-  product: z
-    .string()
-    .min(1, "Выберите интересующий продукт")
-    .max(100, "Максимум 100 символов"),
+  product: z.enum([PRODUCTS.SHA8, PRODUCTS.BALKANS, PRODUCTS.OTHER], {
+    errorMap: () => ({ message: "Выберите интересующий продукт" }),
+  }),
 });
 
 // Use centralized status constants

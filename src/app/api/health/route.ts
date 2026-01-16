@@ -50,8 +50,11 @@ export async function GET() {
   } catch (error) {
     health.status = "unhealthy";
     health.checks.database.status = "down";
-    health.checks.database.error = 
-      error instanceof Error ? error.message : "Unknown database error";
+    // Only expose error details in development to prevent information leakage
+    if (process.env.NODE_ENV === "development") {
+      health.checks.database.error = 
+        error instanceof Error ? error.message : "Unknown database error";
+    }
     
     return NextResponse.json(health, { status: 503 });
   }
