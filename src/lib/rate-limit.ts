@@ -1,8 +1,20 @@
 /**
  * Simple in-memory rate limiter
  * 
- * NOTE: For production with multiple instances, use @upstash/ratelimit with Redis
- * This implementation works for single-instance deployments
+ * ⚠️ LIMITATIONS:
+ * - Data is lost on server restart/redeploy
+ * - Not shared across multiple server instances (horizontal scaling)
+ * - Memory grows with unique identifiers (IPs, emails)
+ * 
+ * For production with multiple instances, consider:
+ * - @upstash/ratelimit with Redis (serverless-friendly)
+ * - Redis with ioredis
+ * - PostgreSQL-based rate limiting
+ * 
+ * This implementation is suitable for:
+ * - Single-instance deployments
+ * - Development/staging environments
+ * - Low-traffic applications
  */
 
 interface RateLimitEntry {
@@ -10,17 +22,31 @@ interface RateLimitEntry {
   resetTime: number;
 }
 
+// Using WeakRef-friendly Map for better memory management
 const rateLimitStore = new Map<string, RateLimitEntry>();
+
+// Track store size for monitoring
+let lastCleanupSize = 0;
 
 // Clean up expired entries every 5 minutes
 if (typeof setInterval !== "undefined") {
   setInterval(() => {
     const now = Date.now();
+    let cleanedCount = 0;
+    
     for (const [key, entry] of rateLimitStore.entries()) {
       if (now > entry.resetTime) {
         rateLimitStore.delete(key);
+        cleanedCount++;
       }
     }
+    
+    // Log if store is growing significantly (potential memory issue)
+    const currentSize = rateLimitStore.size;
+    if (currentSize > 10000 && currentSize > lastCleanupSize * 1.5) {
+      console.warn(`[RateLimit] Store size: ${currentSize} entries. Consider using Redis.`);
+    }
+    lastCleanupSize = currentSize;
   }, 5 * 60 * 1000);
 }
 

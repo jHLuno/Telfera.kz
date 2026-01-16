@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { m, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { ArrowRight, Package } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -66,7 +66,7 @@ export function HeroSection() {
     <section className="pt-20 pb-12 md:pt-24 md:pb-16 overflow-hidden">
       <div className="container mx-auto px-4">
         <div className="max-w-4xl mx-auto text-center">
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
@@ -74,9 +74,9 @@ export function HeroSection() {
           >
             <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
             Официальный дистрибьютор в Казахстане
-          </motion.div>
+          </m.div>
 
-          <motion.h1
+          <m.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
@@ -85,9 +85,9 @@ export function HeroSection() {
             Тельферы для
             <br />
             <span className="text-blue-500">вашего производства</span>
-          </motion.h1>
+          </m.h1>
 
-          <motion.p
+          <m.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
@@ -95,9 +95,9 @@ export function HeroSection() {
           >
             Профессиональные электрические тали SHA8 и Balkans. Надежность,
             проверенная временем. Гарантия 12 месяцев.
-          </motion.p>
+          </m.p>
 
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
@@ -121,11 +121,11 @@ export function HeroSection() {
             >
               <Link href="#products">Смотреть каталог</Link>
             </Button>
-          </motion.div>
+          </m.div>
         </div>
 
         {/* Hero Visual */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.7, delay: 0.4 }}
@@ -178,7 +178,7 @@ export function HeroSection() {
               </CardContent>
             </Card>
           </TiltCard>
-        </motion.div>
+        </m.div>
       </div>
     </section>
   );
@@ -224,7 +224,7 @@ function TiltCard({ children, className, initial, animate, transition }: TiltCar
   };
 
   return (
-    <motion.div
+    <m.div
       ref={ref}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
@@ -241,6 +241,6 @@ function TiltCard({ children, className, initial, animate, transition }: TiltCar
       <div style={{ transform: "translateZ(75px)" }}>
         {children}
       </div>
-    </motion.div>
+    </m.div>
   );
 }

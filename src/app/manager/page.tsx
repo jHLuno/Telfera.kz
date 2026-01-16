@@ -1,45 +1,43 @@
-import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ClipboardList, Clock, CheckCircle, XCircle } from "lucide-react";
 import Link from "next/link";
 import { LeadNotifications } from "@/components/lead-notifications";
 
+// Revalidate every 30 seconds for near-realtime stats
+export const revalidate = 30;
+
 export default async function ManagerDashboard() {
-  const session = await auth();
-
-  // Get user data from database to ensure we have the latest name
-  const user = session?.user?.id
-    ? await prisma.user.findUnique({
-        where: { id: session.user.id },
-        select: { name: true },
-      })
-    : null;
-
-  const [totalLeads, newLeads, wonLeads, lostLeads] = await Promise.all([
-    prisma.lead.count(),
-    prisma.lead.count({ where: { status: "NEW" } }),
-    prisma.lead.count({ where: { status: "WON" } }),
-    prisma.lead.count({ where: { status: "LOST" } }),
+  // Optimized: Single query with groupBy for status counts + parallel queries
+  const [statusCounts, recentLeads] = await Promise.all([
+    // Get all status counts in one query using groupBy
+    prisma.lead.groupBy({
+      by: ["status"],
+      _count: { status: true },
+    }),
+    prisma.lead.findMany({
+      take: 5,
+      orderBy: { createdAt: "desc" },
+      select: { id: true, name: true, phone: true, product: true, status: true },
+    }),
   ]);
 
-  const recentLeads = await prisma.lead.findMany({
-    take: 5,
-    orderBy: { createdAt: "desc" },
-  });
+  // Extract counts from groupBy result
+  const statusMap = new Map(statusCounts.map(s => [s.status, s._count.status]));
+  const totalLeads = statusCounts.reduce((sum, s) => sum + s._count.status, 0);
+  const newLeads = statusMap.get("NEW") ?? 0;
+  const wonLeads = statusMap.get("WON") ?? 0;
+  const lostLeads = statusMap.get("LOST") ?? 0;
 
   return (
     <div className="p-6 md:p-8">
       <LeadNotifications />
       <div className="mb-8">
         <h1 className="text-2xl font-bold">
-          Добро пожаловать{user?.name ? `, ${user.name}` : ""}!
+          Панель управления
         </h1>
         <p className="text-muted-foreground">
-          Панель управления лидами Telfera.kz
+          Обзор заявок Telfera.kz
         </p>
       </div>
 

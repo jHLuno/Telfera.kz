@@ -134,7 +134,10 @@ export async function getLeads(options?: { page?: number; limit?: number }) {
   };
 }
 
-// For backwards compatibility - returns all leads (use with caution)
+// Default limit for safety - prevents loading unlimited records
+const MAX_LEADS_LIMIT = 500;
+
+// For backwards compatibility - returns leads with a safety limit
 export async function getAllLeads() {
   await requireManager();
 
@@ -149,5 +152,6 @@ export async function getAllLeads() {
       updatedAt: true,
     },
     orderBy: { createdAt: "desc" },
+    take: MAX_LEADS_LIMIT, // Safety limit to prevent memory issues
   });
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
 import { Button } from "./ui/button";
@@ -59,7 +59,7 @@ export function Header() {
 
         {/* Mobile Navigation */}
         {isOpen && (
-          <motion.div
+          <m.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
@@ -93,7 +93,7 @@ export function Header() {
                 </Button>
               </div>
             </div>
-          </motion.div>
+          </m.div>
         )}
       </div>
     </header>

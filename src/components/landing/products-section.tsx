@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Package, ChevronRight, Award } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -12,32 +12,32 @@ export function ProductsSection() {
   return (
     <section id="catalog" className="pt-12 md:pt-16 pb-6 md:pb-8">
       <div className="container mx-auto px-4">
-        <motion.div
+        <m.div
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
           variants={staggerContainer}
           className="max-w-xl mb-8"
         >
-          <motion.p
+          <m.p
             variants={fadeInUp}
             className="text-sm font-medium text-muted-foreground mb-2"
           >
             КАТАЛОГ
-          </motion.p>
-          <motion.h2
+          </m.p>
+          <m.h2
             variants={fadeInUp}
             className="text-3xl md:text-4xl font-bold mb-4"
           >
             Наша продукция
-          </motion.h2>
-          <motion.p variants={fadeInUp} className="text-muted-foreground">
+          </m.h2>
+          <m.p variants={fadeInUp} className="text-muted-foreground">
             Выберите телфер, который подходит для ваших задач
-          </motion.p>
-        </motion.div>
+          </m.p>
+        </m.div>
 
         {/* Bento Grid */}
-        <motion.div
+        <m.div
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
@@ -45,7 +45,7 @@ export function ProductsSection() {
           className="grid grid-cols-1 md:grid-cols-2 gap-4"
         >
           {/* Large Card - SHA8 */}
-          <motion.div variants={fadeInUp} className="md:row-span-3">
+          <m.div variants={fadeInUp} className="md:row-span-3">
             <Card className="h-full bento-card hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border-2 border-primary/20 hover:border-primary/40">
               <CardContent className="p-6 md:p-8 h-full flex flex-col">
                 <div className="flex items-center gap-2 mb-2">
@@ -99,10 +99,10 @@ export function ProductsSection() {
                 </Button>
               </CardContent>
             </Card>
-          </motion.div>
+          </m.div>
 
           {/* Small Card - Balkans */}
-          <motion.div variants={fadeInUp} className="md:row-span-2">
+          <m.div variants={fadeInUp} className="md:row-span-2">
             <Card className="w-full h-full bento-card hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border-2 border-emerald-500/10 hover:border-emerald-500/30">
               <CardContent className="p-4 md:p-5 h-full flex flex-col">
                 <div className="flex items-center gap-2 mb-4">
@@ -152,10 +152,10 @@ export function ProductsSection() {
                 </Button>
               </CardContent>
             </Card>
-          </motion.div>
+          </m.div>
 
           {/* Features Card */}
-          <motion.div variants={fadeInUp}>
+          <m.div variants={fadeInUp}>
             <Card className="w-full h-full bento-card hover:shadow-lg transition-all duration-300 hover:-translate-y-1 bg-foreground text-background">
               <CardContent className="p-6 md:p-7 h-full flex flex-col">
                 <Award className="w-10 h-10 mb-4" />
@@ -166,8 +166,8 @@ export function ProductsSection() {
                 </p>
               </CardContent>
             </Card>
-          </motion.div>
-        </motion.div>
+          </m.div>
+        </m.div>
       </div>
     </section>
   );

@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Shield, Zap, Wrench, Clock } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { fadeInUp, staggerContainer } from "./motion-variants";
@@ -22,11 +22,11 @@ function FeatureCard({ feature, index }: FeatureCardProps) {
   };
 
   return (
-    <motion.div variants={fadeInUp} whileHover={{ y: -4 }} className="h-full">
-      <motion.div className="h-full" initial="initial" whileHover="hover">
+    <m.div variants={fadeInUp} whileHover={{ y: -4 }} className="h-full">
+      <m.div className="h-full" initial="initial" whileHover="hover">
         <Card className="h-full bento-card hover:shadow-lg transition-all duration-300">
           <CardContent className="p-6">
-            <motion.div
+            <m.div
               initial={{ opacity: 0 }}
               whileInView={{
                 opacity: 1,
@@ -38,7 +38,7 @@ function FeatureCard({ feature, index }: FeatureCardProps) {
               viewport={{ once: true }}
               className="mb-4"
             >
-              <motion.div
+              <m.div
                 variants={iconVariants}
                 transition={{
                   scale: {
@@ -54,16 +54,16 @@ function FeatureCard({ feature, index }: FeatureCardProps) {
                 className="inline-block"
               >
                 <feature.icon className="w-10 h-10 text-foreground" />
-              </motion.div>
-            </motion.div>
+              </m.div>
+            </m.div>
             <h3 className="font-semibold mb-2">{feature.title}</h3>
             <p className="text-sm text-muted-foreground">
               {feature.description}
             </p>
           </CardContent>
         </Card>
-      </motion.div>
-    </motion.div>
+      </m.div>
+    </m.div>
   );
 }
 
@@ -98,28 +98,28 @@ export function FeaturesSection() {
   return (
     <section id="about" className="py-12 md:py-16 bg-muted/30">
       <div className="container mx-auto px-4">
-        <motion.div
+        <m.div
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
           variants={staggerContainer}
           className="max-w-xl mb-8"
         >
-          <motion.p
+          <m.p
             variants={fadeInUp}
             className="text-sm font-medium text-muted-foreground mb-2"
           >
             ПРЕИМУЩЕСТВА
-          </motion.p>
-          <motion.h2
+          </m.p>
+          <m.h2
             variants={fadeInUp}
             className="text-3xl md:text-4xl font-bold mb-4"
           >
             Почему выбирают нас
-          </motion.h2>
-        </motion.div>
+          </m.h2>
+        </m.div>
 
-        <motion.div
+        <m.div
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
@@ -129,7 +129,7 @@ export function FeaturesSection() {
           {features.map((feature, index) => (
             <FeatureCard key={feature.title} feature={feature} index={index} />
           ))}
-        </motion.div>
+        </m.div>
       </div>
     </section>
   );

@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
 import { Phone, Mail, MapPin } from "lucide-react";
 
@@ -25,7 +25,7 @@ export function ContactSection() {
     <section id="contact" className="py-12 md:py-14">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-          <motion.div
+          <m.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
@@ -83,9 +83,9 @@ export function ContactSection() {
                 </div>
               </div>
             </div>
-          </motion.div>
+          </m.div>
 
-          <motion.div
+          <m.div
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
@@ -96,7 +96,7 @@ export function ContactSection() {
                 <LeadForm />
               </CardContent>
             </Card>
-          </motion.div>
+          </m.div>
         </div>
       </div>
     </section>

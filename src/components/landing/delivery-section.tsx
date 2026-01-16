@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Truck, Warehouse, MapPin, CheckCircle2 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { fadeInUp, staggerContainer } from "./motion-variants";
@@ -12,31 +12,31 @@ export function DeliverySection() {
       className="py-12 md:py-16 bg-gradient-to-b from-background to-muted/20"
     >
       <div className="container mx-auto px-4">
-        <motion.div
+        <m.div
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
           variants={staggerContainer}
           className="max-w-3xl mx-auto text-center mb-8"
         >
-          <motion.div
+          <m.div
             variants={fadeInUp}
             className="inline-flex items-center gap-2 bg-muted px-4 py-2 rounded-full text-sm mb-4"
           >
             <span>ДОСТАВКА</span>
-          </motion.div>
-          <motion.h2
+          </m.div>
+          <m.h2
             variants={fadeInUp}
             className="text-3xl md:text-4xl font-bold mb-4"
           >
             Удобные способы доставки
-          </motion.h2>
-          <motion.p variants={fadeInUp} className="text-muted-foreground text-lg">
+          </m.h2>
+          <m.p variants={fadeInUp} className="text-muted-foreground text-lg">
             Выберите наиболее удобный для вас способ получения заказа
-          </motion.p>
-        </motion.div>
+          </m.p>
+        </m.div>
 
-        <motion.div
+        <m.div
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
@@ -44,7 +44,7 @@ export function DeliverySection() {
           className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-6xl mx-auto"
         >
           {/* Transport Company */}
-          <motion.div variants={fadeInUp}>
+          <m.div variants={fadeInUp}>
             <Card className="h-full bento-card hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-2 hover:border-primary/20 group">
               <CardContent className="p-6 md:p-8 h-full flex flex-col">
                 <div className="relative mb-6">
@@ -73,10 +73,10 @@ export function DeliverySection() {
                 </div>
               </CardContent>
             </Card>
-          </motion.div>
+          </m.div>
 
           {/* Warehouse Pickup */}
-          <motion.div variants={fadeInUp}>
+          <m.div variants={fadeInUp}>
             <Card className="h-full bento-card hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-2 hover:border-emerald-500/20 group">
               <CardContent className="p-6 md:p-8 h-full flex flex-col">
                 <div className="relative mb-6">
@@ -105,11 +105,11 @@ export function DeliverySection() {
                 </div>
               </CardContent>
             </Card>
-          </motion.div>
-        </motion.div>
+          </m.div>
+        </m.div>
 
         {/* Additional Info */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -130,7 +130,7 @@ export function DeliverySection() {
               </p>
             </CardContent>
           </Card>
-        </motion.div>
+        </m.div>
       </div>
     </section>
   );

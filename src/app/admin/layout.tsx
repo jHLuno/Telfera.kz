@@ -1,20 +1,16 @@
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import { headers } from "next/headers";
 import { DashboardSidebar } from "@/components/dashboard-sidebar";
 import { Providers } from "@/components/providers";
 
+// Auth check is dynamic, but child pages can be cached
 export const dynamic = "force-dynamic";
-export const revalidate = 0;
 
 export default async function AdminLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  // Force fresh data on every request
-  await headers();
-  
   const session = await auth();
 
   if (!session || !session.user) {

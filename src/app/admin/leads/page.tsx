@@ -2,8 +2,8 @@ import { getAllLeads } from "@/actions/leads";
 import { LeadsTable } from "@/components/leads-table";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
+// Revalidate every 30 seconds - leads data changes frequently
+export const revalidate = 30;
 
 export default async function AdminLeadsPage() {
   const leads = await getAllLeads();

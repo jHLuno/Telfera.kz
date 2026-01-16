@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
+import { MotionProvider } from "@/components/motion-wrapper";
 
 const inter = Inter({
   subsets: ["latin", "cyrillic"],
@@ -31,7 +32,9 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         <div className="grain" />
-        {children}
+        <MotionProvider>
+          {children}
+        </MotionProvider>
       </body>
     </html>
   );

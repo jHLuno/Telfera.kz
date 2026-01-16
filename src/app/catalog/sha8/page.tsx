@@ -6,6 +6,15 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
+import type { Metadata } from "next";
+
+// Static page - no dynamic data, can be fully cached
+export const dynamic = "force-static";
+
+export const metadata: Metadata = {
+  title: "Тельфер SHA8 | Telfera.kz",
+  description: "Профессиональная электрическая таль SHA8 китайского производства. Грузоподъемность 3.2-16т, высота подъема 6-36м.",
+};
 
 export default function SHA8CatalogPage() {
   return (

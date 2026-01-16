@@ -42,7 +42,7 @@ export function LeadNotifications() {
     // Start initialization immediately
     initialize();
 
-    // Poll for new leads every 10 seconds (starts after initial delay to avoid race condition)
+    // Poll for new leads every 30 seconds
     const pollInterval = setInterval(async () => {
       // Skip if not initialized yet
       if (!isInitializedRef.current) {
@@ -63,7 +63,7 @@ export function LeadNotifications() {
           });
         }
       }
-    }, 10000); // Poll every 10 seconds
+    }, 30000); // Poll every 30 seconds (reduced from 10s to lower server load)
 
     return () => {
       clearInterval(pollInterval);
