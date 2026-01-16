@@ -17,7 +17,7 @@ import {
 import { submitLead } from "@/actions/leads";
 import { CheckCircle, Loader2 } from "lucide-react";
 import { formatPhoneMask, cleanPhoneForDb } from "@/lib/utils";
-import { PRODUCT_LABELS, PRODUCTS } from "@/lib/constants";
+import { PRODUCT_LABELS, PRODUCTS, type Product } from "@/lib/constants";
 
 const leadSchema = z.object({
   name: z.string().min(2, "Введите ваше имя"),
@@ -58,8 +58,12 @@ export function LeadForm() {
   const [error, setError] = useState<string | null>(null);
 
   const handleProductChange = (value: string) => {
-    setSelectedProduct(value);
-    setValue("product", value);
+    // Ensure value is a valid product enum value
+    const validValue = Object.values(PRODUCTS).includes(value as Product)
+      ? value
+      : PRODUCTS.OTHER;
+    setSelectedProduct(validValue);
+    setValue("product", validValue, { shouldValidate: true });
   };
 
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -73,9 +77,16 @@ export function LeadForm() {
     setError(null);
     try {
       const phoneForDb = cleanPhoneForDb(data.phone);
+      
+      // Ensure product value matches enum exactly
+      const validProduct = Object.values(PRODUCTS).includes(data.product as Product)
+        ? data.product
+        : PRODUCTS.OTHER;
+      
       await submitLead({
         ...data,
         phone: phoneForDb,
+        product: validProduct,
       });
       setIsSubmitted(true);
       reset({ phone: "+7" });

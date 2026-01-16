@@ -26,6 +26,7 @@ import {
 import { CheckCircle, Loader2 } from "lucide-react";
 import { submitLead } from "@/actions/leads";
 import { formatPhoneMask, cleanPhoneForDb } from "@/lib/utils";
+import { PRODUCTS, type Product } from "@/lib/constants";
 
 const priceCalculationSchema = z.object({
   name: z.string().min(2, "Введите ваше имя"),
@@ -93,10 +94,22 @@ export function PriceCalculatorDialog({
     try {
       const phoneForDb = cleanPhoneForDb(data.phone);
       
+      // Normalize productName to valid enum value
+      // productName can be "Balkans" or "SHA8" (from props)
+      let normalizedProduct: Product = PRODUCTS.OTHER;
+      const productNameLower = productName.toLowerCase();
+      if (productNameLower.includes("balkans")) {
+        normalizedProduct = PRODUCTS.BALKANS;
+      } else if (productNameLower.includes("sha8") || productNameLower.includes("sha 8")) {
+        normalizedProduct = PRODUCTS.SHA8;
+      } else if (Object.values(PRODUCTS).includes(productName as Product)) {
+        normalizedProduct = productName as Product;
+      }
+      
       await submitLead({
         name: data.name,
         phone: phoneForDb,
-        product: `${productName} ${data.capacity}`,
+        product: normalizedProduct,
       });
 
       setIsSubmitted(true);
