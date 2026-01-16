@@ -119,7 +119,7 @@ export function HeroSection() {
               asChild
               className="border-2 hover:bg-emerald-500/5 hover:border-emerald-500/50 transition-all hover:text-emerald-500"
             >
-              <Link href="#products">Смотреть каталог</Link>
+              <Link href="#catalog">Смотреть каталог</Link>
             </Button>
           </m.div>
         </div>
