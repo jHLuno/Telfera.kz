@@ -44,7 +44,7 @@ const priceCalculationSchema = z.object({
       const cleaned = val.replace(/[\s\-\(\)]/g, "");
       return cleaned.startsWith("+7") && cleaned.length === 12;
     },
-    "Номер должен начинаться с +7 и содержать 10 цифр после +7"
+    "Номер должен начинаться с +7"
   ),
   capacity: z.string().min(1, "Выберите грузоподъемность"),
 });

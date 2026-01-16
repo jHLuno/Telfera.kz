@@ -202,8 +202,8 @@ export function SettingsForm({ initialName, initialEmail }: SettingsFormProps) {
                       newPassword: e.target.value,
                     }))
                   }
-                  placeholder="Минимум 6 символов"
-                  minLength={6}
+                  placeholder="Мин. 8 симв., заглавная, строчная, цифра"
+                  minLength={8}
                 />
               </div>
 
@@ -220,7 +220,7 @@ export function SettingsForm({ initialName, initialEmail }: SettingsFormProps) {
                     }))
                   }
                   placeholder="Повторите новый пароль"
-                  minLength={6}
+                  minLength={8}
                 />
               </div>
             </div>

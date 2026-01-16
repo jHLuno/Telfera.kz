@@ -28,7 +28,8 @@ import {
 } from "@/components/ui/dialog";
 import { updateLeadStatus, deleteLead } from "@/actions/leads";
 import { formatDate, formatPhone } from "@/lib/utils";
-import { Eye, Trash2, Phone } from "lucide-react";
+import { Eye, Trash2, Phone, Loader2 } from "lucide-react";
+import { useToast } from "@/components/ui/use-toast";
 
 const statusLabels: Record<string, string> = {
   NEW: "Новый",
@@ -61,19 +62,37 @@ interface LeadsTableProps {
 export function LeadsTable({ leads, isAdmin = false }: LeadsTableProps) {
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
   const [isDeleting, setIsDeleting] = useState<string | null>(null);
+  const [isUpdatingStatus, setIsUpdatingStatus] = useState<string | null>(null);
+  const { toast } = useToast();
 
   const handleStatusChange = async (leadId: string, status: string) => {
-    await updateLeadStatus(
-      leadId,
-      status as
-        | "NEW"
-        | "CONTACTED"
-        | "QUALIFIED"
-        | "PROPOSAL"
-        | "NEGOTIATION"
-        | "WON"
-        | "LOST"
-    );
+    setIsUpdatingStatus(leadId);
+    try {
+      await updateLeadStatus(
+        leadId,
+        status as
+          | "NEW"
+          | "CONTACTED"
+          | "QUALIFIED"
+          | "PROPOSAL"
+          | "NEGOTIATION"
+          | "WON"
+          | "LOST"
+      );
+      toast({
+        variant: "success",
+        title: "Статус обновлён",
+        description: `Статус изменён на "${statusLabels[status]}"`,
+      });
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Ошибка",
+        description: error instanceof Error ? error.message : "Не удалось обновить статус",
+      });
+    } finally {
+      setIsUpdatingStatus(null);
+    }
   };
 
   const handleDelete = async (leadId: string) => {
@@ -126,13 +145,18 @@ export function LeadsTable({ leads, isAdmin = false }: LeadsTableProps) {
                   <Select
                     defaultValue={lead.status}
                     onValueChange={(value) => handleStatusChange(lead.id, value)}
+                    disabled={isUpdatingStatus === lead.id}
                   >
                     <SelectTrigger className="w-[140px]">
-                      <SelectValue>
-                        <Badge variant={statusVariants[lead.status]}>
-                          {statusLabels[lead.status]}
-                        </Badge>
-                      </SelectValue>
+                      {isUpdatingStatus === lead.id ? (
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                      ) : (
+                        <SelectValue>
+                          <Badge variant={statusVariants[lead.status]}>
+                            {statusLabels[lead.status]}
+                          </Badge>
+                        </SelectValue>
+                      )}
                     </SelectTrigger>
                     <SelectContent>
                       {Object.entries(statusLabels).map(([value, label]) => (

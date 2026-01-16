@@ -29,7 +29,12 @@ import { getRoleName } from "@/lib/utils";
 const userSchema = z.object({
   name: z.string().min(2, "Введите имя"),
   email: z.string().email("Введите корректный email"),
-  password: z.string().min(6, "Минимум 6 символов"),
+  password: z
+    .string()
+    .min(8, "Минимум 8 символов")
+    .regex(/[A-Z]/, "Должна быть хотя бы одна заглавная буква")
+    .regex(/[a-z]/, "Должна быть хотя бы одна строчная буква")
+    .regex(/[0-9]/, "Должна быть хотя бы одна цифра"),
   role: z.enum(["ADMIN", "MANAGER"]),
 });
 

@@ -30,18 +30,28 @@ export function LeadNotifications() {
   const isInitializedRef = useRef(false);
 
   useEffect(() => {
-    // Poll for new leads every 10 seconds
+    // Initial check - must complete before polling starts
+    const initialize = async () => {
+      const latestLead = await getLatestLead();
+      if (latestLead) {
+        lastLeadIdRef.current = latestLead.id;
+      }
+      isInitializedRef.current = true;
+    };
+
+    // Start initialization immediately
+    initialize();
+
+    // Poll for new leads every 10 seconds (starts after initial delay to avoid race condition)
     const pollInterval = setInterval(async () => {
+      // Skip if not initialized yet
+      if (!isInitializedRef.current) {
+        return;
+      }
+
       const latestLead = await getLatestLead();
       
       if (latestLead) {
-        // On first load, just store the ID without showing notification
-        if (!isInitializedRef.current) {
-          lastLeadIdRef.current = latestLead.id;
-          isInitializedRef.current = true;
-          return;
-        }
-
         // If this is a new lead (different ID), show notification
         if (lastLeadIdRef.current !== latestLead.id) {
           lastLeadIdRef.current = latestLead.id;
@@ -53,24 +63,10 @@ export function LeadNotifications() {
           });
         }
       }
-      // Initialize even if no leads exist yet
-      if (!isInitializedRef.current) {
-        isInitializedRef.current = true;
-      }
     }, 10000); // Poll every 10 seconds
-
-    // Initial check after 2 seconds
-    const initialTimeout = setTimeout(async () => {
-      const latestLead = await getLatestLead();
-      if (latestLead) {
-        lastLeadIdRef.current = latestLead.id;
-      }
-      isInitializedRef.current = true;
-    }, 2000);
 
     return () => {
       clearInterval(pollInterval);
-      clearTimeout(initialTimeout);
     };
   }, [toast]);
 

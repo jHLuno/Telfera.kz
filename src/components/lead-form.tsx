@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -28,6 +28,8 @@ type LeadFormData = z.infer<typeof leadSchema>;
 export function LeadForm() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<string>("");
+  const selectKey = useRef(0);
 
   const {
     register,
@@ -41,6 +43,11 @@ export function LeadForm() {
 
   const [error, setError] = useState<string | null>(null);
 
+  const handleProductChange = (value: string) => {
+    setSelectedProduct(value);
+    setValue("product", value);
+  };
+
   const onSubmit = async (data: LeadFormData) => {
     setIsLoading(true);
     setError(null);
@@ -48,6 +55,8 @@ export function LeadForm() {
       await submitLead(data);
       setIsSubmitted(true);
       reset();
+      setSelectedProduct("");
+      selectKey.current += 1; // Force Select to re-render with empty state
       setTimeout(() => setIsSubmitted(false), 5000);
     } catch (err) {
       setError(
@@ -111,7 +120,11 @@ export function LeadForm() {
 
       <div className="space-y-2">
         <Label htmlFor="product">Интересующий продукт *</Label>
-        <Select onValueChange={(value) => setValue("product", value)}>
+        <Select 
+          key={selectKey.current}
+          value={selectedProduct} 
+          onValueChange={handleProductChange}
+        >
           <SelectTrigger className={errors.product ? "border-destructive" : ""}>
             <SelectValue placeholder="Выберите продукт" />
           </SelectTrigger>

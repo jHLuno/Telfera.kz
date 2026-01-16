@@ -33,8 +33,7 @@ export function HeroSection() {
       };
 
       const handleEnded = () => {
-        // Видео закончилось - это нормально
-        console.log("Video ended");
+        // Видео закончилось - это нормально, ничего не делаем
       };
 
       // Принудительно загружаем видео
@@ -186,7 +185,15 @@ export function HeroSection() {
 }
 
 // 3D Tilt Card Component
-function TiltCard({ children, className, ...props }: { children: React.ReactNode; className?: string; [key: string]: any }) {
+interface TiltCardProps {
+  children: React.ReactNode;
+  className?: string;
+  initial?: { opacity: number; x?: number; y?: number };
+  animate?: { opacity: number; x?: number; y?: number };
+  transition?: { duration: number; delay?: number };
+}
+
+function TiltCard({ children, className, initial, animate, transition }: TiltCardProps) {
   const ref = useRef<HTMLDivElement>(null);
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -227,7 +234,9 @@ function TiltCard({ children, className, ...props }: { children: React.ReactNode
         transformStyle: "preserve-3d",
       }}
       className={className}
-      {...props}
+      initial={initial}
+      animate={animate}
+      transition={transition}
     >
       <div style={{ transform: "translateZ(75px)" }}>
         {children}

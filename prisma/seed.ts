@@ -34,35 +34,25 @@ async function main() {
   });
   console.log(`✅ Manager user created: ${manager.email}`);
 
-  // Create sample leads
+  // Create sample leads (fields must match schema.prisma: name, phone, product, status)
   const leads = [
     {
       name: "Алексей Петров",
       phone: "+77001234567",
-      email: "alex@example.com",
-      company: "ТОО Строймаш",
       product: "SHA8",
-      message: "Интересует телфер на 5 тонн",
       status: "NEW" as const,
-      source: "website",
     },
     {
       name: "Марат Сагынов",
       phone: "+77012345678",
-      email: "marat@example.com",
-      company: "АО КазПромИндустрия",
       product: "Balkans",
-      message: "Нужен телфер для склада",
       status: "CONTACTED" as const,
-      source: "website",
     },
     {
       name: "Елена Ковалева",
       phone: "+77023456789",
-      company: "ИП Ковалева",
       product: "SHA8",
       status: "QUALIFIED" as const,
-      source: "website",
     },
   ];
 
