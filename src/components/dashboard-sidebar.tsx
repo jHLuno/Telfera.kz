@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { signOut } from "next-auth/react";
 import {
   LayoutDashboard,
@@ -21,6 +21,7 @@ interface SidebarProps {
 
 export function DashboardSidebar({ role }: SidebarProps) {
   const pathname = usePathname();
+  const router = useRouter();
   const basePath = role === USER_ROLES.ADMIN ? "/admin" : "/manager";
 
   const navigation = [
@@ -85,7 +86,10 @@ export function DashboardSidebar({ role }: SidebarProps) {
         <Button
           variant="ghost"
           className="w-full justify-start text-muted-foreground"
-          onClick={() => signOut({ callbackUrl: "/" })}
+          onClick={async () => {
+            await signOut({ redirect: false });
+            router.push("/");
+          }}
         >
           <LogOut className="w-4 h-4 mr-2" />
           Выйти
