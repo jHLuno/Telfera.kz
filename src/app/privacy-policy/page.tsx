@@ -152,11 +152,12 @@ export default function PrivacyPolicyPage() {
 
                   <section className="pt-4 border-t">
                     <p className="text-sm">
-                      <strong>Дата последнего обновления:</strong> {new Date().toLocaleDateString('ru-RU', { 
-                        year: 'numeric', 
-                        month: 'long', 
-                        day: 'numeric' 
-                      })}
+                      <strong>Дата последнего обновления:</strong>{" "}
+                      {new Intl.DateTimeFormat("ru-RU", {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                      }).format(new Date("2024-01-01"))}
                     </p>
                   </section>
                 </CardContent>

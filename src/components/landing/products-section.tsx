@@ -10,7 +10,7 @@ import Link from "next/link";
 
 export function ProductsSection() {
   return (
-    <section id="catalog" className="pt-12 md:pt-16 pb-6 md:pb-8">
+    <section id="catalog" className="pt-6 md:pt-8 pb-6 md:pb-8">
       <div className="container mx-auto px-4">
         <m.div
           initial="hidden"
@@ -32,7 +32,7 @@ export function ProductsSection() {
             Наша продукция
           </m.h2>
           <m.p variants={fadeInUp} className="text-muted-foreground">
-            Выберите телфер, который подходит для ваших задач
+            Выберите тельфер, который подходит для ваших задач
           </m.p>
         </m.div>
 

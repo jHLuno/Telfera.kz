@@ -1,8 +1,16 @@
+"use client";
+
 import Link from "next/link";
 import { Logo } from "@/components/logo";
 import { CONTACT_INFO } from "@/lib/constants";
+import { useEffect, useState } from "react";
 
 export function Footer() {
+  const [currentYear, setCurrentYear] = useState(2024);
+
+  useEffect(() => {
+    setCurrentYear(new Date().getFullYear());
+  }, []);
   return (
     <footer className="border-t bg-muted/30">
       <div className="container mx-auto px-4 py-12">
@@ -12,7 +20,7 @@ export function Footer() {
               <Logo width={120} height={120} showText={false} />
             </Link>
             <p className="text-sm text-muted-foreground">
-              Профессиональные телферы для вашего производства. Качество и
+              Профессиональные тельферы для вашего производства. Качество и
               надежность.
             </p>
           </div>
@@ -79,7 +87,7 @@ export function Footer() {
 
         <div className="border-t mt-8 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} Telfera.kz. Все права защищены.
+            © {currentYear} Telfera.kz. Все права защищены.
           </p>
           <div className="flex gap-4 text-sm text-muted-foreground">
             <Link href="/privacy-policy" className="hover:text-foreground transition-colors">
