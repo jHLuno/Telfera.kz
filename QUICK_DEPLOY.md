@@ -53,4 +53,6 @@ WHATSAPP_GROUP_ID=your-group-id
 
 ## ✅ Готово!
 
-Подробная инструкция: [DEPLOYMENT_STEPS.md](./DEPLOYMENT_STEPS.md)
+**Дополнительные инструкции:**
+- Подробная инструкция: [DEPLOYMENT_STEPS.md](./DEPLOYMENT_STEPS.md)
+- Настройка домена: [DOMAIN_SETUP.md](./DOMAIN_SETUP.md)
