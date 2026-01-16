@@ -11,11 +11,7 @@ export function Header() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <motion.header
-      initial={{ opacity: 0, y: -20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-      className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b"
+    <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b animate-slide-down"
     >
       <div className="container mx-auto px-4">
         <nav className="flex items-center justify-between h-16">
@@ -26,19 +22,19 @@ export function Header() {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-8">
             <Link
-              href="#products"
+              href="/#catalog"
               className="text-sm text-muted-foreground hover:text-foreground transition-colors"
             >
-              Продукция
+              Каталог
             </Link>
             <Link
-              href="#about"
+              href="/#about"
               className="text-sm text-muted-foreground hover:text-foreground transition-colors"
             >
               О нас
             </Link>
             <Link
-              href="#contact"
+              href="/#contact"
               className="text-sm text-muted-foreground hover:text-foreground transition-colors"
             >
               Контакты
@@ -71,21 +67,21 @@ export function Header() {
           >
             <div className="flex flex-col gap-4">
               <Link
-                href="#products"
+                href="/#catalog"
                 className="text-sm text-muted-foreground hover:text-foreground transition-colors"
                 onClick={() => setIsOpen(false)}
               >
                 Продукция
               </Link>
               <Link
-                href="#about"
+                href="/#about"
                 className="text-sm text-muted-foreground hover:text-foreground transition-colors"
                 onClick={() => setIsOpen(false)}
               >
                 О нас
               </Link>
               <Link
-                href="#contact"
+                href="/#contact"
                 className="text-sm text-muted-foreground hover:text-foreground transition-colors"
                 onClick={() => setIsOpen(false)}
               >
@@ -100,6 +96,6 @@ export function Header() {
           </motion.div>
         )}
       </div>
-    </motion.header>
+    </header>
   );
 }

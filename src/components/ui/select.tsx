@@ -65,13 +65,50 @@ const SelectScrollDownButton = React.forwardRef<
 SelectScrollDownButton.displayName =
   SelectPrimitive.ScrollDownButton.displayName;
 
-const SelectContent = React.forwardRef<
-  React.ElementRef<typeof SelectPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Content>
->(({ className, children, position = "popper", ...props }, ref) => (
-  <SelectPrimitive.Portal>
+function SelectContentInner({
+  className,
+  children,
+  position = "popper",
+  ...props
+}: React.ComponentPropsWithoutRef<typeof SelectPrimitive.Content>) {
+  React.useEffect(() => {
+    // Immediately remove scroll lock styles when applied
+    const removeScrollLock = () => {
+      document.body.removeAttribute("data-scroll-locked");
+      document.body.style.removeProperty("pointer-events");
+      document.body.style.removeProperty("overflow");
+      document.body.style.removeProperty("padding-right");
+      document.body.style.removeProperty("margin-right");
+      document.documentElement.style.removeProperty("overflow");
+      document.documentElement.style.removeProperty("padding-right");
+    };
+
+    // Remove immediately
+    removeScrollLock();
+
+    // Watch for scroll lock being re-applied and remove it
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (
+          mutation.attributeName === "style" ||
+          mutation.attributeName === "data-scroll-locked"
+        ) {
+          removeScrollLock();
+        }
+      });
+    });
+
+    observer.observe(document.body, { attributes: true });
+    observer.observe(document.documentElement, { attributes: true });
+
+    return () => {
+      observer.disconnect();
+      removeScrollLock();
+    };
+  }, []);
+
+  return (
     <SelectPrimitive.Content
-      ref={ref}
       className={cn(
         "relative z-50 max-h-96 min-w-[8rem] overflow-hidden rounded-lg border bg-popover text-popover-foreground shadow-md data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
         position === "popper" &&
@@ -93,6 +130,22 @@ const SelectContent = React.forwardRef<
       </SelectPrimitive.Viewport>
       <SelectScrollDownButton />
     </SelectPrimitive.Content>
+  );
+}
+
+const SelectContent = React.forwardRef<
+  React.ElementRef<typeof SelectPrimitive.Content>,
+  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Content>
+>(({ className, children, position = "popper", ...props }, ref) => (
+  <SelectPrimitive.Portal>
+    <SelectContentInner
+      {...ref}
+      className={className}
+      position={position}
+      {...props}
+    >
+      {children}
+    </SelectContentInner>
   </SelectPrimitive.Portal>
 ));
 SelectContent.displayName = SelectPrimitive.Content.displayName;

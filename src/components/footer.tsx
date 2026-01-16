@@ -20,17 +20,17 @@ export function Footer() {
             <h4 className="font-semibold mb-4">Продукция</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li>
-                <Link href="#" className="hover:text-foreground transition-colors">
+                <Link href="/catalog/sha8" className="hover:text-foreground transition-colors">
                   Тельфер SHA8
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:text-foreground transition-colors">
+                <Link href="/catalog/balkans" className="hover:text-foreground transition-colors">
                   Тельфер Balkans
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:text-foreground transition-colors">
+                <Link href="/#catalog" className="hover:text-foreground transition-colors">
                   Комплектующие
                 </Link>
               </li>
@@ -41,17 +41,17 @@ export function Footer() {
             <h4 className="font-semibold mb-4">Компания</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li>
-                <Link href="#about" className="hover:text-foreground transition-colors">
+                <Link href="/#about" className="hover:text-foreground transition-colors">
                   О нас
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:text-foreground transition-colors">
+                <Link href="/#delivery" className="hover:text-foreground transition-colors">
                   Доставка
                 </Link>
               </li>
               <li>
-                <Link href="#contact" className="hover:text-foreground transition-colors">
+                <Link href="/#contact" className="hover:text-foreground transition-colors">
                   Контакты
                 </Link>
               </li>
@@ -62,8 +62,8 @@ export function Footer() {
             <h4 className="font-semibold mb-4">Контакты</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li>
-                <a href="tel:+77001234567" className="hover:text-foreground transition-colors">
-                  +7 (700) 123-45-67
+                <a href="tel:+77015320626" className="hover:text-foreground transition-colors">
+                  +7 (701) 532-06-26
                 </a>
               </li>
               <li>
@@ -81,7 +81,7 @@ export function Footer() {
             © {new Date().getFullYear()} Telfera.kz. Все права защищены.
           </p>
           <div className="flex gap-4 text-sm text-muted-foreground">
-            <Link href="#" className="hover:text-foreground transition-colors">
+            <Link href="/privacy-policy" className="hover:text-foreground transition-colors">
               Политика конфиденциальности
             </Link>
           </div>
