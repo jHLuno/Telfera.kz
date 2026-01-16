@@ -118,7 +118,7 @@ export function ProductsSection() {
 
                 <div className="grid grid-cols-2 gap-4 mb-4">
                   <div className="bg-muted rounded-xl p-4">
-                    <p className="text-xl font-bold">3.2-16т</p>
+                    <p className="text-xl font-bold">0.2-16т</p>
                     <p className="text-xs text-muted-foreground">
                       Грузоподъемность
                     </p>
