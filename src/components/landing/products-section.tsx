@@ -93,7 +93,7 @@ export function ProductsSection() {
                   asChild
                 >
                   <Link href="/catalog/sha8">
-                    Подробнее о SHA8
+                    Подробнее
                     <ChevronRight className="ml-2 h-4 w-4" />
                   </Link>
                 </Button>

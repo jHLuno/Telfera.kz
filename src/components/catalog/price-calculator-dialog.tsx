@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -16,13 +16,6 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { CheckCircle, Loader2 } from "lucide-react";
 import { submitLead } from "@/actions/leads";
 import { formatPhoneMask, cleanPhoneForDb } from "@/lib/utils";
@@ -37,17 +30,9 @@ const priceCalculationSchema = z.object({
     },
     "Введите полный номер телефона"
   ),
-  capacity: z.string().min(1, "Выберите грузоподъемность"),
 });
 
 type PriceCalculationFormData = z.infer<typeof priceCalculationSchema>;
-
-const CAPACITY_OPTIONS = [
-  { value: "0.5-1", label: "Тельфер 0.5 – 1 т" },
-  { value: "2-3.2", label: "Тельфер 2 – 3.2 т" },
-  { value: "5", label: "Тельфер 5 т" },
-  { value: "8-12.5", label: "Тельфер 8 – 12.5 т" },
-];
 
 interface PriceCalculatorDialogProps {
   productName: string;
@@ -64,7 +49,6 @@ export function PriceCalculatorDialog({
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const selectKey = useRef(0);
 
   const {
     register,
@@ -114,7 +98,6 @@ export function PriceCalculatorDialog({
 
       setIsSubmitted(true);
       reset({ phone: "+7" });
-      selectKey.current += 1;
       
       setTimeout(() => {
         setIsDialogOpen(false);
@@ -137,7 +120,6 @@ export function PriceCalculatorDialog({
       setIsSubmitted(false);
       setError(null);
       reset({ phone: "+7" });
-      selectKey.current += 1;
     }
   };
 
@@ -200,29 +182,6 @@ export function PriceCalculatorDialog({
                 />
                 {errors.phone && (
                   <p className="text-xs text-destructive">{errors.phone.message}</p>
-                )}
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="capacity">Грузоподъемность модели *</Label>
-                <Select
-                  key={selectKey.current}
-                  onValueChange={(value) => setValue("capacity", value)}
-                >
-                  <SelectTrigger
-                    className={errors.capacity ? "border-destructive" : "focus:ring-emerald-500"}
-                  >
-                    <SelectValue placeholder="Выберите диапазон грузоподъемности" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {CAPACITY_OPTIONS.map((option) => (
-                      <SelectItem key={option.value} value={option.value}>
-                        {option.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                {errors.capacity && (
-                  <p className="text-xs text-destructive">{errors.capacity.message}</p>
                 )}
               </div>
               <DialogFooter>

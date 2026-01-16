@@ -2,12 +2,12 @@ import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { ContactSection } from "@/components/landing";
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import type { Metadata } from "next";
 
 // Components
+import { PriceCalculatorDialog } from "@/components/catalog/price-calculator-dialog";
 import { SHA8SpecsTable } from "@/components/catalog/sha8-specs-table";
 import { SHA8Description } from "@/components/catalog/sha8-description";
 import { SHA8ExpertInfo } from "@/components/catalog/sha8-expert-info";
@@ -70,15 +70,7 @@ export default function SHA8CatalogPage() {
                 </div>
 
                 {/* CTA Button */}
-                <Button
-                  className="w-full bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 shadow-lg hover:shadow-xl transition-all shimmer relative overflow-hidden"
-                  size="lg"
-                  asChild
-                >
-                  <Link href="#contact">
-                    Получить консультацию
-                  </Link>
-                </Button>
+                <PriceCalculatorDialog productName="SHA8" />
               </div>
             </div>
 
