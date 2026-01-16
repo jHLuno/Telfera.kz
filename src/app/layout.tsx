@@ -14,10 +14,10 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Telfera.kz | Тельферы SHA8 и Balkans",
+  title: "Telfera.kz | Тельферы SHA8 и Balkansko Echo",
   description:
-    "Профессиональные тельферы SHA8 и Balkans в Казахстане. Надежное подъемное оборудование для вашего производства.",
-  keywords: ["тельфер", "SHA8", "Balkans", "подъемное оборудование", "Казахстан"],
+    "Профессиональные тельферы SHA8 и Balkansko Echo в Казахстане. Надежное подъемное оборудование для вашего производства.",
+  keywords: ["тельфер", "SHA8", "Balkansko Echo", "подъемное оборудование", "Казахстан"],
 };
 
 export default function RootLayout({

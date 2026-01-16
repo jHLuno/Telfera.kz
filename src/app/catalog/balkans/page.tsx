@@ -14,8 +14,8 @@ import { BalkansFaq } from "@/components/catalog/balkans-faq";
 import { WhatsAppCta } from "@/components/catalog/whatsapp-cta";
 
 export const metadata: Metadata = {
-  title: "Тельфер Balkans серии Т | Telfera.kz",
-  description: "Канатные электротельферы серии Т производства «Балканско Ехо» (Болгария). Грузоподъемность 0.2-12.5т, высота подъема 6-36м.",
+  title: "Тельфер Balkansko Echo серии Т | Telfera.kz",
+  description: "Канатные электротельферы серии Т производства «Балканско Ехо» (Болгария). Грузоподъемность 3.2-12.5т, высота подъема 6-36м.",
 };
 
 export default function BalkansCatalogPage() {
@@ -40,7 +40,7 @@ export default function BalkansCatalogPage() {
                 <div className="aspect-square bg-gradient-to-br from-muted to-muted/50 rounded-2xl border overflow-hidden relative">
                   <Image
                     src="/photos/Balkans.png"
-                    alt="Тельфер Balkans"
+                    alt="Тельфер Balkansko Echo"
                     fill
                     className="object-contain p-8"
                     sizes="(max-width: 1024px) 100vw, 50vw"
@@ -59,7 +59,7 @@ export default function BalkansCatalogPage() {
                     Электрический тельфер серии Т
                   </h1>
                   <p className="text-lg text-muted-foreground">
-                    Канатные электротельферы серии Т производства «Балканско Ехо» (Болгария) представляют собой проверенное временем решение для подъема грузов, оснащенное монорельсовой тележкой нормальной строительной высоты. Модельный ряд охватывает диапазон грузоподъемности от 0,2 до 12,5 тонн, обеспечивая высокую надежность за счет использования электродвигателей с конусным ротором и планетарного редуктора.
+                    Канатные электротельферы серии Т производства «Балканско Ехо» (Болгария) представляют собой проверенное временем решение для подъема грузов, оснащенное монорельсовой тележкой нормальной строительной высоты. Модельный ряд охватывает диапазон грузоподъемности от 3,2 до 12,5 тонн, обеспечивая высокую надежность за счет использования электродвигателей с конусным ротором и планетарного редуктора.
                   </p>
                   <p className="text-lg text-muted-foreground mt-4">
                     Ниже представлены технические характеристики.

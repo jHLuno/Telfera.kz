@@ -63,7 +63,7 @@ export type Product = (typeof PRODUCTS)[keyof typeof PRODUCTS];
 
 export const PRODUCT_LABELS: Record<Product, string> = {
   SHA8: "Тельфер SHA8",
-  Balkans: "Тельфер Balkans",
+  Balkans: "Тельфер Balkansko Echo",
   Other: "Другое",
 };
 

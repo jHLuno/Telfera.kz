@@ -35,7 +35,7 @@ export function Footer() {
               </li>
               <li>
                 <Link href="/catalog/balkans" className="hover:text-foreground transition-colors">
-                  Тельфер Balkans
+                  Тельфер Balkansko Echo
                 </Link>
               </li>
               <li>

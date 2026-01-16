@@ -101,7 +101,7 @@ export function ProductsSection() {
             </Card>
           </m.div>
 
-          {/* Small Card - Balkans */}
+          {/* Small Card - Balkansko Echo */}
           <m.div variants={fadeInUp} className="md:row-span-2">
             <Card className="w-full h-full bento-card hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border-2 border-emerald-500/10 hover:border-emerald-500/30">
               <CardContent className="p-4 md:p-5 h-full flex flex-col">
@@ -110,7 +110,7 @@ export function ProductsSection() {
                     Премиум
                   </span>
                 </div>
-                <h3 className="text-xl font-bold mb-2">Тельфер Balkans</h3>
+                <h3 className="text-xl font-bold mb-2">Тельфер Balkansko Echo</h3>
                 <p className="text-muted-foreground text-sm mb-4">
                   Болгарское качество для требовательных задач. Европейские
                   стандарты.
@@ -118,7 +118,7 @@ export function ProductsSection() {
 
                 <div className="grid grid-cols-2 gap-4 mb-4">
                   <div className="bg-muted rounded-xl p-4">
-                    <p className="text-xl font-bold">0.2-16т</p>
+                    <p className="text-xl font-bold">3.2-12.5т</p>
                     <p className="text-xs text-muted-foreground">
                       Грузоподъемность
                     </p>
@@ -134,7 +134,7 @@ export function ProductsSection() {
                 <div className="aspect-[16/9] bg-gradient-to-br from-muted to-muted/50 rounded-xl flex items-center justify-center border mb-4 overflow-hidden relative flex-grow">
                   <Image
                     src="/photos/Balkans.png"
-                    alt="Тельфер Balkans"
+                    alt="Тельфер Balkansko Echo"
                     fill
                     className="object-contain"
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

@@ -93,7 +93,7 @@ export function HeroSection() {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto"
           >
-            Профессиональные электрические тали SHA8 и Balkans. Надежность,
+            Профессиональные электрические тали SHA8 и Balkansko Echo. Надежность,
             проверенная временем. Гарантия 12 месяцев.
           </m.p>
 
