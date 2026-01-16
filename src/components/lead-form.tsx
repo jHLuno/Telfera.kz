@@ -59,8 +59,8 @@ export function LeadForm() {
 
   const handleProductChange = (value: string) => {
     // Ensure value is a valid product enum value
-    const validValue = Object.values(PRODUCTS).includes(value as Product)
-      ? value
+    const validValue: Product = Object.values(PRODUCTS).includes(value as Product)
+      ? (value as Product)
       : PRODUCTS.OTHER;
     setSelectedProduct(validValue);
     setValue("product", validValue, { shouldValidate: true });
