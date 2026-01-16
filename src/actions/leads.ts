@@ -7,6 +7,7 @@ import { headers } from "next/headers";
 import { requireManager, requireAdmin } from "@/lib/auth-helpers";
 import { checkRateLimit, rateLimits, getClientIp } from "@/lib/rate-limit";
 import { LEAD_STATUSES, PRODUCTS, type Product } from "@/lib/constants";
+import { sendWhatsAppNotification } from "@/lib/whatsapp";
 
 // Phone validation: allows +7, 8, or raw digits, 10-15 chars
 const phoneRegex = /^\+?[0-9]{10,15}$/;
@@ -77,6 +78,16 @@ export async function submitLead(data: z.infer<typeof leadSchema>) {
       phone: validated.phone,
       product: validated.product,
     },
+  });
+
+  // Send WhatsApp notification (non-blocking, don't fail if it errors)
+  sendWhatsAppNotification({
+    name: validated.name,
+    phone: validated.phone,
+    product: validated.product,
+  }).catch((error) => {
+    // Log error but don't fail the lead creation
+    console.error("Failed to send WhatsApp notification:", error);
   });
 
   revalidatePath("/admin");

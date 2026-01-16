@@ -20,6 +20,11 @@ export const env = createEnv({
       .enum(["development", "test", "production"])
       .default("development"),
     AUTH_DEBUG: z.string().optional(),
+    // WhatsApp configuration
+    WHATSAPP_ENABLED: z.string().optional(),
+    WHATSAPP_API_URL: z.string().url().optional(),
+    WHATSAPP_API_KEY: z.string().optional(),
+    WHATSAPP_GROUP_ID: z.string().optional(),
   },
 
   /**
@@ -39,6 +44,10 @@ export const env = createEnv({
     AUTH_SECRET: process.env.AUTH_SECRET,
     NODE_ENV: process.env.NODE_ENV,
     AUTH_DEBUG: process.env.AUTH_DEBUG,
+    WHATSAPP_ENABLED: process.env.WHATSAPP_ENABLED,
+    WHATSAPP_API_URL: process.env.WHATSAPP_API_URL,
+    WHATSAPP_API_KEY: process.env.WHATSAPP_API_KEY,
+    WHATSAPP_GROUP_ID: process.env.WHATSAPP_GROUP_ID,
   },
 
   /**
