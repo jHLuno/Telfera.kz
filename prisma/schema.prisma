@@ -8,13 +8,14 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(cuid())
+  id        String    @id @default(cuid())
   name      String?
-  email     String   @unique
+  email     String    @unique
   password  String
-  role      Role     @default(MANAGER)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  role      Role      @default(MANAGER)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  leadLogs  LeadLog[] // 5.5: User's lead status changes
 
   @@index([role])
   @@index([createdAt])
@@ -28,10 +29,30 @@ model Lead {
   status    LeadStatus @default(NEW)
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
+  deletedAt DateTime?  // Soft delete - null means active, date means deleted
+  logs      LeadLog[]  // 5.5: Status change history
 
+  @@index([phone])              // 5.1: Index for phone lookups
   @@index([status])
   @@index([createdAt])
   @@index([status, createdAt])
+  @@index([deletedAt])          // 5.2: Index for filtering active/deleted
+}
+
+// 5.5: Lead status change log for tracking timeline
+model LeadLog {
+  id         String     @id @default(cuid())
+  leadId     String
+  lead       Lead       @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  userId     String
+  user       User       @relation(fields: [userId], references: [id])
+  fromStatus LeadStatus?
+  toStatus   LeadStatus
+  createdAt  DateTime   @default(now())
+
+  @@index([leadId])
+  @@index([userId])
+  @@index([createdAt])
 }
 
 enum Role {

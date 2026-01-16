@@ -13,8 +13,9 @@ export async function GET() {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    // Get the latest lead
+    // Get the latest active (non-deleted) lead
     const latestLead = await prisma.lead.findFirst({
+      where: { deletedAt: null },
       orderBy: { createdAt: "desc" },
       select: {
         id: true,

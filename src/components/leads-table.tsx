@@ -33,8 +33,9 @@ import {
   LEAD_STATUS_VARIANTS,
   type LeadStatus 
 } from "@/lib/constants";
-import { Eye, Trash2, Phone, Loader2 } from "lucide-react";
+import { Eye, Trash2, Phone, Loader2, History } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
+import { LeadTimeline } from "@/components/lead-timeline";
 
 interface LeadsTableProps {
   leads: Lead[];
@@ -183,11 +184,14 @@ export function LeadsTable({ leads, isAdmin = false }: LeadsTableProps) {
       </div>
 
       <Dialog open={!!selectedLead} onOpenChange={() => setSelectedLead(null)}>
-        <DialogContent className="max-w-md">
+        <DialogContent className="max-w-md max-h-[85vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle>Информация о лиде</DialogTitle>
+            <DialogTitle className="flex items-center gap-2">
+              <History className="w-5 h-5" />
+              Информация о лиде
+            </DialogTitle>
             <DialogDescription>
-              Детальная информация о заявке
+              Детальная информация и история изменений
             </DialogDescription>
           </DialogHeader>
           {selectedLead && (
@@ -218,7 +222,7 @@ export function LeadsTable({ leads, isAdmin = false }: LeadsTableProps) {
                 </div>
               </div>
 
-              <div className="pt-4 border-t">
+              <div className="pt-4 border-t space-y-1">
                 <p className="text-sm text-muted-foreground">
                   Создан: {formatDate(selectedLead.createdAt)}
                 </p>
@@ -227,6 +231,11 @@ export function LeadsTable({ leads, isAdmin = false }: LeadsTableProps) {
                     Продукт: {selectedLead.product}
                   </p>
                 )}
+              </div>
+
+              {/* 5.5: Lead status change timeline */}
+              <div className="pt-4 border-t">
+                <LeadTimeline leadId={selectedLead.id} />
               </div>
             </div>
           )}

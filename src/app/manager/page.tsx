@@ -8,14 +8,19 @@ import { LeadNotifications } from "@/components/lead-notifications";
 export const revalidate = 30;
 
 export default async function ManagerDashboard() {
+  // Filter for active (non-deleted) leads only
+  const activeFilter = { deletedAt: null };
+
   // Optimized: Single query with groupBy for status counts + parallel queries
   const [statusCounts, recentLeads] = await Promise.all([
-    // Get all status counts in one query using groupBy
+    // Get all status counts in one query using groupBy (active leads only)
     prisma.lead.groupBy({
       by: ["status"],
+      where: activeFilter,
       _count: { status: true },
     }),
     prisma.lead.findMany({
+      where: activeFilter,
       take: 5,
       orderBy: { createdAt: "desc" },
       select: { id: true, name: true, phone: true, product: true, status: true },

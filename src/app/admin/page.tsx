@@ -17,18 +17,23 @@ export const revalidate = 30;
 export default async function AdminDashboard() {
   const monthStart = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
 
+  // Filter for active (non-deleted) leads only
+  const activeFilter = { deletedAt: null };
+
   // Optimized: Single query with groupBy for status counts + parallel queries
   const [statusCounts, totalUsers, leadsThisMonth, recentLeads] = await Promise.all([
-    // Get all status counts in one query using groupBy
+    // Get all status counts in one query using groupBy (active leads only)
     prisma.lead.groupBy({
       by: ["status"],
+      where: activeFilter,
       _count: { status: true },
     }),
     prisma.user.count(),
     prisma.lead.count({
-      where: { createdAt: { gte: monthStart } },
+      where: { createdAt: { gte: monthStart }, ...activeFilter },
     }),
     prisma.lead.findMany({
+      where: activeFilter,
       take: 5,
       orderBy: { createdAt: "desc" },
       select: { id: true, name: true, phone: true, product: true, status: true },

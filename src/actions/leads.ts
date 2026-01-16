@@ -70,15 +70,42 @@ export async function submitLead(data: z.infer<typeof leadSchema>) {
 }
 
 // Protected action - requires manager or admin role
+// Creates a log entry to track status changes (5.5)
 export async function updateLeadStatus(id: string, status: string) {
-  await requireManager();
+  const session = await requireManager();
 
   const validatedStatus = leadStatusSchema.parse(status);
 
-  const lead = await prisma.lead.update({
+  // Get current lead to record the previous status
+  const currentLead = await prisma.lead.findUnique({
     where: { id },
-    data: { status: validatedStatus },
+    select: { status: true },
   });
+
+  if (!currentLead) {
+    throw new Error("Лид не найден");
+  }
+
+  // Don't create log if status hasn't changed
+  if (currentLead.status === validatedStatus) {
+    return prisma.lead.findUnique({ where: { id } });
+  }
+
+  // Update lead and create log entry in a transaction
+  const [lead] = await prisma.$transaction([
+    prisma.lead.update({
+      where: { id },
+      data: { status: validatedStatus },
+    }),
+    prisma.leadLog.create({
+      data: {
+        leadId: id,
+        userId: session.user.id,
+        fromStatus: currentLead.status,
+        toStatus: validatedStatus,
+      },
+    }),
+  ]);
 
   revalidatePath("/admin");
   revalidatePath("/manager");
@@ -87,11 +114,13 @@ export async function updateLeadStatus(id: string, status: string) {
 }
 
 // Protected action - requires admin role
+// Uses soft delete - sets deletedAt instead of physically removing
 export async function deleteLead(id: string) {
   await requireAdmin();
 
-  await prisma.lead.delete({
+  await prisma.lead.update({
     where: { id },
+    data: { deletedAt: new Date() },
   });
 
   revalidatePath("/admin");
@@ -99,7 +128,7 @@ export async function deleteLead(id: string) {
 }
 
 // Protected action - requires manager or admin role
-// Supports pagination
+// Supports pagination, filters out soft-deleted leads
 export async function getLeads(options?: { page?: number; limit?: number }) {
   await requireManager();
 
@@ -107,22 +136,17 @@ export async function getLeads(options?: { page?: number; limit?: number }) {
   const limit = options?.limit ?? 50;
   const skip = (page - 1) * limit;
 
+  // Only fetch non-deleted leads
+  const whereClause = { deletedAt: null };
+
   const [leads, total] = await Promise.all([
     prisma.lead.findMany({
-      select: {
-        id: true,
-        name: true,
-        phone: true,
-        product: true,
-        status: true,
-        createdAt: true,
-        updatedAt: true,
-      },
+      where: whereClause,
       orderBy: { createdAt: "desc" },
       take: limit,
       skip,
     }),
-    prisma.lead.count(),
+    prisma.lead.count({ where: whereClause }),
   ]);
 
   return {
@@ -140,20 +164,35 @@ export async function getLeads(options?: { page?: number; limit?: number }) {
 const MAX_LEADS_LIMIT = 500;
 
 // For backwards compatibility - returns leads with a safety limit
+// Filters out soft-deleted leads
 export async function getAllLeads() {
   await requireManager();
 
   return prisma.lead.findMany({
-    select: {
-      id: true,
-      name: true,
-      phone: true,
-      product: true,
-      status: true,
-      createdAt: true,
-      updatedAt: true,
-    },
+    where: { deletedAt: null },
     orderBy: { createdAt: "desc" },
-    take: MAX_LEADS_LIMIT, // Safety limit to prevent memory issues
+    take: MAX_LEADS_LIMIT,
   });
 }
+
+// 5.5: Get lead logs with user info for timeline display
+export async function getLeadLogs(leadId: string) {
+  await requireManager();
+
+  return prisma.leadLog.findMany({
+    where: { leadId },
+    include: {
+      user: {
+        select: {
+          id: true,
+          name: true,
+          email: true,
+        },
+      },
+    },
+    orderBy: { createdAt: "desc" },
+  });
+}
+
+// Type for lead log with user info
+export type LeadLogWithUser = Awaited<ReturnType<typeof getLeadLogs>>[number];
