@@ -161,7 +161,7 @@ export function ProductsSection() {
                 <Award className="w-10 h-10 mb-4" />
                 <h3 className="text-xl font-bold mb-3">Гарантия качества</h3>
                 <p className="text-sm opacity-80">
-                  До 3 лет гарантии на все модели. Сервисное обслуживание по
+                  Гарантия 12 месяцев на все модели. Сервисное обслуживание по
                   всему Казахстану.
                 </p>
               </CardContent>

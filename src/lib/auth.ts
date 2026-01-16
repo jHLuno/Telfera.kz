@@ -5,6 +5,7 @@ import bcrypt from "bcryptjs";
 import { z } from "zod";
 import { checkRateLimit, rateLimits } from "./rate-limit";
 import { logger } from "./logger";
+import { SECURITY_CONFIG } from "./constants";
 
 const loginSchema = z.object({
   email: z
@@ -201,9 +202,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   },
   session: {
     strategy: "jwt",
-    // Extended session: 8 hours (better UX for workday)
-    maxAge: 8 * 60 * 60,
-    // Refresh session every 1 hour if active
-    updateAge: 60 * 60,
+    // Session duration from centralized config
+    maxAge: SECURITY_CONFIG.sessionMaxAge,
+    // Refresh interval from centralized config
+    updateAge: SECURITY_CONFIG.sessionUpdateAge,
   },
 });

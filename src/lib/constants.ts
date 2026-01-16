@@ -75,3 +75,28 @@ export const CONTACT_INFO = {
   whatsapp: "77015320626",
   city: "г. Алматы, Казахстан",
 } as const;
+
+// Security configuration
+export const SECURITY_CONFIG = {
+  /** bcrypt cost factor - higher = more secure but slower */
+  bcryptRounds: 12,
+  /** Session duration in seconds (8 hours) */
+  sessionMaxAge: 8 * 60 * 60,
+  /** Session refresh interval in seconds (1 hour) */
+  sessionUpdateAge: 60 * 60,
+} as const;
+
+// Polling and timing configuration
+export const TIMING_CONFIG = {
+  /** Lead notifications polling interval in milliseconds */
+  leadPollingInterval: 30_000, // 30 seconds
+  /** Toast auto-dismiss delay in milliseconds */
+  toastDuration: 5_000,
+} as const;
+
+// Business information
+export const BUSINESS_INFO = {
+  /** Warranty period in months */
+  warrantyMonths: 12,
+  warrantyText: "12 месяцев",
+} as const;

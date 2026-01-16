@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogFooter,
@@ -137,6 +138,10 @@ export function PriceCalculatorDialog({
       <DialogContent>
         {isSubmitted ? (
           <div className="flex flex-col items-center justify-center py-12 text-center">
+            <DialogHeader className="sr-only">
+              <DialogTitle>Заявка отправлена</DialogTitle>
+              <DialogDescription>Мы свяжемся с вами в ближайшее время</DialogDescription>
+            </DialogHeader>
             <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mb-4">
               <CheckCircle className="w-8 h-8 text-emerald-600" />
             </div>
@@ -149,6 +154,9 @@ export function PriceCalculatorDialog({
           <>
             <DialogHeader>
               <DialogTitle>Рассчитать стоимость тельфера</DialogTitle>
+              <DialogDescription>
+                Заполните форму и мы свяжемся с вами для расчёта
+              </DialogDescription>
             </DialogHeader>
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
               {error && (

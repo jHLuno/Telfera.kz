@@ -5,7 +5,7 @@ import { z } from "zod";
 import { revalidatePath } from "next/cache";
 import bcrypt from "bcryptjs";
 import { requireAdmin, requireAuth } from "@/lib/auth-helpers";
-import { USER_ROLES } from "@/lib/constants";
+import { USER_ROLES, SECURITY_CONFIG } from "@/lib/constants";
 
 // Password: 8+ chars, at least 1 uppercase, 1 lowercase, 1 number
 const passwordSchema = z
@@ -63,8 +63,8 @@ export async function createUser(data: z.infer<typeof userSchema>) {
     throw new Error("Пользователь с таким email уже существует");
   }
 
-  // Hash the password with cost factor 12 (more secure than 10)
-  const hashedPassword = await bcrypt.hash(validated.password, 12);
+  // Hash the password with cost factor from centralized config
+  const hashedPassword = await bcrypt.hash(validated.password, SECURITY_CONFIG.bcryptRounds);
 
   const user = await prisma.user.create({
     data: {
@@ -158,7 +158,7 @@ export async function updateUserProfile(
   }
 
   if (validated.newPassword) {
-    updateData.password = await bcrypt.hash(validated.newPassword, 12);
+    updateData.password = await bcrypt.hash(validated.newPassword, SECURITY_CONFIG.bcryptRounds);
   }
 
   // Update user

@@ -1,40 +1,30 @@
 import { PrismaClient } from "@prisma/client";
-import bcrypt from "bcryptjs";
 
 const prisma = new PrismaClient();
 
+/**
+ * Database seed script
+ * 
+ * NOTE: Users should be created via the admin panel or directly in the database.
+ * This seed only creates sample leads for development/testing purposes.
+ * 
+ * To create users in production:
+ * 1. Use the admin panel at /admin/users
+ * 2. Or use Railway's database GUI to insert directly
+ */
 async function main() {
   console.log("🌱 Seeding database...");
 
-  // Create admin user
-  const adminPassword = await bcrypt.hash("admin123", 10);
-  const admin = await prisma.user.upsert({
-    where: { email: "admin@telfera.kz" },
-    update: {},
-    create: {
-      email: "admin@telfera.kz",
-      name: "Администратор",
-      password: adminPassword,
-      role: "ADMIN",
-    },
-  });
-  console.log(`✅ Admin user created: ${admin.email}`);
+  // Check if leads already exist to avoid duplicates
+  const existingLeads = await prisma.lead.count();
+  
+  if (existingLeads > 0) {
+    console.log(`ℹ️  Database already has ${existingLeads} leads, skipping seed`);
+    console.log("🎉 Seeding completed!");
+    return;
+  }
 
-  // Create manager user
-  const managerPassword = await bcrypt.hash("manager123", 10);
-  const manager = await prisma.user.upsert({
-    where: { email: "manager@telfera.kz" },
-    update: {},
-    create: {
-      email: "manager@telfera.kz",
-      name: "Менеджер",
-      password: managerPassword,
-      role: "MANAGER",
-    },
-  });
-  console.log(`✅ Manager user created: ${manager.email}`);
-
-  // Create sample leads (fields must match schema.prisma: name, phone, product, status)
+  // Create sample leads for development (fields must match schema.prisma)
   const leads = [
     {
       name: "Алексей Петров",

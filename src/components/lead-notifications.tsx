@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { useToast } from "@/components/ui/use-toast";
+import { TIMING_CONFIG } from "@/lib/constants";
 
 interface Lead {
   id: string;
@@ -42,7 +43,7 @@ export function LeadNotifications() {
     // Start initialization immediately
     initialize();
 
-    // Poll for new leads every 30 seconds
+    // Poll for new leads at configured interval
     const pollInterval = setInterval(async () => {
       // Skip if not initialized yet
       if (!isInitializedRef.current) {
@@ -63,7 +64,7 @@ export function LeadNotifications() {
           });
         }
       }
-    }, 30000); // Poll every 30 seconds (reduced from 10s to lower server load)
+    }, TIMING_CONFIG.leadPollingInterval);
 
     return () => {
       clearInterval(pollInterval);
