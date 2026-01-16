@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { signIn } from "next-auth/react";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -10,9 +11,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Loader2 } from "lucide-react";
 import { Logo } from "@/components/logo";
 
-export default function LoginPage() {
+function LoginForm() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
+  const searchParams = useSearchParams();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -51,8 +54,17 @@ export default function LoginPage() {
           setError("Произошла ошибка при входе. Попробуйте снова.");
         }
       } else if (result?.ok) {
-        // Successful login - redirect will be handled by middleware
-        window.location.href = result.url || "/";
+        // Successful login - use relative path to avoid localhost issues
+        const callbackUrl = searchParams.get("callbackUrl");
+        
+        // Use relative path to ensure we stay on the same domain
+        if (callbackUrl && callbackUrl.startsWith("/") && !callbackUrl.includes("localhost")) {
+          router.push(callbackUrl);
+        } else {
+          // Let middleware handle the redirect based on role
+          // Use relative path to stay on current domain
+          router.push("/admin");
+        }
       } else {
         setError("Не удалось войти. Попробуйте снова.");
       }
@@ -132,5 +144,17 @@ export default function LoginPage() {
         </p>
       </div>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center">
+        <Loader2 className="w-6 h-6 animate-spin" />
+      </div>
+    }>
+      <LoginForm />
+    </Suspense>
   );
 }
