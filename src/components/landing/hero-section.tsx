@@ -74,7 +74,7 @@ export function HeroSection() {
     }
   }, []);
   return (
-    <section className="pt-18 pb-10 md:pt-24 md:pb-16 overflow-hidden">
+    <section className="pt-20 pb-10 md:pt-28 md:pb-16 overflow-hidden">
       <div className="container mx-auto px-4">
         <div className="max-w-4xl mx-auto text-center">
           <div className="inline-flex items-center gap-2 bg-muted px-4 py-2 rounded-full text-sm mb-4 md:mb-6">
