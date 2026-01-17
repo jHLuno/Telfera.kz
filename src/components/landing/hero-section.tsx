@@ -125,7 +125,7 @@ export function HeroSection() {
           </div>
 
           {/* Mobile stats cards - positioned around video like desktop */}
-          <Card className="shadow-lg bg-background/95 backdrop-blur-sm border absolute -left-2 top-0 z-20 lg:hidden">
+          <Card className="shadow-lg bg-background/95 backdrop-blur-sm border absolute left-[15%] top-0 z-20 lg:hidden">
             <CardContent className="p-2.5">
               <p className="text-lg font-bold text-primary">500+</p>
               <p className="text-[10px] text-muted-foreground">
@@ -133,7 +133,7 @@ export function HeroSection() {
               </p>
             </CardContent>
           </Card>
-          <Card className="shadow-lg bg-background/95 backdrop-blur-sm border absolute -right-2 bottom-0 z-20 lg:hidden">
+          <Card className="shadow-lg bg-background/95 backdrop-blur-sm border absolute right-[15%] bottom-0 z-20 lg:hidden">
             <CardContent className="p-2.5">
               <p className="text-lg font-bold text-emerald-500">12 мес</p>
               <p className="text-[10px] text-muted-foreground">Гарантия</p>
