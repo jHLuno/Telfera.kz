@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { m } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -12,12 +11,11 @@ export function Header() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b animate-slide-down"
-    >
+    <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-b animate-slide-down">
       <div className="container mx-auto px-4">
-        <nav className="flex items-center justify-between h-16">
-          <Link href="/">
-            <Logo width={80} height={80} showText={false} />
+        <nav className="flex items-center justify-between h-14 md:h-16">
+          <Link href="/" className="shrink-0">
+            <Logo width={60} height={60} showText={false} className="md:w-[80px] md:h-[80px]" />
           </Link>
 
           {/* Desktop Navigation */}
@@ -50,7 +48,7 @@ export function Header() {
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden p-2"
+            className="md:hidden p-2 -mr-2 touch-manipulation"
             onClick={() => setIsOpen(!isOpen)}
             aria-label="Toggle menu"
           >
@@ -60,41 +58,36 @@ export function Header() {
 
         {/* Mobile Navigation */}
         {isOpen && (
-          <m.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden py-4 border-t"
-          >
+          <div className="md:hidden py-4 border-t bg-background">
             <div className="flex flex-col gap-4">
               <Link
                 href="/#catalog"
-                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                className="text-base font-medium text-foreground hover:text-primary transition-colors py-2"
                 onClick={() => setIsOpen(false)}
               >
                 Продукция
               </Link>
               <Link
                 href="/#about"
-                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                className="text-base font-medium text-foreground hover:text-primary transition-colors py-2"
                 onClick={() => setIsOpen(false)}
               >
                 О нас
               </Link>
               <Link
                 href="/#contact"
-                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                className="text-base font-medium text-foreground hover:text-primary transition-colors py-2"
                 onClick={() => setIsOpen(false)}
               >
                 Контакты
               </Link>
-              <div className="flex gap-2 pt-2">
-                <Button size="sm" asChild>
+              <div className="pt-2">
+                <Button size="lg" asChild className="w-full">
                   <a href={`tel:${CONTACT_INFO.phone}`}>Позвонить нам</a>
                 </Button>
               </div>
             </div>
-          </m.div>
+          </div>
         )}
       </div>
     </header>

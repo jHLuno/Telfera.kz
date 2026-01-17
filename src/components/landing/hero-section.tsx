@@ -1,14 +1,25 @@
 "use client";
 
 import { m, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { ArrowRight, Package } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import Link from "next/link";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 
 export function HeroSection() {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    // Check if mobile on mount and resize
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 1024);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -63,46 +74,26 @@ export function HeroSection() {
     }
   }, []);
   return (
-    <section className="pt-20 pb-12 md:pt-24 md:pb-16 overflow-hidden">
+    <section className="pt-18 pb-10 md:pt-24 md:pb-16 overflow-hidden">
       <div className="container mx-auto px-4">
         <div className="max-w-4xl mx-auto text-center">
-          <m.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 bg-muted px-4 py-2 rounded-full text-sm mb-6"
-          >
+          <div className="inline-flex items-center gap-2 bg-muted px-4 py-2 rounded-full text-sm mb-4 md:mb-6">
             <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
             Официальный дистрибьютор в Казахстане
-          </m.div>
+          </div>
 
-          <m.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6 max-w-6xl mx-auto leading-tight"
-          >
+          <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-4 md:mb-6 max-w-6xl mx-auto leading-tight">
             Тельферы для
             <br />
-            <span className="text-blue-500 whitespace-nowrap">производства в Казахстане</span>
-          </m.h1>
+            <span className="text-blue-500">производства в Казахстане</span>
+          </h1>
 
-          <m.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto"
-          >
+          <p className="text-base md:text-xl text-muted-foreground mb-6 md:mb-8 max-w-2xl mx-auto px-2">
             Профессиональные электрические тали SHA8 и Balkansko Echo. Надежность,
             проверенная временем. Гарантия 12 месяцев.
-          </m.p>
+          </p>
 
-          <m.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center"
-          >
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
             <Button
               size="lg"
               asChild
@@ -121,16 +112,11 @@ export function HeroSection() {
             >
               <Link href="#catalog">Смотреть каталог</Link>
             </Button>
-          </m.div>
+          </div>
         </div>
 
         {/* Hero Visual */}
-        <m.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.7, delay: 0.4 }}
-          className="mt-12 relative"
-        >
+        <div className="mt-8 md:mt-12 relative">
           <div className="aspect-[4/3] max-w-sm mx-auto bg-gradient-to-br from-muted to-muted/50 rounded-2xl border overflow-hidden grid-pattern">
             <div className="absolute inset-0 flex items-center justify-center">
               <video
@@ -148,43 +134,68 @@ export function HeroSection() {
             </div>
           </div>
 
-          {/* Floating stats */}
-          <TiltCard
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.6 }}
-            className="absolute left-[5%] top-[15%] hidden lg:block"
-          >
-            <Card className="shadow-xl backdrop-blur-md bg-white/90 border border-white/60">
-              <CardContent className="p-4">
-                <p className="text-3xl font-bold text-primary">500+</p>
-                <p className="text-sm text-muted-foreground">
-                  Установленных тельферов
-                </p>
-              </CardContent>
-            </Card>
-          </TiltCard>
+          {/* Floating stats - visible on all screens, static on mobile */}
+          {isMobile ? (
+            <>
+              {/* Static cards for mobile - positioned below video */}
+              <div className="flex gap-3 mt-4 justify-center">
+                <Card className="shadow-lg bg-background border">
+                  <CardContent className="p-3">
+                    <p className="text-xl font-bold text-primary">500+</p>
+                    <p className="text-xs text-muted-foreground">
+                      Тельферов установлено
+                    </p>
+                  </CardContent>
+                </Card>
+                <Card className="shadow-lg bg-background border">
+                  <CardContent className="p-3">
+                    <p className="text-xl font-bold text-emerald-500">12 мес</p>
+                    <p className="text-xs text-muted-foreground">Гарантия</p>
+                  </CardContent>
+                </Card>
+              </div>
+            </>
+          ) : (
+            <>
+              {/* Tilt cards for desktop */}
+              <TiltCard
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.6 }}
+                className="absolute left-[5%] top-[15%]"
+              >
+                <Card className="shadow-xl backdrop-blur-md bg-white/90 border border-white/60">
+                  <CardContent className="p-4">
+                    <p className="text-3xl font-bold text-primary">500+</p>
+                    <p className="text-sm text-muted-foreground">
+                      Установленных тельферов
+                    </p>
+                  </CardContent>
+                </Card>
+              </TiltCard>
 
-          <TiltCard
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.7 }}
-            className="absolute right-[5%] bottom-[15%] hidden lg:block"
-          >
-            <Card className="shadow-xl backdrop-blur-md bg-white/90 border border-white/60 min-w-[200px]">
-              <CardContent className="p-4">
-                <p className="text-3xl font-bold text-emerald-500">12 месяцев</p>
-                <p className="text-sm text-muted-foreground">Гарантия</p>
-              </CardContent>
-            </Card>
-          </TiltCard>
-        </m.div>
+              <TiltCard
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.7 }}
+                className="absolute right-[5%] bottom-[15%]"
+              >
+                <Card className="shadow-xl backdrop-blur-md bg-white/90 border border-white/60 min-w-[200px]">
+                  <CardContent className="p-4">
+                    <p className="text-3xl font-bold text-emerald-500">12 месяцев</p>
+                    <p className="text-sm text-muted-foreground">Гарантия</p>
+                  </CardContent>
+                </Card>
+              </TiltCard>
+            </>
+          )}
+        </div>
       </div>
     </section>
   );
 }
 
-// 3D Tilt Card Component
+// 3D Tilt Card Component (only used on desktop)
 interface TiltCardProps {
   children: React.ReactNode;
   className?: string;
