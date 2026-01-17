@@ -124,21 +124,15 @@ export function HeroSection() {
             </div>
           </div>
 
-          {/* Mobile stats cards - positioned around video like desktop */}
-          <Card className="shadow-lg bg-background/95 backdrop-blur-sm border absolute left-[15%] top-0 z-20 lg:hidden">
-            <CardContent className="p-2.5">
-              <p className="text-lg font-bold text-primary">500+</p>
-              <p className="text-[10px] text-muted-foreground">
-                Тельферов
-              </p>
-            </CardContent>
-          </Card>
-          <Card className="shadow-lg bg-background/95 backdrop-blur-sm border absolute right-[15%] bottom-0 z-20 lg:hidden">
-            <CardContent className="p-2.5">
-              <p className="text-lg font-bold text-emerald-500">12 мес</p>
-              <p className="text-[10px] text-muted-foreground">Гарантия</p>
-            </CardContent>
-          </Card>
+          {/* Mobile stats cards - compact, positioned around video */}
+          <div className="absolute left-[12%] -top-2 z-20 lg:hidden shadow-md rounded-lg bg-background/90 backdrop-blur-sm border px-2 py-1.5">
+            <p className="text-sm font-bold text-primary leading-none">500+</p>
+            <p className="text-[9px] text-muted-foreground leading-tight">тельферов</p>
+          </div>
+          <div className="absolute right-[12%] -bottom-2 z-20 lg:hidden shadow-md rounded-lg bg-background/90 backdrop-blur-sm border px-2 py-1.5">
+            <p className="text-sm font-bold text-emerald-500 leading-none">12 мес</p>
+            <p className="text-[9px] text-muted-foreground leading-tight">гарантия</p>
+          </div>
 
           {/* Desktop Tilt cards - hidden on mobile */}
           <TiltCard
