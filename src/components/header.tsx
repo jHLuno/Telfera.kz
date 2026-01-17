@@ -67,7 +67,7 @@ export function Header() {
 
           {/* Mobile Navigation */}
           {isOpen && (
-            <div className="md:hidden py-4 border-t bg-background">
+            <div className="md:hidden py-4 border-t">
               <div className="flex flex-col gap-4">
                 <Link
                   href="/#catalog"

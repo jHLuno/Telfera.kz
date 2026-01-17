@@ -107,7 +107,7 @@ export function HeroSection() {
         {/* Hero Visual */}
         <div className="mt-6 md:mt-12 relative">
           {/* Video - smaller on mobile */}
-          <div className="aspect-[16/10] md:aspect-[4/3] max-w-[280px] md:max-w-sm mx-auto bg-gradient-to-br from-muted to-muted/50 rounded-2xl border overflow-hidden grid-pattern">
+          <div className="aspect-[16/10] md:aspect-[4/3] max-w-[280px] md:max-w-sm mx-auto bg-gradient-to-br from-muted to-muted/50 rounded-2xl border overflow-hidden grid-pattern relative z-10">
             <div className="absolute inset-0 flex items-center justify-center">
               <video
                 ref={videoRef}
@@ -124,23 +124,21 @@ export function HeroSection() {
             </div>
           </div>
 
-          {/* Mobile stats cards - below video */}
-          <div className="flex gap-3 mt-4 justify-center lg:hidden">
-            <Card className="shadow-lg bg-background border">
-              <CardContent className="p-3">
-                <p className="text-xl font-bold text-primary">500+</p>
-                <p className="text-xs text-muted-foreground">
-                  Тельферов установлено
-                </p>
-              </CardContent>
-            </Card>
-            <Card className="shadow-lg bg-background border">
-              <CardContent className="p-3">
-                <p className="text-xl font-bold text-emerald-500">12 мес</p>
-                <p className="text-xs text-muted-foreground">Гарантия</p>
-              </CardContent>
-            </Card>
-          </div>
+          {/* Mobile stats cards - positioned around video like desktop */}
+          <Card className="shadow-lg bg-background/95 backdrop-blur-sm border absolute -left-2 top-0 z-20 lg:hidden">
+            <CardContent className="p-2.5">
+              <p className="text-lg font-bold text-primary">500+</p>
+              <p className="text-[10px] text-muted-foreground">
+                Тельферов
+              </p>
+            </CardContent>
+          </Card>
+          <Card className="shadow-lg bg-background/95 backdrop-blur-sm border absolute -right-2 bottom-0 z-20 lg:hidden">
+            <CardContent className="p-2.5">
+              <p className="text-lg font-bold text-emerald-500">12 мес</p>
+              <p className="text-[10px] text-muted-foreground">Гарантия</p>
+            </CardContent>
+          </Card>
 
           {/* Desktop Tilt cards - hidden on mobile */}
           <TiltCard
