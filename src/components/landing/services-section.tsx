@@ -1,6 +1,7 @@
 "use client";
 
-import { ArrowRight, Clock, CheckCircle2, Settings, Hammer } from "lucide-react";
+import { m } from "framer-motion";
+import { ArrowRight, Clock, CheckCircle2, Settings, Hammer, MousePointerClick } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import Link from "next/link";
@@ -51,6 +52,25 @@ export function ServicesSection() {
                     <Clock className="w-3 h-3" />
                     <span>3-5 дней</span>
                   </div>
+                </div>
+
+                {/* Hover indicator - only on desktop */}
+                <div className="absolute inset-0 hidden lg:flex items-center justify-center z-20 opacity-100 group-hover/install:opacity-0 transition-opacity duration-500 pointer-events-none">
+                  <m.div
+                    animate={{
+                      x: [0, 8, -5, 12, -3, 0],
+                      y: [0, -6, 10, -8, 5, 0],
+                    }}
+                    transition={{
+                      duration: 4,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                    }}
+                    className="flex items-center gap-2 text-background/60 text-sm mt-16"
+                  >
+                    <MousePointerClick className="w-4 h-4" />
+                    <span>Наведи для деталей</span>
+                  </m.div>
                 </div>
 
                 <div className="flex-grow flex flex-col">
@@ -111,6 +131,25 @@ export function ServicesSection() {
                     <Clock className="w-3 h-3" />
                     <span>1-3 дня</span>
                   </div>
+                </div>
+
+                {/* Hover indicator - only on desktop */}
+                <div className="absolute inset-0 hidden lg:flex items-center justify-center z-20 opacity-100 group-hover/demount:opacity-0 transition-opacity duration-500 pointer-events-none">
+                  <m.div
+                    animate={{
+                      x: [0, -10, 6, -8, 12, 0],
+                      y: [0, 7, -9, 4, -6, 0],
+                    }}
+                    transition={{
+                      duration: 4.2,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                    }}
+                    className="flex items-center gap-2 text-foreground/50 text-sm mt-16"
+                  >
+                    <MousePointerClick className="w-4 h-4" />
+                    <span>Наведи для деталей</span>
+                  </m.div>
                 </div>
 
                 <div className="flex-grow flex flex-col">
