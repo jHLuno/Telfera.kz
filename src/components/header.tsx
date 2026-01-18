@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { m, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -12,19 +13,25 @@ export function Header() {
 
   return (
     <>
-      {/* Dark overlay when menu is open */}
-      {isOpen && (
-        <div 
-          className="fixed inset-0 bg-black/50 z-40 md:hidden"
-          onClick={() => setIsOpen(false)}
-        />
-      )}
-      
-      <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-b animate-slide-down">
+      {/* Mobile overlay when menu is open */}
+      <AnimatePresence>
+        {isOpen && (
+          <m.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 md:hidden"
+            onClick={() => setIsOpen(false)}
+          />
+        )}
+      </AnimatePresence>
+
+      <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-b shadow-sm animate-slide-down">
         <div className="container mx-auto px-4">
-          <nav className="flex items-center justify-between h-14 md:h-16">
-            <Link href="/" className="shrink-0">
-              <Logo width={60} height={60} showText={false} className="md:w-[80px] md:h-[80px]" />
+          <nav className="flex items-center justify-between h-16">
+            <Link href="/">
+              <Logo width={80} height={80} showText={false} />
             </Link>
 
             {/* Desktop Navigation */}
@@ -57,7 +64,7 @@ export function Header() {
 
             {/* Mobile Menu Button */}
             <button
-              className="md:hidden p-2 -mr-2 touch-manipulation relative z-50"
+              className="md:hidden p-2 relative z-50"
               onClick={() => setIsOpen(!isOpen)}
               aria-label="Toggle menu"
             >
@@ -66,38 +73,46 @@ export function Header() {
           </nav>
 
           {/* Mobile Navigation */}
-          {isOpen && (
-            <div className="md:hidden py-4 border-t">
-              <div className="flex flex-col gap-4">
-                <Link
-                  href="/#catalog"
-                  className="text-base font-medium text-foreground hover:text-primary transition-colors py-2"
-                  onClick={() => setIsOpen(false)}
-                >
-                  Продукция
-                </Link>
-                <Link
-                  href="/#about"
-                  className="text-base font-medium text-foreground hover:text-primary transition-colors py-2"
-                  onClick={() => setIsOpen(false)}
-                >
-                  О нас
-                </Link>
-                <Link
-                  href="/#contact"
-                  className="text-base font-medium text-foreground hover:text-primary transition-colors py-2"
-                  onClick={() => setIsOpen(false)}
-                >
-                  Контакты
-                </Link>
-                <div className="pt-2">
-                  <Button size="lg" asChild className="w-full">
-                    <a href={`tel:${CONTACT_INFO.phone}`}>Позвонить нам</a>
-                  </Button>
+          <AnimatePresence>
+            {isOpen && (
+              <m.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.2 }}
+                className="md:hidden py-4 border-t bg-background"
+              >
+                <div className="flex flex-col gap-4">
+                  <Link
+                    href="/#catalog"
+                    className="text-base font-medium text-foreground hover:text-primary transition-colors py-2"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    Продукция
+                  </Link>
+                  <Link
+                    href="/#about"
+                    className="text-base font-medium text-foreground hover:text-primary transition-colors py-2"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    О нас
+                  </Link>
+                  <Link
+                    href="/#contact"
+                    className="text-base font-medium text-foreground hover:text-primary transition-colors py-2"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    Контакты
+                  </Link>
+                  <div className="flex gap-2 pt-2">
+                    <Button size="sm" asChild className="w-full">
+                      <a href={`tel:${CONTACT_INFO.phone}`}>Позвонить нам</a>
+                    </Button>
+                  </div>
                 </div>
-              </div>
-            </div>
-          )}
+              </m.div>
+            )}
+          </AnimatePresence>
         </div>
       </header>
     </>

@@ -4,9 +4,40 @@ import { m } from "framer-motion";
 import { ArrowRight, Clock, CheckCircle2, Settings, Hammer, MousePointerClick } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { fadeInUp, staggerContainer } from "./motion-variants";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+
+// Hook to detect mobile
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(false);
+  
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 1024);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+  
+  return isMobile;
+}
 
 export function ServicesSection() {
+  const isMobile = useIsMobile();
+  
+  // No animations on mobile - show everything immediately
+  const mobileNoAnimation = {
+    hidden: { opacity: 1, y: 0 },
+    visible: { opacity: 1, y: 0 },
+  };
+  const mobileNoStagger = {
+    hidden: {},
+    visible: {},
+  };
+  
+  const effectiveStagger = isMobile ? mobileNoStagger : staggerContainer;
+  const effectiveFadeInUp = isMobile ? mobileNoAnimation : fadeInUp;
+  
   return (
     <section
       id="services"
@@ -19,182 +50,209 @@ export function ServicesSection() {
       </div>
 
       <div className="container mx-auto px-4 relative z-10">
-        {/* Section Header - no animations */}
-        <div className="text-center mb-8 md:mb-12">
-          <h2 className="text-3xl md:text-5xl font-bold mb-4 md:mb-6">
-            Монтаж и демонтаж тельферов
-          </h2>
-          <p className="text-muted-foreground text-base md:text-lg max-w-3xl mx-auto">
-            Профессиональный монтаж и демонтаж электрических талей. Опытные
-            специалисты обеспечат качественную работу с соблюдением всех
-            требований безопасности.
-          </p>
-        </div>
+        <m.div
+          initial={isMobile ? "visible" : "hidden"}
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          variants={effectiveStagger}
+        >
+          {/* Section Header */}
+          <m.div variants={effectiveFadeInUp} className="text-center mb-12">
+            <m.h2
+              variants={effectiveFadeInUp}
+              className="text-3xl md:text-5xl font-bold mb-6"
+            >
+              Монтаж и демонтаж тельферов
+            </m.h2>
+            <m.p
+              variants={effectiveFadeInUp}
+              className="text-muted-foreground text-lg max-w-3xl mx-auto"
+            >
+              Профессиональный монтаж и демонтаж электрических талей. Опытные
+              специалисты обеспечат качественную работу с соблюдением всех
+              требований безопасности.
+            </m.p>
+          </m.div>
 
-        {/* Service Panels - static on mobile, hover on desktop */}
-        <div className="flex flex-col lg:flex-row gap-4 md:gap-6 max-w-7xl mx-auto lg:min-h-[500px] lg:group">
-          {/* Installation Service Panel */}
-          <div className="flex-1 min-w-0 lg:group-hover:flex-[0.45] lg:hover:!flex-[1.65] transition-all duration-700 ease-out">
-            <Card className="h-full border-2 border-foreground/10 lg:hover:border-foreground/30 shadow-2xl lg:hover:shadow-foreground/10 bg-gradient-to-br from-foreground via-foreground/95 to-foreground/90 group/install relative overflow-hidden transition-all duration-700">
-              <div className="absolute inset-0 opacity-[0.03] lg:group-hover/install:opacity-[0.05] transition-opacity duration-700">
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(255,255,255,0.1),transparent_50%)]" />
-              </div>
+          {/* Service Panels */}
+          <m.div
+            initial={isMobile ? "visible" : "hidden"}
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={effectiveStagger}
+            className="flex flex-col lg:flex-row gap-4 md:gap-6 max-w-7xl mx-auto min-h-[400px] sm:min-h-[440px] md:min-h-[480px] lg:h-[500px] group"
+          >
+            {/* Installation Service Panel */}
+            <m.div
+              variants={effectiveFadeInUp}
+              className={`flex-1 min-w-0 transition-all duration-700 ease-out ${isMobile ? "" : "lg:group-hover:flex-[0.45] hover:!flex-[1.65]"}`}
+            >
+              <Card className={`h-full border-2 border-foreground/10 shadow-2xl bg-gradient-to-br from-foreground via-foreground/95 to-foreground/90 group/install relative overflow-hidden transition-all duration-700 ${isMobile ? "" : "hover:border-foreground/30 hover:shadow-foreground/10"}`}>
+                <div className="absolute inset-0 opacity-[0.03] group-hover/install:opacity-[0.05] transition-opacity duration-700">
+                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(255,255,255,0.1),transparent_50%)]" />
+                </div>
 
-              <CardContent className="p-5 sm:p-6 md:p-8 lg:p-10 h-full flex flex-col relative z-10 text-background">
-                <div className="flex items-start justify-between mb-4 sm:mb-5 md:mb-6">
-                  <div className="relative">
-                    <div className="absolute -top-1 -left-1 sm:-top-2 sm:-left-2 w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 bg-background/10 rounded-2xl sm:rounded-3xl blur-xl sm:blur-2xl" />
-                    <div className="relative w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 bg-background/10 backdrop-blur-sm rounded-xl sm:rounded-2xl flex items-center justify-center shadow-lg sm:shadow-xl border-2 border-background/20">
-                      <Settings className="w-6 h-6 sm:w-7 sm:h-7 md:w-10 md:h-10 text-background" />
+                <CardContent className="p-5 sm:p-6 md:p-8 lg:p-10 h-full flex flex-col relative z-10 text-background">
+                  <div className="flex items-start justify-between mb-4 sm:mb-5 md:mb-6">
+                    <div className="relative">
+                      <div className="absolute -top-1 -left-1 sm:-top-2 sm:-left-2 w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 bg-background/10 rounded-2xl sm:rounded-3xl blur-xl sm:blur-2xl" />
+                      <div className="relative w-16 h-16 sm:w-18 sm:h-18 md:w-20 md:h-20 bg-background/10 backdrop-blur-sm rounded-xl sm:rounded-2xl flex items-center justify-center shadow-lg sm:shadow-xl border-2 border-background/20">
+                        <Settings className="w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 text-background" />
+                      </div>
+                    </div>
+                    <div className={`flex items-center gap-1 sm:gap-1.5 bg-background/10 backdrop-blur-sm text-background rounded-full text-[9px] sm:text-[10px] font-semibold border border-background/20 transition-all duration-500 px-2.5 py-1 sm:px-3 sm:py-1.5 ${isMobile ? "" : "group-hover/install:px-4 group-hover/install:py-2 group-hover/install:text-xs sm:group-hover/install:text-sm"}`}>
+                      <Clock className={`w-2.5 h-2.5 sm:w-3 sm:h-3 transition-all duration-500 ${isMobile ? "" : "group-hover/install:w-4 group-hover/install:h-4"}`} />
+                      <span>3-5 дней</span>
                     </div>
                   </div>
-                  <div className="flex items-center gap-1.5 bg-background/10 backdrop-blur-sm text-background rounded-full text-xs font-semibold border border-background/20 px-3 py-1.5">
-                    <Clock className="w-3 h-3" />
-                    <span>3-5 дней</span>
-                  </div>
-                </div>
 
-                {/* Hover indicator - only on desktop */}
-                <div className="absolute inset-0 hidden lg:flex items-center justify-center z-20 opacity-100 group-hover/install:opacity-0 transition-opacity duration-500 pointer-events-none">
-                  <m.div
-                    animate={{
-                      x: [0, 8, -5, 12, -3, 0],
-                      y: [0, -6, 10, -8, 5, 0],
-                    }}
-                    transition={{
-                      duration: 4,
-                      repeat: Infinity,
-                      ease: "easeInOut",
-                    }}
-                    className="flex items-center gap-2 text-background/60 text-sm mt-16"
-                  >
-                    <MousePointerClick className="w-4 h-4" />
-                    <span>Наведи для деталей</span>
-                  </m.div>
-                </div>
-
-                <div className="flex-grow flex flex-col">
-                  <h3 className="text-xl sm:text-2xl md:text-3xl font-bold mb-3 sm:mb-4 text-background">
-                    Монтаж тельферов
-                  </h3>
-
-                  {/* Always visible on mobile, hover reveal on desktop */}
-                  <p className="text-background/80 mb-4 text-sm sm:text-base leading-relaxed lg:opacity-0 lg:max-h-0 lg:group-hover/install:opacity-100 lg:group-hover/install:max-h-40 lg:transition-all lg:duration-700 lg:overflow-hidden">
-                    Профессиональная установка электрических талей любой
-                    сложности. Наши специалисты обеспечат правильный монтаж с
-                    соблюдением всех требований безопасности.
-                  </p>
-
-                  <div className="grid grid-cols-2 gap-2 mb-4 lg:opacity-0 lg:max-h-0 lg:group-hover/install:opacity-100 lg:group-hover/install:max-h-[500px] lg:transition-all lg:duration-700 lg:overflow-hidden">
-                    {[
-                      "Установка на монорельсы",
-                      "Подключение электрооборудования",
-                      "Настройка и тестирование",
-                      "Гарантия на работы",
-                    ].map((item) => (
-                      <div
-                        key={item}
-                        className="flex items-center gap-2 p-2 bg-background/5 rounded-lg border border-background/10"
+                  {/* Hover indicator - hidden on mobile */}
+                  {!isMobile && (
+                    <div className="absolute inset-0 hidden lg:flex items-center justify-center z-20 opacity-100 group-hover/install:opacity-0 transition-opacity duration-500 pointer-events-none">
+                      <m.div
+                        animate={{
+                          x: [0, 8, -5, 12, -3, 0],
+                          y: [0, -6, 10, -8, 5, 0],
+                        }}
+                        transition={{
+                          duration: 4,
+                          repeat: Infinity,
+                          ease: "easeInOut",
+                        }}
+                        className="flex items-center gap-2 text-background/60 text-xs sm:text-sm mt-12 sm:mt-16"
                       >
-                        <CheckCircle2 className="w-4 h-4 text-background shrink-0" />
-                        <span className="text-xs text-background">{item}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
+                        <MousePointerClick className="w-4 h-4" />
+                        <span>Наведи для деталей</span>
+                      </m.div>
+                    </div>
+                  )}
 
-                <Button 
-                  className="w-full bg-background text-foreground hover:bg-background/95 shadow-lg mt-auto font-semibold py-4 sm:py-5 transition-all duration-300 flex items-center justify-center gap-0.5"
-                  asChild
-                >
-                  <Link href="#contact">
-                    <span>Заказать монтаж</span>
-                    <ArrowRight className="h-4 w-4 shrink-0" />
-                  </Link>
-                </Button>
-              </CardContent>
-            </Card>
-          </div>
+                  <div className="flex-grow flex flex-col overflow-hidden">
+                    <h3 className="text-xl sm:text-2xl md:text-3xl font-bold mb-3 sm:mb-4 text-background">
+                      Монтаж тельферов
+                    </h3>
 
-          {/* Demounting Service Panel */}
-          <div className="flex-1 min-w-0 lg:group-hover:flex-[0.45] lg:hover:!flex-[1.65] transition-all duration-700 ease-out">
-            <Card className="h-full border-2 border-muted-foreground/20 lg:hover:border-muted-foreground/40 shadow-2xl bg-gradient-to-br from-muted via-muted/95 to-muted/90 group/demount relative overflow-hidden transition-all duration-700">
-              <CardContent className="p-5 sm:p-6 md:p-8 lg:p-10 h-full flex flex-col relative z-10 text-foreground">
-                <div className="flex items-start justify-between mb-4 sm:mb-5 md:mb-6">
-                  <div className="relative">
-                    <div className="absolute -top-1 -left-1 sm:-top-2 sm:-left-2 w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 bg-foreground/5 rounded-2xl sm:rounded-3xl blur-xl sm:blur-2xl" />
-                    <div className="relative w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 bg-foreground/5 backdrop-blur-sm rounded-xl sm:rounded-2xl flex items-center justify-center shadow-lg sm:shadow-xl border-2 border-foreground/10">
-                      <Hammer className="w-6 h-6 sm:w-7 sm:h-7 md:w-10 md:h-10 text-foreground" />
+                    <p className={`text-background/80 mb-4 sm:mb-5 md:mb-6 text-sm sm:text-base leading-relaxed ${isMobile ? "opacity-100 max-h-40" : "line-clamp-3 opacity-0 max-h-0 group-hover/install:opacity-100 group-hover/install:max-h-40"} transition-all duration-700 overflow-hidden`}>
+                      Профессиональная установка электрических талей любой
+                      сложности. Наши специалисты обеспечат правильный монтаж с
+                      соблюдением всех требований безопасности.
+                    </p>
+
+                    <div className={`grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 mb-4 ${isMobile ? "opacity-100 max-h-[500px]" : "opacity-0 max-h-0 group-hover/install:opacity-100 group-hover/install:max-h-[500px]"} transition-all duration-700 overflow-hidden`}>
+                      {[
+                        "Установка на монорельсы",
+                        "Подключение электрооборудования",
+                        "Настройка и тестирование",
+                        "Гарантия на работы",
+                      ].map((item) => (
+                        <div
+                          key={item}
+                          className="flex items-center gap-2 p-2 bg-background/5 rounded-lg border border-background/10"
+                        >
+                          <CheckCircle2 className="w-4 h-4 text-background shrink-0" />
+                          <span className="text-xs text-background">{item}</span>
+                        </div>
+                      ))}
                     </div>
                   </div>
-                  <div className="flex items-center gap-1.5 bg-foreground/5 backdrop-blur-sm text-foreground rounded-full text-xs font-semibold border border-foreground/10 px-3 py-1.5">
-                    <Clock className="w-3 h-3" />
-                    <span>1-3 дня</span>
-                  </div>
-                </div>
 
-                {/* Hover indicator - only on desktop */}
-                <div className="absolute inset-0 hidden lg:flex items-center justify-center z-20 opacity-100 group-hover/demount:opacity-0 transition-opacity duration-500 pointer-events-none">
-                  <m.div
-                    animate={{
-                      x: [0, -10, 6, -8, 12, 0],
-                      y: [0, 7, -9, 4, -6, 0],
-                    }}
-                    transition={{
-                      duration: 4.2,
-                      repeat: Infinity,
-                      ease: "easeInOut",
-                    }}
-                    className="flex items-center gap-2 text-foreground/50 text-sm mt-16"
+                  <Button 
+                    className="w-full bg-background text-foreground hover:bg-background/95 shadow-lg mt-auto font-semibold py-4 sm:py-5 transition-all duration-300 flex items-center justify-center gap-0.5"
+                    asChild
                   >
-                    <MousePointerClick className="w-4 h-4" />
-                    <span>Наведи для деталей</span>
-                  </m.div>
-                </div>
+                    <Link href="#contact">
+                      <span>Заказать монтаж</span>
+                      <ArrowRight className="h-4 w-4 shrink-0" />
+                    </Link>
+                  </Button>
+                </CardContent>
+              </Card>
+            </m.div>
 
-                <div className="flex-grow flex flex-col">
-                  <h3 className="text-xl sm:text-2xl md:text-3xl font-bold mb-3 sm:mb-4 text-foreground">
-                    Демонтаж тельферов
-                  </h3>
-
-                  {/* Always visible on mobile, hover reveal on desktop */}
-                  <p className="text-muted-foreground mb-4 text-sm sm:text-base leading-relaxed lg:opacity-0 lg:max-h-0 lg:group-hover/demount:opacity-100 lg:group-hover/demount:max-h-40 lg:transition-all lg:duration-700 lg:overflow-hidden">
-                    Аккуратный демонтаж оборудования с сохранением всех
-                    элементов. Профессиональная работа с минимальным временем
-                    простоя.
-                  </p>
-
-                  <div className="grid grid-cols-2 gap-2 mb-4 lg:opacity-0 lg:max-h-0 lg:group-hover/demount:opacity-100 lg:group-hover/demount:max-h-[500px] lg:transition-all lg:duration-700 lg:overflow-hidden">
-                    {[
-                      "Отключение и снятие",
-                      "Демонтаж монорельсов",
-                      "Упаковка для транспортировки",
-                      "Очистка рабочей зоны",
-                    ].map((item) => (
-                      <div
-                        key={item}
-                        className="flex items-center gap-2 p-2 bg-foreground/5 rounded-lg border border-foreground/10"
-                      >
-                        <CheckCircle2 className="w-4 h-4 text-foreground shrink-0" />
-                        <span className="text-xs text-foreground">{item}</span>
+            {/* Demounting Service Panel */}
+            <m.div
+              variants={effectiveFadeInUp}
+              className={`flex-1 min-w-0 transition-all duration-700 ease-out ${isMobile ? "" : "lg:group-hover:flex-[0.45] hover:!flex-[1.65]"}`}
+            >
+              <Card className={`h-full border-2 border-muted-foreground/20 shadow-2xl bg-gradient-to-br from-muted via-muted/95 to-muted/90 group/demount relative overflow-hidden transition-all duration-700 ${isMobile ? "" : "hover:border-muted-foreground/40"}`}>
+                <CardContent className="p-5 sm:p-6 md:p-8 lg:p-10 h-full flex flex-col relative z-10 text-foreground">
+                  <div className="flex items-start justify-between mb-4 sm:mb-5 md:mb-6">
+                    <div className="relative">
+                      <div className="absolute -top-1 -left-1 sm:-top-2 sm:-left-2 w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 bg-foreground/5 rounded-2xl sm:rounded-3xl blur-xl sm:blur-2xl" />
+                      <div className="relative w-16 h-16 sm:w-18 sm:h-18 md:w-20 md:h-20 bg-foreground/5 backdrop-blur-sm rounded-xl sm:rounded-2xl flex items-center justify-center shadow-lg sm:shadow-xl border-2 border-foreground/10">
+                        <Hammer className="w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 text-foreground" />
                       </div>
-                    ))}
+                    </div>
+                    <div className={`flex items-center gap-1 sm:gap-1.5 bg-foreground/5 backdrop-blur-sm text-foreground rounded-full text-[9px] sm:text-[10px] font-semibold border border-foreground/10 transition-all duration-500 px-2.5 py-1 sm:px-3 sm:py-1.5 ${isMobile ? "" : "group-hover/demount:px-4 group-hover/demount:py-2 group-hover/demount:text-xs sm:group-hover/demount:text-sm"}`}>
+                      <Clock className={`w-2.5 h-2.5 sm:w-3 sm:h-3 transition-all duration-500 ${isMobile ? "" : "group-hover/demount:w-4 group-hover/demount:h-4"}`} />
+                      <span>1-3 дня</span>
+                    </div>
                   </div>
-                </div>
 
-                <Button 
-                  className="w-full bg-foreground text-background hover:bg-foreground/90 shadow-lg mt-auto font-semibold py-4 sm:py-5 transition-all duration-300 flex items-center justify-center gap-0.5"
-                  asChild
-                >
-                  <Link href="#contact">
-                    <span>Заказать демонтаж</span>
-                    <ArrowRight className="h-4 w-4 shrink-0" />
-                  </Link>
-                </Button>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
+                  {/* Hover indicator - hidden on mobile */}
+                  {!isMobile && (
+                    <div className="absolute inset-0 hidden lg:flex items-center justify-center z-20 opacity-100 group-hover/demount:opacity-0 transition-opacity duration-500 pointer-events-none">
+                      <m.div
+                        animate={{
+                          x: [0, -10, 6, -8, 12, 0],
+                          y: [0, 7, -9, 4, -6, 0],
+                        }}
+                        transition={{
+                          duration: 4.2,
+                          repeat: Infinity,
+                          ease: "easeInOut",
+                        }}
+                        className="flex items-center gap-2 text-foreground/50 text-xs sm:text-sm mt-12 sm:mt-16"
+                      >
+                        <MousePointerClick className="w-4 h-4" />
+                        <span>Наведи для деталей</span>
+                      </m.div>
+                    </div>
+                  )}
+
+                  <div className="flex-grow flex flex-col overflow-hidden">
+                    <h3 className="text-xl sm:text-2xl md:text-3xl font-bold mb-3 sm:mb-4 text-foreground">
+                      Демонтаж тельферов
+                    </h3>
+
+                    <p className={`text-muted-foreground mb-4 sm:mb-5 md:mb-6 text-sm sm:text-base leading-relaxed ${isMobile ? "opacity-100 max-h-40" : "line-clamp-3 opacity-0 max-h-0 group-hover/demount:opacity-100 group-hover/demount:max-h-40"} transition-all duration-700 overflow-hidden`}>
+                      Аккуратный демонтаж оборудования с сохранением всех
+                      элементов. Профессиональная работа с минимальным временем
+                      простоя.
+                    </p>
+
+                    <div className={`grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 mb-4 ${isMobile ? "opacity-100 max-h-[500px]" : "opacity-0 max-h-0 group-hover/demount:opacity-100 group-hover/demount:max-h-[500px]"} transition-all duration-700 overflow-hidden`}>
+                      {[
+                        "Отключение и снятие",
+                        "Демонтаж монорельсов",
+                        "Упаковка для транспортировки",
+                        "Очистка рабочей зоны",
+                      ].map((item) => (
+                        <div
+                          key={item}
+                          className="flex items-center gap-2 p-2 bg-foreground/5 rounded-lg border border-foreground/10"
+                        >
+                          <CheckCircle2 className="w-4 h-4 text-foreground shrink-0" />
+                          <span className="text-xs text-foreground">{item}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <Button 
+                    className="w-full bg-foreground text-background hover:bg-foreground/90 shadow-lg mt-auto font-semibold py-4 sm:py-5 transition-all duration-300 flex items-center justify-center gap-0.5"
+                    asChild
+                  >
+                    <Link href="#contact">
+                      <span>Заказать демонтаж</span>
+                      <ArrowRight className="h-4 w-4 shrink-0" />
+                    </Link>
+                  </Button>
+                </CardContent>
+              </Card>
+            </m.div>
+          </m.div>
+        </m.div>
       </div>
     </section>
   );
