@@ -80,11 +80,12 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6 max-w-6xl mx-auto leading-tight"
+            className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6 max-w-6xl mx-auto leading-tight"
           >
             Тельферы для
-            <br />
-            <span className="text-blue-500 whitespace-nowrap">производства в Казахстане</span>
+            <br className="hidden sm:block" />
+            <span className="sm:hidden"> </span>
+            <span className="text-blue-500 md:whitespace-nowrap">производства в&nbsp;Казахстане</span>
           </m.h1>
 
           <m.p

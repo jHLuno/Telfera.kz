@@ -8,9 +8,9 @@ import { fadeInUp, staggerContainer } from "./motion-variants";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-// Hook to detect mobile
+// Hook to detect mobile - starts as null to handle SSR, then detects on client
 function useIsMobile() {
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState<boolean | null>(null);
   
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 1024);
@@ -26,6 +26,9 @@ export function ServicesSection() {
   const isMobile = useIsMobile();
   
   // No animations on mobile - show everything immediately
+  // Also show content immediately when we haven't detected yet (isMobile === null)
+  const showStatic = isMobile === true || isMobile === null;
+  
   const mobileNoAnimation = {
     hidden: { opacity: 1, y: 0 },
     visible: { opacity: 1, y: 0 },
@@ -35,8 +38,8 @@ export function ServicesSection() {
     visible: {},
   };
   
-  const effectiveStagger = isMobile ? mobileNoStagger : staggerContainer;
-  const effectiveFadeInUp = isMobile ? mobileNoAnimation : fadeInUp;
+  const effectiveStagger = showStatic ? mobileNoStagger : staggerContainer;
+  const effectiveFadeInUp = showStatic ? mobileNoAnimation : fadeInUp;
   
   return (
     <section
@@ -51,7 +54,7 @@ export function ServicesSection() {
 
       <div className="container mx-auto px-4 relative z-10">
         <m.div
-          initial={isMobile ? "visible" : "hidden"}
+          initial={showStatic ? "visible" : "hidden"}
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
           variants={effectiveStagger}
@@ -76,7 +79,7 @@ export function ServicesSection() {
 
           {/* Service Panels */}
           <m.div
-            initial={isMobile ? "visible" : "hidden"}
+            initial={showStatic ? "visible" : "hidden"}
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
             variants={effectiveStagger}
@@ -85,9 +88,9 @@ export function ServicesSection() {
             {/* Installation Service Panel */}
             <m.div
               variants={effectiveFadeInUp}
-              className={`flex-1 min-w-0 transition-all duration-700 ease-out ${isMobile ? "" : "lg:group-hover:flex-[0.45] hover:!flex-[1.65]"}`}
+              className={`flex-1 min-w-0 transition-all duration-700 ease-out ${showStatic ? "" : "lg:group-hover:flex-[0.45] hover:!flex-[1.65]"}`}
             >
-              <Card className={`h-full border-2 border-foreground/10 shadow-2xl bg-gradient-to-br from-foreground via-foreground/95 to-foreground/90 group/install relative overflow-hidden transition-all duration-700 ${isMobile ? "" : "hover:border-foreground/30 hover:shadow-foreground/10"}`}>
+              <Card className={`h-full border-2 border-foreground/10 shadow-2xl bg-gradient-to-br from-foreground via-foreground/95 to-foreground/90 group/install relative overflow-hidden transition-all duration-700 ${showStatic ? "" : "hover:border-foreground/30 hover:shadow-foreground/10"}`}>
                 <div className="absolute inset-0 opacity-[0.03] group-hover/install:opacity-[0.05] transition-opacity duration-700">
                   <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(255,255,255,0.1),transparent_50%)]" />
                 </div>
@@ -100,14 +103,14 @@ export function ServicesSection() {
                         <Settings className="w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 text-background" />
                       </div>
                     </div>
-                    <div className={`flex items-center gap-1 sm:gap-1.5 bg-background/10 backdrop-blur-sm text-background rounded-full text-[9px] sm:text-[10px] font-semibold border border-background/20 transition-all duration-500 px-2.5 py-1 sm:px-3 sm:py-1.5 ${isMobile ? "" : "group-hover/install:px-4 group-hover/install:py-2 group-hover/install:text-xs sm:group-hover/install:text-sm"}`}>
-                      <Clock className={`w-2.5 h-2.5 sm:w-3 sm:h-3 transition-all duration-500 ${isMobile ? "" : "group-hover/install:w-4 group-hover/install:h-4"}`} />
+                    <div className={`flex items-center gap-1 sm:gap-1.5 bg-background/10 backdrop-blur-sm text-background rounded-full text-[9px] sm:text-[10px] font-semibold border border-background/20 transition-all duration-500 px-2.5 py-1 sm:px-3 sm:py-1.5 ${showStatic ? "" : "group-hover/install:px-4 group-hover/install:py-2 group-hover/install:text-xs sm:group-hover/install:text-sm"}`}>
+                      <Clock className={`w-2.5 h-2.5 sm:w-3 sm:h-3 transition-all duration-500 ${showStatic ? "" : "group-hover/install:w-4 group-hover/install:h-4"}`} />
                       <span>3-5 дней</span>
                     </div>
                   </div>
 
                   {/* Hover indicator - hidden on mobile */}
-                  {!isMobile && (
+                  {!showStatic && (
                     <div className="absolute inset-0 hidden lg:flex items-center justify-center z-20 opacity-100 group-hover/install:opacity-0 transition-opacity duration-500 pointer-events-none">
                       <m.div
                         animate={{
@@ -132,13 +135,13 @@ export function ServicesSection() {
                       Монтаж тельферов
                     </h3>
 
-                    <p className={`text-background/80 mb-4 sm:mb-5 md:mb-6 text-sm sm:text-base leading-relaxed ${isMobile ? "opacity-100 max-h-40" : "line-clamp-3 opacity-0 max-h-0 group-hover/install:opacity-100 group-hover/install:max-h-40"} transition-all duration-700 overflow-hidden`}>
+                    <p className={`text-background/80 mb-4 sm:mb-5 md:mb-6 text-sm sm:text-base leading-relaxed ${showStatic ? "opacity-100 max-h-40" : "line-clamp-3 opacity-0 max-h-0 group-hover/install:opacity-100 group-hover/install:max-h-40"} transition-all duration-700 overflow-hidden`}>
                       Профессиональная установка электрических талей любой
                       сложности. Наши специалисты обеспечат правильный монтаж с
                       соблюдением всех требований безопасности.
                     </p>
 
-                    <div className={`grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 mb-4 ${isMobile ? "opacity-100 max-h-[500px]" : "opacity-0 max-h-0 group-hover/install:opacity-100 group-hover/install:max-h-[500px]"} transition-all duration-700 overflow-hidden`}>
+                    <div className={`grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 mb-4 ${showStatic ? "opacity-100 max-h-[500px]" : "opacity-0 max-h-0 group-hover/install:opacity-100 group-hover/install:max-h-[500px]"} transition-all duration-700 overflow-hidden`}>
                       {[
                         "Установка на монорельсы",
                         "Подключение электрооборудования",
@@ -172,9 +175,9 @@ export function ServicesSection() {
             {/* Demounting Service Panel */}
             <m.div
               variants={effectiveFadeInUp}
-              className={`flex-1 min-w-0 transition-all duration-700 ease-out ${isMobile ? "" : "lg:group-hover:flex-[0.45] hover:!flex-[1.65]"}`}
+              className={`flex-1 min-w-0 transition-all duration-700 ease-out ${showStatic ? "" : "lg:group-hover:flex-[0.45] hover:!flex-[1.65]"}`}
             >
-              <Card className={`h-full border-2 border-muted-foreground/20 shadow-2xl bg-gradient-to-br from-muted via-muted/95 to-muted/90 group/demount relative overflow-hidden transition-all duration-700 ${isMobile ? "" : "hover:border-muted-foreground/40"}`}>
+              <Card className={`h-full border-2 border-muted-foreground/20 shadow-2xl bg-gradient-to-br from-muted via-muted/95 to-muted/90 group/demount relative overflow-hidden transition-all duration-700 ${showStatic ? "" : "hover:border-muted-foreground/40"}`}>
                 <CardContent className="p-5 sm:p-6 md:p-8 lg:p-10 h-full flex flex-col relative z-10 text-foreground">
                   <div className="flex items-start justify-between mb-4 sm:mb-5 md:mb-6">
                     <div className="relative">
@@ -183,14 +186,14 @@ export function ServicesSection() {
                         <Hammer className="w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 text-foreground" />
                       </div>
                     </div>
-                    <div className={`flex items-center gap-1 sm:gap-1.5 bg-foreground/5 backdrop-blur-sm text-foreground rounded-full text-[9px] sm:text-[10px] font-semibold border border-foreground/10 transition-all duration-500 px-2.5 py-1 sm:px-3 sm:py-1.5 ${isMobile ? "" : "group-hover/demount:px-4 group-hover/demount:py-2 group-hover/demount:text-xs sm:group-hover/demount:text-sm"}`}>
-                      <Clock className={`w-2.5 h-2.5 sm:w-3 sm:h-3 transition-all duration-500 ${isMobile ? "" : "group-hover/demount:w-4 group-hover/demount:h-4"}`} />
+                    <div className={`flex items-center gap-1 sm:gap-1.5 bg-foreground/5 backdrop-blur-sm text-foreground rounded-full text-[9px] sm:text-[10px] font-semibold border border-foreground/10 transition-all duration-500 px-2.5 py-1 sm:px-3 sm:py-1.5 ${showStatic ? "" : "group-hover/demount:px-4 group-hover/demount:py-2 group-hover/demount:text-xs sm:group-hover/demount:text-sm"}`}>
+                      <Clock className={`w-2.5 h-2.5 sm:w-3 sm:h-3 transition-all duration-500 ${showStatic ? "" : "group-hover/demount:w-4 group-hover/demount:h-4"}`} />
                       <span>1-3 дня</span>
                     </div>
                   </div>
 
                   {/* Hover indicator - hidden on mobile */}
-                  {!isMobile && (
+                  {!showStatic && (
                     <div className="absolute inset-0 hidden lg:flex items-center justify-center z-20 opacity-100 group-hover/demount:opacity-0 transition-opacity duration-500 pointer-events-none">
                       <m.div
                         animate={{
@@ -215,13 +218,13 @@ export function ServicesSection() {
                       Демонтаж тельферов
                     </h3>
 
-                    <p className={`text-muted-foreground mb-4 sm:mb-5 md:mb-6 text-sm sm:text-base leading-relaxed ${isMobile ? "opacity-100 max-h-40" : "line-clamp-3 opacity-0 max-h-0 group-hover/demount:opacity-100 group-hover/demount:max-h-40"} transition-all duration-700 overflow-hidden`}>
+                    <p className={`text-muted-foreground mb-4 sm:mb-5 md:mb-6 text-sm sm:text-base leading-relaxed ${showStatic ? "opacity-100 max-h-40" : "line-clamp-3 opacity-0 max-h-0 group-hover/demount:opacity-100 group-hover/demount:max-h-40"} transition-all duration-700 overflow-hidden`}>
                       Аккуратный демонтаж оборудования с сохранением всех
                       элементов. Профессиональная работа с минимальным временем
                       простоя.
                     </p>
 
-                    <div className={`grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 mb-4 ${isMobile ? "opacity-100 max-h-[500px]" : "opacity-0 max-h-0 group-hover/demount:opacity-100 group-hover/demount:max-h-[500px]"} transition-all duration-700 overflow-hidden`}>
+                    <div className={`grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 mb-4 ${showStatic ? "opacity-100 max-h-[500px]" : "opacity-0 max-h-0 group-hover/demount:opacity-100 group-hover/demount:max-h-[500px]"} transition-all duration-700 overflow-hidden`}>
                       {[
                         "Отключение и снятие",
                         "Демонтаж монорельсов",
