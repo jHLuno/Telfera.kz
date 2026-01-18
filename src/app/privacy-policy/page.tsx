@@ -129,10 +129,10 @@ export default function PrivacyPolicyPage() {
                       <li>
                         <strong>Email:</strong>{" "}
                         <a 
-                          href="mailto:info@telfera.kz" 
+                          href="mailto:info@jtns.kz" 
                           className="text-primary hover:underline"
                         >
-                          info@telfera.kz
+                          info@jtns.kz
                         </a>
                       </li>
                       <li>

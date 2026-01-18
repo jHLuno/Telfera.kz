@@ -71,7 +71,7 @@ export const PRODUCT_LABELS: Record<Product, string> = {
 export const CONTACT_INFO = {
   phone: "+77015320626",
   phoneFormatted: "+7 (701) 532-06-26",
-  email: "info@telfera.kz",
+  email: "info@jtns.kz",
   whatsapp: "77015320626",
   city: "г. Алматы, Казахстан",
 } as const;
