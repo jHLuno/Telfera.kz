@@ -29,10 +29,10 @@ export function DeliverySection() {
             variants={fadeInUp}
             className="text-3xl md:text-4xl font-bold mb-4"
           >
-            Удобные способы доставки
+            Доставка электротельферов по Казахстану
           </m.h2>
           <m.p variants={fadeInUp} className="text-muted-foreground text-lg">
-            Выберите наиболее удобный для вас способ получения заказа
+            Выберите удобный способ получения тельфера или электрической тали
           </m.p>
         </m.div>
 
@@ -52,10 +52,10 @@ export function DeliverySection() {
                     <Truck className="w-8 h-8 text-blue-500" />
                   </div>
                 </div>
-                <h3 className="text-xl font-bold mb-2">Транспортная компания</h3>
+                <h3 className="text-xl font-bold mb-2">Доставка электротельферов</h3>
                 <p className="text-muted-foreground mb-6 flex-grow">
-                  Доставка по всему Казахстану через надежные транспортные
-                  компании. Отслеживание груза в реальном времени.
+                  Доставка тельферов и электрических талей по всему Казахстану через 
+                  надежные транспортные компании. Отслеживание электро тали в реальном времени.
                 </p>
                 <div className="space-y-2">
                   <div className="flex items-center gap-2 text-sm text-muted-foreground">
@@ -84,10 +84,10 @@ export function DeliverySection() {
                     <Warehouse className="w-8 h-8 text-emerald-500" />
                   </div>
                 </div>
-                <h3 className="text-xl font-bold mb-2">Самовывоз со склада</h3>
+                <h3 className="text-xl font-bold mb-2">Самовывоз тельферов</h3>
                 <p className="text-muted-foreground mb-6 flex-grow">
-                  Заберите заказ самостоятельно со склада в Алматы. Экономия на
-                  доставке и возможность сразу проверить товар.
+                  Заберите электротельфер или электрическую таль самостоятельно со склада 
+                  в Алматы. Экономия на доставке и возможность проверить электро таль на месте.
                 </p>
                 <div className="space-y-2">
                   <div className="flex items-center gap-2 text-sm text-muted-foreground">

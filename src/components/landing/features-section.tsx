@@ -70,26 +70,26 @@ function FeatureCard({ feature, index }: FeatureCardProps) {
 const features = [
   {
     icon: Shield,
-    title: "Надежность",
-    description: "Только сертифицированное оборудование",
+    title: "Надежные тельферы",
+    description: "Только сертифицированные электротельферы и электрические тали",
     hoverAnimation: { scale: 1.15, rotate: [0, -5, 5, -5, 0] },
   },
   {
     icon: Zap,
     title: "Быстрая доставка",
-    description: "Отгрузка в течение 3-5 дней",
+    description: "Отгрузка электро талей в течение 3-5 дней по Казахстану",
     hoverAnimation: { scale: 1.2, rotate: [0, 15, -15, 15, 0] },
   },
   {
     icon: Wrench,
-    title: "Сервис",
-    description: "Монтаж и техническое обслуживание",
+    title: "Монтаж тельферов",
+    description: "Профессиональный монтаж и техническое обслуживание электротельферов",
     hoverAnimation: { scale: 1.15, rotate: [0, 360] },
   },
   {
     icon: Clock,
     title: "Поддержка 24/7",
-    description: "Консультации в любое время",
+    description: "Консультации по электрическим талям в любое время",
     hoverAnimation: { scale: 1.15, rotate: [0, -10, 10, -10, 0] },
   },
 ];
@@ -109,13 +109,13 @@ export function FeaturesSection() {
             variants={fadeInUp}
             className="text-sm font-medium text-muted-foreground mb-2"
           >
-            ПРЕИМУЩЕСТВА
+            ПРЕИМУЩЕСТВА ЭЛЕКТРОТЕЛЬФЕРОВ
           </m.p>
           <m.h2
             variants={fadeInUp}
             className="text-3xl md:text-4xl font-bold mb-4"
           >
-            Почему выбирают нас
+            Почему выбирают наши тельферы
           </m.h2>
         </m.div>
 

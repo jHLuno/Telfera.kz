@@ -13,18 +13,40 @@ import { SHA8Description } from "@/components/catalog/sha8-description";
 import { SHA8ExpertInfo } from "@/components/catalog/sha8-expert-info";
 import { SHA8Faq } from "@/components/catalog/sha8-faq";
 import { WhatsAppCta } from "@/components/catalog/whatsapp-cta";
+import { ProductSHA8JsonLd, BreadcrumbJsonLd } from "@/components/seo/json-ld";
 
 // Static page - no dynamic data, can be fully cached
 export const dynamic = "force-static";
 
 export const metadata: Metadata = {
-  title: "Тельфер SHA8 | Telfera.kz",
-  description: "Электрические канатные тельферы серии SHA8 европейского образца с уменьшенной строительной высотой. Грузоподъемность 1-12,5т. Необслуживаемый редуктор с пожизненной смазкой.",
+  title: "Электротельфер SHA8 — купить электрическую таль в Казахстане",
+  description: "Купить электротельфер SHA8 в Казахстане. Электрическая канатная таль европейского образца. Грузоподъемность 1-12,5т. Электро таль с необслуживаемым редуктором. Гарантия 12 месяцев.",
+  keywords: [
+    "электротельфер SHA8",
+    "тельфер SHA8 купить",
+    "электрическая таль SHA8",
+    "электро таль SHA8",
+    "тельфер Казахстан",
+    "электротельфер цена",
+  ],
+  alternates: {
+    canonical: "https://telfera.kz/catalog/sha8",
+  },
 };
 
 export default function SHA8CatalogPage() {
   return (
     <>
+      {/* Schema.org structured data */}
+      <ProductSHA8JsonLd />
+      <BreadcrumbJsonLd
+        items={[
+          { name: "Главная", url: "https://telfera.kz" },
+          { name: "Каталог электротельферов", url: "https://telfera.kz/#catalog" },
+          { name: "Электротельфер SHA8", url: "https://telfera.kz/catalog/sha8" },
+        ]}
+      />
+      
       <Header />
       <main className="min-h-screen pt-10">
         <div className="container mx-auto px-4 py-12">
@@ -43,7 +65,7 @@ export default function SHA8CatalogPage() {
                 <div className="aspect-square bg-gradient-to-br from-muted to-muted/50 rounded-2xl border overflow-hidden relative">
                   <Image
                     src="/photos/telfer SHA8.png"
-                    alt="Тельфер SHA8"
+                    alt="Электротельфер SHA8 — купить электрическую таль в Казахстане"
                     fill
                     className="object-contain p-8"
                     sizes="(max-width: 1024px) 100vw, 50vw"
@@ -59,13 +81,13 @@ export default function SHA8CatalogPage() {
                     Бестселлер
                   </span>
                   <h1 className="text-4xl md:text-5xl font-bold mb-4">
-                    Тельфер SHA8
+                    Электротельфер SHA8
                   </h1>
                   <p className="text-lg text-muted-foreground leading-relaxed">
-                    Электрические канатные тельферы серии SHA8 европейского образца с уменьшенной строительной высотой предназначены для эффективной работы в помещениях с ограниченным пространством, охватывая диапазон грузоподъемности от 1 до 12,5 тонн. Конструкция оснащена необслуживаемым редуктором с пожизненной смазкой и частотным преобразователем на механизме передвижения, что обеспечивает плавность хода и существенно снижает эксплуатационные расходы.
+                    Электрические канатные тельферы серии SHA8 — это профессиональные электротельферы европейского образца с уменьшенной строительной высотой. Данная электрическая таль предназначена для эффективной работы в помещениях с ограниченным пространством, грузоподъемность электро тали — от 1 до 12,5 тонн.
                     <br />
                     <br />
-                    Ниже представлены технические характеристики.
+                    Конструкция тельфера SHA8 оснащена необслуживаемым редуктором с пожизненной смазкой и частотным преобразователем, что обеспечивает плавность хода электротельфера и существенно снижает эксплуатационные расходы.
                   </p>
                 </div>
 

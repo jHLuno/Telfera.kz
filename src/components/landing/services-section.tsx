@@ -65,15 +65,15 @@ export function ServicesSection() {
               variants={effectiveFadeInUp}
               className="text-3xl md:text-5xl font-bold mb-6"
             >
-              Монтаж и демонтаж тельферов
+              Монтаж и демонтаж электротельферов
             </m.h2>
             <m.p
               variants={effectiveFadeInUp}
               className="text-muted-foreground text-lg max-w-3xl mx-auto"
             >
-              Профессиональный монтаж и демонтаж электрических талей. Опытные
-              специалисты обеспечат качественную работу с соблюдением всех
-              требований безопасности.
+              Профессиональный монтаж и демонтаж электрических талей и тельферов. 
+              Опытные специалисты установят ваш электротельфер или электро таль 
+              с соблюдением всех требований безопасности.
             </m.p>
           </m.div>
 
@@ -132,13 +132,13 @@ export function ServicesSection() {
 
                   <div className="flex-grow flex flex-col overflow-hidden">
                     <h3 className="text-xl sm:text-2xl md:text-3xl font-bold mb-3 sm:mb-4 text-background">
-                      Монтаж тельферов
+                      Монтаж электротельферов
                     </h3>
 
                     <p className={`text-background/80 mb-4 sm:mb-5 md:mb-6 text-sm sm:text-base leading-relaxed ${showStatic ? "opacity-100 max-h-40" : "line-clamp-3 opacity-0 max-h-0 group-hover/install:opacity-100 group-hover/install:max-h-40"} transition-all duration-700 overflow-hidden`}>
-                      Профессиональная установка электрических талей любой
-                      сложности. Наши специалисты обеспечат правильный монтаж с
-                      соблюдением всех требований безопасности.
+                      Профессиональная установка электрических талей и тельферов любой
+                      сложности. Наши специалисты обеспечат правильный монтаж электротельфера 
+                      с соблюдением всех требований безопасности.
                     </p>
 
                     <div className={`grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 mb-4 ${showStatic ? "opacity-100 max-h-[500px]" : "opacity-0 max-h-0 group-hover/install:opacity-100 group-hover/install:max-h-[500px]"} transition-all duration-700 overflow-hidden`}>
@@ -215,13 +215,13 @@ export function ServicesSection() {
 
                   <div className="flex-grow flex flex-col overflow-hidden">
                     <h3 className="text-xl sm:text-2xl md:text-3xl font-bold mb-3 sm:mb-4 text-foreground">
-                      Демонтаж тельферов
+                      Демонтаж электрических талей
                     </h3>
 
                     <p className={`text-muted-foreground mb-4 sm:mb-5 md:mb-6 text-sm sm:text-base leading-relaxed ${showStatic ? "opacity-100 max-h-40" : "line-clamp-3 opacity-0 max-h-0 group-hover/demount:opacity-100 group-hover/demount:max-h-40"} transition-all duration-700 overflow-hidden`}>
-                      Аккуратный демонтаж оборудования с сохранением всех
-                      элементов. Профессиональная работа с минимальным временем
-                      простоя.
+                      Аккуратный демонтаж тельферов и электро талей с сохранением всех
+                      элементов. Профессиональная работа с электротельферами при минимальном 
+                      времени простоя производства.
                     </p>
 
                     <div className={`grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 mb-4 ${showStatic ? "opacity-100 max-h-[500px]" : "opacity-0 max-h-0 group-hover/demount:opacity-100 group-hover/demount:max-h-[500px]"} transition-all duration-700 overflow-hidden`}>

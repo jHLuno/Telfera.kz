@@ -20,48 +20,48 @@ export function Footer() {
               <Logo width={120} height={120} showText={false} />
             </Link>
             <p className="text-sm text-muted-foreground">
-              Профессиональные тельферы для вашего производства. Качество и
-              надежность.
+              Тельферы, электротельферы и электрические тали для вашего производства. 
+              Надежное грузоподъемное оборудование в Казахстане с гарантией 12 месяцев.
             </p>
           </div>
 
           <div>
-            <h4 className="font-semibold mb-4">Продукция</h4>
+            <h4 className="font-semibold mb-4">Электротельферы</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li>
                 <Link href="/catalog/sha8" className="hover:text-foreground transition-colors">
-                  Тельфер SHA8
+                  Электротельфер SHA8
                 </Link>
               </li>
               <li>
                 <Link href="/catalog/balkans" className="hover:text-foreground transition-colors">
-                  Тельфер Balkansko Echo
+                  Электрическая таль Balkansko Echo
                 </Link>
               </li>
               <li>
                 <Link href="/#catalog" className="hover:text-foreground transition-colors">
-                  Комплектующие
+                  Все электро тали
                 </Link>
               </li>
             </ul>
           </div>
 
           <div>
-            <h4 className="font-semibold mb-4">Компания</h4>
+            <h4 className="font-semibold mb-4">Услуги</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li>
-                <Link href="/#about" className="hover:text-foreground transition-colors">
-                  О нас
+                <Link href="/#services" className="hover:text-foreground transition-colors">
+                  Монтаж тельферов
                 </Link>
               </li>
               <li>
                 <Link href="/#delivery" className="hover:text-foreground transition-colors">
-                  Доставка
+                  Доставка электротельферов
                 </Link>
               </li>
               <li>
                 <Link href="/#contact" className="hover:text-foreground transition-colors">
-                  Контакты
+                  Консультация по электро талям
                 </Link>
               </li>
             </ul>

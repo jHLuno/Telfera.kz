@@ -73,7 +73,7 @@ export function HeroSection() {
             className="inline-flex items-center gap-2 bg-muted px-4 py-2 rounded-full text-sm mb-6"
           >
             <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
-            Официальный дистрибьютор в Казахстане
+            Официальный дистрибьютор электротельферов в Казахстане
           </m.div>
 
           <m.h1
@@ -82,10 +82,10 @@ export function HeroSection() {
             transition={{ duration: 0.5, delay: 0.1 }}
             className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6 max-w-6xl mx-auto leading-tight"
           >
-            Тельферы для
+            Тельферы
             <br className="hidden sm:block" />
             <span className="sm:hidden"> </span>
-            <span className="text-blue-500 md:whitespace-nowrap">производства в&nbsp;Казахстане</span>
+            <span className="text-blue-500 md:whitespace-nowrap">для производства в&nbsp;Казахстане</span>
           </m.h1>
 
           <m.p
@@ -94,8 +94,7 @@ export function HeroSection() {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto"
           >
-            Профессиональные электрические тали SHA8 и Balkansko Echo. Надежность,
-            проверенная временем. Гарантия 12 месяцев.
+            Электротельферы SHA8 и Balkansko Echo – надежное грузоподъемное оборудование для вашего производства. Гарантия 12 месяцев на все электротали.
           </m.p>
 
           <m.div
@@ -142,9 +141,11 @@ export function HeroSection() {
                 muted
                 playsInline
                 preload="auto"
+                aria-label="Демонстрация работы электротельфера и электрической тали"
+                title="Тельфер в работе — электро таль для производства"
               >
                 <source src="/videos/video.mp4" type="video/mp4" />
-                Your browser does not support the video tag.
+                Ваш браузер не поддерживает воспроизведение видео. Посмотрите работу электротельфера.
               </video>
             </div>
           </div>

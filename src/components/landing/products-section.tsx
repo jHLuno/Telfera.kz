@@ -23,16 +23,16 @@ export function ProductsSection() {
             variants={fadeInUp}
             className="text-sm font-medium text-muted-foreground mb-2"
           >
-            КАТАЛОГ
+            КАТАЛОГ ЭЛЕКТРОТЕЛЬФЕРОВ
           </m.p>
           <m.h2
             variants={fadeInUp}
             className="text-3xl md:text-4xl font-bold mb-4"
           >
-            Наша продукция
+            Тельферы и электрические тали
           </m.h2>
           <m.p variants={fadeInUp} className="text-muted-foreground">
-            Выберите тельфер, который подходит для ваших задач
+            Выберите электротельфер или электро таль для ваших производственных задач
           </m.p>
         </m.div>
 
@@ -54,12 +54,12 @@ export function ProductsSection() {
                   </span>
                 </div>
                 <h3 className="text-2xl md:text-3xl font-bold mb-2">
-                  Тельфер SHA8
+                  Электротельфер SHA8
                 </h3>
                 <p className="text-muted-foreground mb-4">
-                  Профессиональная электрическая таль китайского производства.
-                  Идеально подходит для средних и тяжелых промышленных задач.
-                  Грузоподъемность от 1 до 12.5 тонн.
+                  Электрическая канатная таль SHA8 — профессиональный электротельфер 
+                  европейского образца. Идеально подходит для средних и тяжелых промышленных задач.
+                  Грузоподъемность электро тали от 1 до 12.5 тонн.
                 </p>
 
                 <div className="grid grid-cols-2 gap-4 mb-4">
@@ -80,7 +80,7 @@ export function ProductsSection() {
                 <div className="aspect-[16/9] bg-gradient-to-br from-muted to-muted/50 rounded-xl flex items-center justify-center border mb-4 overflow-hidden relative flex-grow">
                   <Image
                     src="/photos/telfer SHA8.png"
-                    alt="Тельфер SHA8"
+                    alt="Электротельфер SHA8 — электрическая канатная таль европейского образца"
                     fill
                     className="object-contain"
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -110,10 +110,10 @@ export function ProductsSection() {
                     Премиум
                   </span>
                 </div>
-                <h3 className="text-xl font-bold mb-2">Тельфер Balkansko Echo</h3>
+                <h3 className="text-xl font-bold mb-2">Электротельфер Balkansko Echo</h3>
                 <p className="text-muted-foreground text-sm mb-4">
-                  Болгарское качество для требовательных задач. Европейские
-                  стандарты.
+                  Электрическая таль болгарского производства. Европейские
+                  стандарты качества для требовательных промышленных задач.
                 </p>
 
                 <div className="grid grid-cols-2 gap-4 mb-4">
@@ -134,7 +134,7 @@ export function ProductsSection() {
                 <div className="aspect-[16/9] bg-gradient-to-br from-muted to-muted/50 rounded-xl flex items-center justify-center border mb-4 overflow-hidden relative flex-grow">
                   <Image
                     src="/photos/Balkans.png"
-                    alt="Тельфер Balkansko Echo"
+                    alt="Электротельфер Balkansko Echo — электрическая таль болгарского производства"
                     fill
                     className="object-contain"
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -159,10 +159,10 @@ export function ProductsSection() {
             <Card className="w-full h-full bento-card hover:shadow-lg transition-all duration-300 hover:-translate-y-1 bg-foreground text-background">
               <CardContent className="p-6 md:p-7 h-full flex flex-col">
                 <Award className="w-10 h-10 mb-4" />
-                <h3 className="text-xl font-bold mb-3">Гарантия качества</h3>
+                <h3 className="text-xl font-bold mb-3">Гарантия на тельферы</h3>
                 <p className="text-sm opacity-80">
-                  Гарантия 12 месяцев на все модели. Сервисное обслуживание по
-                  всему Казахстану.
+                  Гарантия 12 месяцев на все электротельферы и электрические тали. 
+                  Сервисное обслуживание электро талей по всему Казахстану.
                 </p>
               </CardContent>
             </Card>
