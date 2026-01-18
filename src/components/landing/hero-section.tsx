@@ -106,8 +106,8 @@ export function HeroSection() {
 
         {/* Hero Visual */}
         <div className="mt-6 md:mt-12 relative">
-          {/* Video - smaller on mobile, original size on desktop */}
-          <div className="aspect-[16/10] lg:aspect-[4/3] max-w-[280px] lg:max-w-sm mx-auto bg-gradient-to-br from-muted to-muted/50 rounded-2xl border overflow-hidden grid-pattern relative z-10">
+          {/* Video - 4:3 smaller on mobile, 16:9 wide on desktop */}
+          <div className="aspect-[4/3] lg:aspect-video max-w-[260px] lg:max-w-2xl mx-auto bg-gradient-to-br from-muted to-muted/50 rounded-2xl border overflow-hidden grid-pattern relative z-10">
             <div className="absolute inset-0 flex items-center justify-center">
               <video
                 ref={videoRef}
