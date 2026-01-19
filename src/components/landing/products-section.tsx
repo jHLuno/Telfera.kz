@@ -54,7 +54,7 @@ export function ProductsSection() {
                   </span>
                 </div>
                 <h3 className="text-2xl md:text-3xl font-bold mb-2">
-                  Электротельфер SHA8
+                  Тельфер SHA8
                 </h3>
                 <p className="text-muted-foreground mb-4">
                   Электрическая канатная таль SHA8 — профессиональный электротельфер 
@@ -110,7 +110,7 @@ export function ProductsSection() {
                     Премиум
                   </span>
                 </div>
-                <h3 className="text-xl font-bold mb-2">Электротельфер Balkansko Echo</h3>
+                <h3 className="text-xl font-bold mb-2">Тельфер Balkansko Echo</h3>
                 <p className="text-muted-foreground text-sm mb-4">
                   Электрическая таль болгарского производства. Европейские
                   стандарты качества для требовательных промышленных задач.
@@ -159,7 +159,7 @@ export function ProductsSection() {
             <Card className="w-full h-full bento-card hover:shadow-lg transition-all duration-300 hover:-translate-y-1 bg-foreground text-background">
               <CardContent className="p-6 md:p-7 h-full flex flex-col">
                 <Award className="w-10 h-10 mb-4" />
-                <h3 className="text-xl font-bold mb-3">Гарантия на тельферы</h3>
+                <h3 className="text-xl font-bold mb-3">Гарантия качества</h3>
                 <p className="text-sm opacity-80">
                   Гарантия 12 месяцев на все электротельферы и электрические тали. 
                   Сервисное обслуживание электро талей по всему Казахстану.

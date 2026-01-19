@@ -73,7 +73,7 @@ export function HeroSection() {
             className="inline-flex items-center gap-2 bg-muted px-4 py-2 rounded-full text-sm mb-6"
           >
             <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
-            Официальный дистрибьютор электротельферов в Казахстане
+            Официальный дистрибьютор в Казахстане
           </m.div>
 
           <m.h1

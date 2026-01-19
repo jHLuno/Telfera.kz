@@ -132,7 +132,7 @@ export function ServicesSection() {
 
                   <div className="flex-grow flex flex-col overflow-hidden">
                     <h3 className="text-xl sm:text-2xl md:text-3xl font-bold mb-3 sm:mb-4 text-background">
-                      Монтаж электротельферов
+                      Монтаж тельферов
                     </h3>
 
                     <p className={`text-background/80 mb-4 sm:mb-5 md:mb-6 text-sm sm:text-base leading-relaxed ${showStatic ? "opacity-100 max-h-40" : "line-clamp-3 opacity-0 max-h-0 group-hover/install:opacity-100 group-hover/install:max-h-40"} transition-all duration-700 overflow-hidden`}>
@@ -215,7 +215,7 @@ export function ServicesSection() {
 
                   <div className="flex-grow flex flex-col overflow-hidden">
                     <h3 className="text-xl sm:text-2xl md:text-3xl font-bold mb-3 sm:mb-4 text-foreground">
-                      Демонтаж электрических талей
+                      Демонтаж тельферов
                     </h3>
 
                     <p className={`text-muted-foreground mb-4 sm:mb-5 md:mb-6 text-sm sm:text-base leading-relaxed ${showStatic ? "opacity-100 max-h-40" : "line-clamp-3 opacity-0 max-h-0 group-hover/demount:opacity-100 group-hover/demount:max-h-40"} transition-all duration-700 overflow-hidden`}>
