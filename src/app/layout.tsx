@@ -21,6 +21,24 @@ export const metadata: Metadata = {
     default: "Тельферы и электротали в Казахстане | Telfera.kz",
     template: "%s | Telfera.kz",
   },
+  icons: {
+    icon: [
+      { url: "/logo/logo.png", type: "image/png" },
+      { url: "/logo/logo.png", sizes: "32x32", type: "image/png" },
+      { url: "/logo/logo.png", sizes: "16x16", type: "image/png" },
+    ],
+    shortcut: "/logo/logo.png",
+    apple: [
+      { url: "/logo/logo.png", sizes: "180x180", type: "image/png" },
+    ],
+    other: [
+      {
+        rel: "mask-icon",
+        url: "/logo/logo.png",
+        color: "#1f7a4d",
+      },
+    ],
+  },
   description:
     "Купить тельфер, электротельфер, электрическую таль в Казахстане. Электро тали SHA8 и Balkansko Echo с гарантией 12 месяцев. Монтаж и доставка по всему Казахстану.",
   keywords: [
@@ -62,9 +80,9 @@ export const metadata: Metadata = {
       "Купить тельфер, электротельфер, электрическую таль в Казахстане. Электро тали SHA8 и Balkansko Echo с гарантией 12 месяцев.",
     images: [
       {
-        url: "/og-image.jpg",
-        width: 1200,
-        height: 630,
+        url: "/logo/logo.png",
+        width: 512,
+        height: 512,
         alt: "Telfera.kz - Тельферы и электротали в Казахстане",
       },
     ],
@@ -74,7 +92,7 @@ export const metadata: Metadata = {
     title: "Тельферы и электротали в Казахстане | Telfera.kz",
     description:
       "Купить тельфер, электротельфер, электрическую таль в Казахстане. Электро тали SHA8 и Balkansko Echo с гарантией 12 месяцев.",
-    images: ["/og-image.jpg"],
+    images: ["/logo/logo.png"],
   },
   robots: {
     index: true,
@@ -102,9 +120,8 @@ export default function RootLayout({
   return (
     <html lang="ru" suppressHydrationWarning>
       <head>
-        <link rel="icon" href="/favicon.ico" sizes="any" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-        <meta name="theme-color" content="#2563eb" />
+        <meta name="theme-color" content="#1f7a4d" />
+        <meta name="msapplication-TileColor" content="#1f7a4d" />
         <meta name="geo.region" content="KZ" />
         <meta name="geo.placename" content="Almaty" />
         <meta name="ICBM" content="43.238949, 76.945465" />
