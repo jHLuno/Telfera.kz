@@ -96,6 +96,15 @@ export function PriceCalculatorDialog({
         product: normalizedProduct,
       });
 
+      // GTM: отправка события успешной отправки формы
+      if (typeof window !== "undefined" && window.dataLayer) {
+        window.dataLayer.push({
+          event: "form_submit",
+          form_name: "price_calculator",
+          form_product: normalizedProduct,
+        });
+      }
+
       setIsSubmitted(true);
       reset({ phone: "+7" });
       

@@ -88,6 +88,16 @@ export function LeadForm() {
         phone: phoneForDb,
         product: validProduct,
       });
+      
+      // GTM: отправка события успешной отправки формы
+      if (typeof window !== "undefined" && window.dataLayer) {
+        window.dataLayer.push({
+          event: "form_submit",
+          form_name: "lead_form",
+          form_product: validProduct,
+        });
+      }
+      
       setIsSubmitted(true);
       reset({ phone: "+7" });
       setPhoneValue("+7");
