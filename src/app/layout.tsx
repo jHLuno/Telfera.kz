@@ -121,6 +121,17 @@ export default function RootLayout({
   return (
     <html lang="ru" suppressHydrationWarning>
       <head>
+        {/* Google Tag Manager */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-NCRGBH75');`,
+          }}
+        />
+        {/* End Google Tag Manager */}
         <meta name="theme-color" content="#1f7a4d" />
         <meta name="msapplication-TileColor" content="#1f7a4d" />
         <meta name="geo.region" content="KZ" />
@@ -131,6 +142,16 @@ export default function RootLayout({
         className={`${inter.variable} ${jetbrainsMono.variable} font-sans antialiased`}
         suppressHydrationWarning
       >
+        {/* Google Tag Manager (noscript) */}
+        <noscript>
+          <iframe
+            src="https://www.googletagmanager.com/ns.html?id=GTM-NCRGBH75"
+            height="0"
+            width="0"
+            style={{ display: "none", visibility: "hidden" }}
+          />
+        </noscript>
+        {/* End Google Tag Manager (noscript) */}
         <div className="grain" />
         <MotionProvider>
           {children}
