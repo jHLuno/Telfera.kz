@@ -62,7 +62,7 @@ const nextConfig: NextConfig = {
               "style-src 'self' 'unsafe-inline'",
               "img-src 'self' data: blob: https://www.googletagmanager.com https://www.google-analytics.com https://www.google.com https://www.google.kz",
               "font-src 'self' https://fonts.gstatic.com",
-              "connect-src 'self' https://cloudflareinsights.com https://www.google-analytics.com https://analytics.google.com https://stats.g.doubleclick.net https://www.googletagmanager.com",
+              "connect-src 'self' https://cloudflareinsights.com https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://www.google.com",
               "frame-src https://www.googletagmanager.com",
               "frame-ancestors 'none'",
               "base-uri 'self'",
