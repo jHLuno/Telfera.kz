@@ -23,22 +23,23 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: "/logo/logo.png", type: "image/png" },
-      { url: "/logo/logo.png", sizes: "32x32", type: "image/png" },
-      { url: "/logo/logo.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon/favicon.ico", sizes: "any" },
+      { url: "/favicon/favicon.svg", type: "image/svg+xml" },
+      { url: "/favicon/favicon-96x96.png", sizes: "96x96", type: "image/png" },
     ],
-    shortcut: "/logo/logo.png",
+    shortcut: "/favicon/favicon.ico",
     apple: [
-      { url: "/logo/logo.png", sizes: "180x180", type: "image/png" },
+      { url: "/favicon/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
     ],
     other: [
       {
         rel: "mask-icon",
-        url: "/logo/logo.png",
+        url: "/favicon/favicon.svg",
         color: "#1f7a4d",
       },
     ],
   },
+  manifest: "/favicon/site.webmanifest",
   description:
     "Купить тельфер, электротельфер, электрическую таль в Казахстане. Электро тали SHA8 и Balkansko Echo с гарантией 12 месяцев. Монтаж и доставка по всему Казахстану.",
   keywords: [

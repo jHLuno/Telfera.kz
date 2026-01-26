@@ -9,9 +9,14 @@ const nextConfig: NextConfig = {
   async rewrites() {
     return [
       {
-        // Serve logo.png as favicon.ico for legacy browser requests
+        // Serve proper favicon.ico from /favicon folder for root requests
         source: "/favicon.ico",
-        destination: "/logo/logo.png",
+        destination: "/favicon/favicon.ico",
+      },
+      {
+        // Serve apple-touch-icon from /favicon folder for root requests
+        source: "/apple-touch-icon.png",
+        destination: "/favicon/apple-touch-icon.png",
       },
     ];
   },
